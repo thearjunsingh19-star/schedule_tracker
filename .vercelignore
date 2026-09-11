@@ -1,0 +1,12 @@
+schedule_tracker.db
+*.pyc
+__pycache__/
+.venv/
+venv/
+.pytest_cache/
+.git/
+.system_generated/
+.neon
+node_modules/
+.env.local
+.env

@@ -1,0 +1,560 @@
+/* Schedule Tracker & Checkbook Styles */
+
+/* Subtle smooth scroll & base refinements */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ========================================================== */
+/* 1. Aesthetic Subtle Animated Motion Background             */
+/* ========================================================== */
+.ambient-motion-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -10;
+  opacity: 0.75;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Light mode orb colors */
+.orb-1 {
+  width: 550px;
+  height: 550px;
+  top: -10%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, rgba(168, 85, 247, 0.08) 60%, transparent 80%);
+  animation: floatOrb1 26s infinite alternate ease-in-out;
+}
+
+.orb-2 {
+  width: 600px;
+  height: 600px;
+  bottom: 5%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(16, 185, 129, 0.08) 60%, transparent 80%);
+  animation: floatOrb2 30s infinite alternate ease-in-out;
+}
+
+.orb-3 {
+  width: 480px;
+  height: 480px;
+  top: 35%;
+  left: 45%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(245, 158, 11, 0.06) 60%, transparent 80%);
+  animation: floatOrb3 22s infinite alternate ease-in-out;
+}
+
+/* Dark mode orb colors */
+html.dark .orb-1 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.28) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 80%);
+}
+html.dark .orb-2 {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 80%);
+}
+html.dark .orb-3 {
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.15) 0%, rgba(99, 102, 241, 0.1) 50%, transparent 80%);
+}
+
+@keyframes floatOrb1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(120px, 80px) scale(1.1); }
+  100% { transform: translate(-60px, 140px) scale(0.92); }
+}
+
+@keyframes floatOrb2 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  50% { transform: translate(-140px, -90px) scale(1.15); }
+  100% { transform: translate(80px, -150px) scale(0.95); }
+}
+
+@keyframes floatOrb3 {
+  0% { transform: translate(0px, 0px) scale(0.95); }
+  50% { transform: translate(-90px, 110px) scale(1.12); }
+  100% { transform: translate(130px, -60px) scale(1); }
+}
+
+/* ========================================================== */
+/* 2. Custom Scrollbar                                        */
+/* ========================================================== */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ========================================================== */
+/* 3. Today Column Highlight                                  */
+/* ========================================================== */
+.col-today-header {
+  background-color: #e0e7ff !important;
+  color: #4338ca !important;
+  border-left: 2px solid #6366f1 !important;
+  border-right: 2px solid #6366f1 !important;
+  position: relative;
+}
+html.dark .col-today-header {
+  background-color: #312e81 !important;
+  color: #c7d2fe !important;
+  border-left: 2px solid #818cf8 !important;
+  border-right: 2px solid #818cf8 !important;
+}
+
+.col-today-cell {
+  background-color: #f5f8ff !important;
+  border-left: 2px solid #c7d2fe !important;
+  border-right: 2px solid #c7d2fe !important;
+}
+html.dark .col-today-cell {
+  background-color: rgba(49, 46, 129, 0.25) !important;
+  border-left: 2px solid rgba(129, 140, 248, 0.4) !important;
+  border-right: 2px solid rgba(129, 140, 248, 0.4) !important;
+}
+
+.col-today-footer {
+  background-color: #e0e7ff !important;
+  border-left: 2px solid #6366f1 !important;
+  border-right: 2px solid #6366f1 !important;
+}
+html.dark .col-today-footer {
+  background-color: #312e81 !important;
+  color: #c7d2fe !important;
+  border-left: 2px solid #818cf8 !important;
+  border-right: 2px solid #818cf8 !important;
+}
+
+/* ========================================================== */
+/* 4. Interactive Checkbox Button Styling (Liquid Glass)      */
+/* ========================================================== */
+.check-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  will-change: transform, box-shadow;
+}
+
+/* Compact Monthly Checkbox Button */
+.check-btn-sm {
+  width: 25px;
+  height: 25px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  will-change: transform, box-shadow;
+}
+
+/* Scheduled state (crisp translucent glass surface) */
+.check-btn.state-scheduled,
+.check-btn-sm.state-scheduled {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.65) 100%);
+  border: 1.5px solid #cbd5e1;
+  color: transparent;
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9),
+    0 1.5px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+html.dark .check-btn.state-scheduled,
+html.dark .check-btn-sm.state-scheduled {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%);
+  border-color: #475569;
+  color: transparent;
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12),
+    0 2px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.check-btn.state-scheduled:hover,
+.check-btn-sm.state-scheduled:hover {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #ffffff 0%, #eef2ff 100%);
+  transform: translateY(-2px) scale(1.12);
+  box-shadow: 
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1),
+    0 5px 12px 0 rgba(99, 102, 241, 0.24);
+}
+
+html.dark .check-btn.state-scheduled:hover,
+html.dark .check-btn-sm.state-scheduled:hover {
+  border-color: #818cf8;
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  transform: translateY(-2px) scale(1.12);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.2),
+    0 5px 12px 0 rgba(129, 140, 248, 0.28);
+}
+
+/* Completed state (Liquid Emerald Glass) */
+.check-btn.state-completed,
+.check-btn-sm.state-completed {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 1.5px 0 rgba(0, 0, 0, 0.2),
+    0 4px 12px 0 rgba(16, 185, 129, 0.38),
+    0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px) scale(1.04);
+  animation: checkPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.check-btn.state-completed:hover,
+.check-btn-sm.state-completed:hover {
+  background: linear-gradient(135deg, #4ade80 0%, #10b981 40%, #047857 100%);
+  border-color: rgba(255, 255, 255, 0.75);
+  transform: translateY(-3px) scale(1.15);
+  box-shadow: 
+    inset 0 2px 2.5px 0 rgba(255, 255, 255, 0.75),
+    0 7px 16px 0 rgba(16, 185, 129, 0.52);
+}
+
+/* Unscheduled state (dashed neutral glass) */
+.check-btn.state-unscheduled,
+.check-btn-sm.state-unscheduled {
+  background-color: rgba(248, 250, 252, 0.6);
+  border: 1.5px dashed #cbd5e1;
+  color: transparent;
+  opacity: 0.55;
+}
+
+html.dark .check-btn.state-unscheduled,
+html.dark .check-btn-sm.state-unscheduled {
+  background-color: rgba(15, 23, 42, 0.5);
+  border-color: #334155;
+  opacity: 0.45;
+}
+
+.check-btn.state-unscheduled:hover,
+.check-btn-sm.state-unscheduled:hover {
+  opacity: 1;
+  border-color: #94a3b8;
+  background-color: #ffffff;
+  transform: translateY(-1.5px) scale(1.08);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+html.dark .check-btn.state-unscheduled:hover,
+html.dark .check-btn-sm.state-unscheduled:hover {
+  background-color: #1e293b;
+  border-color: #64748b;
+  transform: translateY(-1.5px) scale(1.08);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Checkbox Bounce Pop Animation */
+@keyframes checkPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.22); }
+  100% { transform: translateY(-1px) scale(1.04); }
+}
+
+/* Sticky Task Column for Monthly Table */
+.sticky-task-col {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background-color: #ffffff;
+}
+html.dark .sticky-task-col {
+  background-color: #0f172a;
+}
+tr:hover .sticky-task-col {
+  background-color: #f8fafc;
+}
+html.dark tr:hover .sticky-task-col {
+  background-color: #1e293b;
+}
+
+/* Day Picker active button */
+.day-btn.active {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+}
+
+/* Priority Badges */
+.badge-priority-High {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+html.dark .badge-priority-High {
+  background-color: #450a0a;
+  color: #f87171;
+}
+
+.badge-priority-Medium {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+html.dark .badge-priority-Medium {
+  background-color: #451a03;
+  color: #fbbf24;
+}
+
+.badge-priority-Low {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+html.dark .badge-priority-Low {
+  background-color: #082f49;
+  color: #38bdf8;
+}
+
+/* Row Hover Action Buttons */
+.task-row .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+.task-row:hover .row-actions {
+  opacity: 1;
+}
+
+/* ========================================================== */
+/* 5. Liquid Glass & Pop-Up Button System                     */
+/* ========================================================== */
+
+/* Pop Elevation Micro-Interactions for interactive buttons */
+.btn-pop,
+.glass-btn,
+.glass-btn-primary,
+.glass-btn-danger,
+.glass-btn-success,
+.view-toggle-btn,
+.cat-filter-btn {
+  position: relative;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, box-shadow;
+}
+
+.btn-pop:hover,
+.glass-btn:hover,
+.glass-btn-primary:hover,
+.glass-btn-danger:hover,
+.glass-btn-success:hover,
+.cat-filter-btn:hover {
+  transform: translateY(-2.5px) scale(1.025);
+}
+
+.btn-pop:active,
+.glass-btn:active,
+.glass-btn-primary:active,
+.glass-btn-danger:active,
+.glass-btn-success:active,
+.view-toggle-btn:active,
+.cat-filter-btn:active {
+  transform: translateY(1.5px) scale(0.975);
+}
+
+/* Secondary / Neutral Liquid Glass Button */
+.glass-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(241, 245, 249, 0.6) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.04),
+    0 3px 10px -1px rgba(0, 0, 0, 0.07),
+    0 1px 3px 0 rgba(0, 0, 0, 0.04);
+}
+
+html.dark .glass-btn {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.65) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4),
+    0 3px 10px -1px rgba(0, 0, 0, 0.4),
+    0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(241, 245, 249, 0.85) 100%);
+  border-color: rgba(99, 102, 241, 0.45);
+  box-shadow: 
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1),
+    0 7px 18px -2px rgba(99, 102, 241, 0.18),
+    0 2px 6px -1px rgba(0, 0, 0, 0.06);
+}
+
+html.dark .glass-btn:hover {
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow: 
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.28),
+    0 7px 18px -2px rgba(99, 102, 241, 0.3),
+    0 2px 6px -1px rgba(0, 0, 0, 0.4);
+}
+
+/* Primary Liquid Glass Button (Vibrant Indigo / Sapphire Glow) */
+.glass-btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.25),
+    0 4px 14px 0 rgba(79, 70, 229, 0.42),
+    0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.glass-btn-primary:hover {
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 45%, #4f46e5 100%);
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 
+    inset 0 2px 3px 0 rgba(255, 255, 255, 0.65),
+    0 8px 22px 0 rgba(79, 70, 229, 0.52),
+    0 2px 6px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Danger Liquid Glass Button (Ruby / Rose Glow) */
+.glass-btn-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45),
+    0 4px 14px 0 rgba(220, 38, 38, 0.38);
+}
+
+.glass-btn-danger:hover {
+  background: linear-gradient(135deg, #f87171 0%, #ef4444 50%, #dc2626 100%);
+  box-shadow: 
+    inset 0 2px 3px 0 rgba(255, 255, 255, 0.6),
+    0 8px 22px 0 rgba(220, 38, 38, 0.48);
+}
+
+/* Enhanced View Toggle Segmented Buttons with Liquid Glass */
+.view-toggle-btn {
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.view-toggle-btn.active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.88) 100%);
+  color: #4f46e5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95),
+    0 4px 12px -1px rgba(79, 70, 229, 0.25),
+    0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px) scale(1.03);
+}
+
+html.dark .view-toggle-btn.active {
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  color: #a5b4fc !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.25),
+    0 4px 12px -1px rgba(0, 0, 0, 0.45),
+    0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.view-toggle-btn:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+html.dark .view-toggle-btn:hover:not(.active) {
+  background-color: rgba(51, 65, 85, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Category Filter Buttons Liquid Glass Pop */
+.cat-filter-btn {
+  border: 1px solid transparent;
+}
+.cat-filter-btn.cat-active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.9) 100%);
+  color: #4f46e5 !important;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9),
+    0 2px 6px -1px rgba(79, 70, 229, 0.2);
+  transform: translateY(-1px);
+}
+html.dark .cat-filter-btn.cat-active {
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  color: #a5b4fc !important;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.2),
+    0 2px 6px -1px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Mobile swipe scroll without scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+/* Print Stylesheet for Ledger */
+@media print {
+  body {
+    background: #ffffff !important;
+    padding: 0 !important;
+    color: #000000 !important;
+  }
+  .ambient-motion-container, header, #categoryFilterContainer, #priorityFilterSelect, #printReportBtn, #openNewTaskModalBtn, #themeToggleBtn, .row-actions, button {
+    display: none !important;
+  }
+  .max-w-7xl {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .shadow-xs, .shadow-md, .shadow-2xl {
+    box-shadow: none !important;
+  }
+  #checkbookTable, #monthCheckboardTable {
+    width: 100% !important;
+    font-size: 10px !important;
+  }
+}
