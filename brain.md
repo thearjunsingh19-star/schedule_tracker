@@ -192,6 +192,7 @@ When modifying or expanding this codebase, strictly observe the following establ
 | **2026-09-12 01:35** | Antigravity AI | `database.py`, `app.py`, `templates/index.html`, `static/js/app.js`, `vercel.json`, `api/index.py`, `.vercelignore`, `requirements.txt`, `DEPLOYMENT_GUIDE.md`, `brain.md` | Architecture & Feature: Vercel Cloud Deployment & User Authentication System | Implemented dual-database compatibility (Cloud PostgreSQL for Vercel + local SQLite), complete user authentication and multi-user profile isolation with Werkzeug password hashing, case-insensitive duplicate username rejection (409), wrong password rejection (401), liquid glass auth modal (`#authModal`), header profile badge, and Vercel serverless package configuration. |
 | **2026-09-12 02:00** | Antigravity AI | `database.py`, `neon.ts`, `.agents/skills`, `brain.md` | Integration & Cloud DB: Neon Serverless Postgres Setup & Live Verification | Configured Neon CLI with linked project `solitary-bonus-15077282` on `production` branch. Initialized Neon MCP, installed Neon agent skills in `.agents/skills`, refined `pg8000` SSL context connection in `database.py`, and verified live cloud PostgreSQL table creation (`users`, `tasks`, `completions`), password hashing, and user seeding. |
 | **2026-09-12 02:10** | Antigravity AI | `.gitignore`, `brain.md` | Version Control & Git Initialization | Located Git executable on Windows (`C:\Program Files\Git\cmd\git.exe`), secured `.gitignore` to strictly exclude secrets (`.env*`, `*.db`, `.neon`, `.vercel`), initialized git repository on `main` branch, and created initial commit `ffd1989` containing all 36 application files. |
+| **2026-09-12 02:23** | Antigravity AI | `.git/config`, `brain.md` | Remote Repository Link & GitHub Code Push | Linked origin remote to `https://github.com/thearjunsingh19-star/schedule_tracker.git`, authenticated upload, and pushed `main` branch live to GitHub. Zero credentials stored in repository metadata. |
 
 ### Detailed Log Entries
 
@@ -263,3 +264,12 @@ When modifying or expanding this codebase, strictly observe the following establ
   - Staged all 36 application code, template, asset, and documentation files (`git add .`).
   - Created initial commit `ffd1989`: `"Initial commit: Schedule Tracker with Auth, Neon PostgreSQL, and Vercel support"`.
 - **Result**: Local Git repository is fully initialized and committed, cleanly structured, and waiting for the user's remote GitHub repository URL to push.
+
+#### Entry 7: 2026-09-12 02:23 — Remote Repository Linking & GitHub Code Push
+- **Context**: User provided GitHub repository URL (`https://github.com/thearjunsingh19-star/schedule_tracker`) and Personal Access Token to complete code push.
+- **Action**:
+  - Attached origin remote to `https://github.com/thearjunsingh19-star/schedule_tracker.git`.
+  - Pushed `main` branch to GitHub via authenticated HTTPS endpoint.
+  - Reset local remote URL to remove token strings from configuration.
+  - Verified `.git/config` to confirm zero credentials, tokens, or secret strings are saved on disk.
+- **Result**: Codebase is live on GitHub at `https://github.com/thearjunsingh19-star/schedule_tracker` and ready for immediate 1-click import into Vercel.
