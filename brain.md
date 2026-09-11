@@ -193,6 +193,7 @@ When modifying or expanding this codebase, strictly observe the following establ
 | **2026-09-12 02:00** | Antigravity AI | `database.py`, `neon.ts`, `.agents/skills`, `brain.md` | Integration & Cloud DB: Neon Serverless Postgres Setup & Live Verification | Configured Neon CLI with linked project `solitary-bonus-15077282` on `production` branch. Initialized Neon MCP, installed Neon agent skills in `.agents/skills`, refined `pg8000` SSL context connection in `database.py`, and verified live cloud PostgreSQL table creation (`users`, `tasks`, `completions`), password hashing, and user seeding. |
 | **2026-09-12 02:10** | Antigravity AI | `.gitignore`, `brain.md` | Version Control & Git Initialization | Located Git executable on Windows (`C:\Program Files\Git\cmd\git.exe`), secured `.gitignore` to strictly exclude secrets (`.env*`, `*.db`, `.neon`, `.vercel`), initialized git repository on `main` branch, and created initial commit `ffd1989` containing all 36 application files. |
 | **2026-09-12 02:23** | Antigravity AI | `.git/config`, `brain.md` | Remote Repository Link & GitHub Code Push | Linked origin remote to `https://github.com/thearjunsingh19-star/schedule_tracker.git`, authenticated upload, and pushed `main` branch live to GitHub. Zero credentials stored in repository metadata. |
+| **2026-09-12 02:44** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | Mobile Responsiveness & Viewport Containment Fix | Resolved mobile page zoom-out and horizontal empty space bug. Enforced strict `overflow-x: hidden` and `max-width: 100%` on `html`/`body`, redesigned header for mobile viewports (`hidden md:flex` for desktop nav), built dedicated mobile control center with full-width segmented view toggles and touch date navigator, added `.sticky-task-col` to weekly table, and created responsive column widths (`.weekly-day-col`) to ensure 100% edge-to-edge mobile fit. |
 
 ### Detailed Log Entries
 
@@ -273,3 +274,26 @@ When modifying or expanding this codebase, strictly observe the following establ
   - Reset local remote URL to remove token strings from configuration.
   - Verified `.git/config` to confirm zero credentials, tokens, or secret strings are saved on disk.
 - **Result**: Codebase is live on GitHub at `https://github.com/thearjunsingh19-star/schedule_tracker` and ready for immediate 1-click import into Vercel.
+
+#### Entry 8: 2026-09-12 02:44 — Mobile Responsiveness & Viewport Containment Fix
+- **Context**: User reported that on mobile devices, only half the screen was usable, the other half remained empty (page zoomed out), and the taskbar/header had an unusual, stretched-out length.
+- **Root Cause**:
+  1. Header navigation crammed brand, weekly/monthly view switcher, user profile badge, theme toggle, and "Add Task" button onto a single non-wrapping flex row demanding >480px width on 360px-390px mobile screens.
+  2. Weekly and monthly tables lacked strict root width constraints; the weekly table had a rigid `min-w-[760px]` without scroll isolation, forcing mobile browser viewports to zoom out to ~1000px and leaving the right half of the screen completely empty.
+  3. `html` and `body` lacked `overflow-x: hidden !important`, allowing sub-elements to stretch the document body beyond screen boundaries on mobile Safari and Chrome.
+  4. Ambient motion background container used `width: 100vw`, introducing horizontal scroll gutters.
+- **Action**:
+  - `static/css/style.css`:
+    - Enforced strict root viewport containment: `html, body { width: 100%; max-width: 100%; overflow-x: hidden !important; -webkit-text-size-adjust: 100%; }`.
+    - Constrained `.ambient-motion-container` to `width: 100%; max-width: 100%`.
+    - Made `.sticky-task-col` sticky with solid, theme-aware opaque backgrounds on `thead`, `tbody`, and `tfoot` across both weekly and monthly matrices so the task name stays locked in place while days scroll horizontally.
+    - Added `@media (max-width: 640px)` classes for weekly columns: `.weekly-task-col` (140px), `.weekly-day-col` (46px), `.weekly-progress-col` (85px), and `.weekly-actions-col` (58px).
+  - `templates/index.html`:
+    - Enhanced `<meta name="viewport">` with `maximum-scale=5.0, viewport-fit=cover`.
+    - Re-engineered `<header>`: hidden desktop nav items on mobile (`hidden md:flex`), streamlined logo/brand, and preserved compact user profile + "Add Task" button.
+    - Created a dedicated **Mobile Control Center** directly below the header with full-width segmented view toggles (`#mobileViewToggleWeekly`, `#mobileViewToggleMonthly`) and mobile touch date navigator with "Today" and "This Month" shortcuts.
+    - Wrapped `checkbookTable` and `monthCheckboardTable` in isolated scroll containers: `w-full max-w-full overflow-x-auto overflow-y-hidden min-w-0` with native `-webkit-overflow-scrolling: touch`.
+  - `static/js/app.js`:
+    - Synchronized mobile view switcher buttons with desktop toggles inside `initViewToggle()` and `switchView()`.
+    - Updated `renderCheckbookTable()` to inject `.sticky-task-col` on the task column and apply responsive width classes.
+- **Result**: The dashboard now fills 100% of mobile phone screens with zero horizontal page blowout, eliminating empty side margins and unusual taskbar lengths. Tables scroll smoothly within their cards while keeping task names locked and visible.

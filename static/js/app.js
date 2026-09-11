@@ -147,12 +147,20 @@ function showToast(message, type = "success") {
 function initViewToggle() {
   const weeklyBtn = document.getElementById("viewToggleWeekly");
   const monthlyBtn = document.getElementById("viewToggleMonthly");
+  const mobileWeeklyBtn = document.getElementById("mobileViewToggleWeekly");
+  const mobileMonthlyBtn = document.getElementById("mobileViewToggleMonthly");
 
   if (weeklyBtn) {
     weeklyBtn.addEventListener("click", () => switchView("weekly"));
   }
   if (monthlyBtn) {
     monthlyBtn.addEventListener("click", () => switchView("monthly"));
+  }
+  if (mobileWeeklyBtn) {
+    mobileWeeklyBtn.addEventListener("click", () => switchView("weekly"));
+  }
+  if (mobileMonthlyBtn) {
+    mobileMonthlyBtn.addEventListener("click", () => switchView("monthly"));
   }
 
   // Apply initial view state without overriding storage
@@ -174,13 +182,15 @@ function switchView(mode, save = true) {
 
   const weeklyBtn = document.getElementById("viewToggleWeekly");
   const monthlyBtn = document.getElementById("viewToggleMonthly");
+  const mobileWeeklyBtn = document.getElementById("mobileViewToggleWeekly");
+  const mobileMonthlyBtn = document.getElementById("mobileViewToggleMonthly");
 
   if (mode === "weekly") {
     if (weeklyContainer) weeklyContainer.classList.remove("hidden");
     if (monthlyContainer) monthlyContainer.classList.add("hidden");
 
     if (weekNav) {
-      weekNav.className = "hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
+      weekNav.className = "flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
     }
     if (monthNav) {
       monthNav.className = "hidden items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
@@ -196,6 +206,14 @@ function switchView(mode, save = true) {
       monthlyBtn.classList.remove("active");
       monthlyBtn.classList.add("text-slate-600", "dark:text-slate-400");
     }
+    if (mobileWeeklyBtn) {
+      mobileWeeklyBtn.classList.add("active");
+      mobileWeeklyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
+    }
+    if (mobileMonthlyBtn) {
+      mobileMonthlyBtn.classList.remove("active");
+      mobileMonthlyBtn.classList.add("text-slate-600", "dark:text-slate-400");
+    }
 
     setTimeout(() => {
       if (trendChart) trendChart.resize();
@@ -209,7 +227,7 @@ function switchView(mode, save = true) {
       weekNav.className = "hidden items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
     }
     if (monthNav) {
-      monthNav.className = "hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
+      monthNav.className = "flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
     }
     if (mobileWeekNav) mobileWeekNav.classList.add("hidden");
     if (mobileMonthNav) mobileMonthNav.classList.remove("hidden");
@@ -221,6 +239,14 @@ function switchView(mode, save = true) {
     if (monthlyBtn) {
       monthlyBtn.classList.add("active");
       monthlyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
+    }
+    if (mobileWeeklyBtn) {
+      mobileWeeklyBtn.classList.remove("active");
+      mobileWeeklyBtn.classList.add("text-slate-600", "dark:text-slate-400");
+    }
+    if (mobileMonthlyBtn) {
+      mobileMonthlyBtn.classList.add("active");
+      mobileMonthlyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
     }
 
     setTimeout(() => {
@@ -512,24 +538,24 @@ function renderCheckbookTable() {
 
   const days = weekData.week_info.days;
   let headerHtml = `
-    <th class="py-3.5 px-4 text-left w-64 text-slate-700 dark:text-slate-300">Task & Details</th>
+    <th class="py-3.5 px-3 sm:px-4 text-left weekly-task-col sticky-task-col border-r border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">Task & Details</th>
   `;
 
   days.forEach(d => {
     const todayClass = d.is_today ? "col-today-header font-extrabold" : "";
     headerHtml += `
-      <th class="py-3 px-2 text-center w-20 day-col ${todayClass}" data-col="${d.code}">
+      <th class="py-3 px-1 text-center weekly-day-col day-col ${todayClass}" data-col="${d.code}">
         <div class="flex flex-col items-center">
-          <span class="text-xs uppercase tracking-wider">${d.name}</span>
-          <span class="text-[11px] font-normal opacity-75">${d.display.split(" ")[1]}</span>
+          <span class="text-[11px] sm:text-xs uppercase tracking-wider">${d.name}</span>
+          <span class="text-[10px] sm:text-[11px] font-normal opacity-75">${d.display.split(" ")[1]}</span>
         </div>
       </th>
     `;
   });
 
   headerHtml += `
-    <th class="py-3.5 px-4 text-center w-28 text-slate-700 dark:text-slate-300">Progress</th>
-    <th class="py-3.5 px-3 text-center w-16 text-slate-700 dark:text-slate-300">Actions</th>
+    <th class="py-3.5 px-2 sm:px-4 text-center weekly-progress-col text-slate-700 dark:text-slate-300">Progress</th>
+    <th class="py-3.5 px-1 sm:px-3 text-center weekly-actions-col text-slate-700 dark:text-slate-300">Actions</th>
   `;
   thead.innerHTML = headerHtml;
 
@@ -558,24 +584,24 @@ function renderCheckbookTable() {
 
     bodyHtml += `
       <tr class="task-row hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition group" data-task-id="${t.id}">
-        <!-- Task Info Cell -->
-        <td class="py-3.5 px-4">
-          <div class="flex items-start gap-2.5">
-            <span class="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0" style="background-color: ${color};"></span>
+        <!-- Task Info Cell (Sticky on mobile & desktop) -->
+        <td class="py-3.5 px-3 sm:px-4 weekly-task-col sticky-task-col border-r border-slate-200 dark:border-slate-700">
+          <div class="flex items-start gap-2">
+            <span class="w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0" style="background-color: ${color};"></span>
             <div class="min-w-0">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-bold text-slate-900 dark:text-white ${isFullDone ? 'line-through text-slate-400 dark:text-slate-500' : ''}">${escapeHtml(t.title)}</span>
-                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md badge-priority-${t.priority || 'Medium'}">${t.priority}</span>
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate max-w-[110px] sm:max-w-none ${isFullDone ? 'line-through text-slate-400 dark:text-slate-500' : ''}">${escapeHtml(t.title)}</span>
+                <span class="text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-md badge-priority-${t.priority || 'Medium'}">${t.priority}</span>
               </div>
-              ${t.description ? `<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">${escapeHtml(t.description)}</p>` : ''}
-              <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-400">
-                <span class="inline-flex items-center gap-1 font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
-                  <i data-lucide="tag" class="w-3 h-3"></i>
+              ${t.description ? `<p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1 hidden sm:block">${escapeHtml(t.description)}</p>` : ''}
+              <div class="flex items-center gap-1.5 mt-1 text-[10px] sm:text-[11px] text-slate-400">
+                <span class="inline-flex items-center gap-1 font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded text-[10px]">
+                  <i data-lucide="tag" class="w-2.5 h-2.5 sm:w-3 sm:h-3"></i>
                   ${escapeHtml(t.category)}
                 </span>
                 ${t.target_time ? `
-                  <span class="inline-flex items-center gap-1 font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-1.5 py-0.5 rounded">
-                    <i data-lucide="clock" class="w-3 h-3"></i>
+                  <span class="inline-flex items-center gap-1 font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/70 px-1 py-0.5 rounded text-[10px]">
+                    <i data-lucide="clock" class="w-2.5 h-2.5 sm:w-3 sm:h-3"></i>
                     ${escapeHtml(t.target_time)}
                   </span>
                 ` : ''}
@@ -599,14 +625,14 @@ function renderCheckbookTable() {
       }
 
       bodyHtml += `
-        <td class="py-2 px-1 text-center ${todayCellClass}">
+        <td class="py-2 px-0.5 sm:px-1 text-center weekly-day-col ${todayCellClass}">
           <button 
             type="button"
             class="check-btn ${stateClass}" 
             title="${t.title} - ${d.full_name} (${dayData.is_completed ? 'Completed' : (dayData.is_scheduled ? 'Scheduled' : 'Unscheduled')})"
             onclick="toggleTask(${t.id}, '${d.date}', this)"
           >
-            <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+            <i data-lucide="check" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]"></i>
           </button>
         </td>
       `;
@@ -615,10 +641,10 @@ function renderCheckbookTable() {
     // Progress Column
     const progColor = r.completion_rate >= 80 ? 'bg-emerald-500' : (r.completion_rate >= 50 ? 'bg-indigo-600 dark:bg-indigo-500' : 'bg-slate-300 dark:bg-slate-700');
     bodyHtml += `
-      <td class="py-3.5 px-4 text-center">
+      <td class="py-3.5 px-2 sm:px-4 text-center weekly-progress-col">
         <div class="flex flex-col items-center gap-1">
-          <span class="text-xs font-bold text-slate-700 dark:text-slate-200">${r.weekly_completed}/${r.weekly_scheduled} <span class="text-slate-400 dark:text-slate-500 font-normal">(${r.completion_rate}%)</span></span>
-          <div class="w-20 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+          <span class="text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-200">${r.weekly_completed}/${r.weekly_scheduled} <span class="text-slate-400 dark:text-slate-500 font-normal">(${r.completion_rate}%)</span></span>
+          <div class="w-16 sm:w-20 bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
             <div class="${progColor} h-1.5 rounded-full transition-all duration-300" style="width: ${Math.min(100, r.completion_rate)}%"></div>
           </div>
         </div>
@@ -627,13 +653,13 @@ function renderCheckbookTable() {
 
     // Actions Column
     bodyHtml += `
-      <td class="py-3.5 px-3 text-center">
+      <td class="py-3.5 px-1 sm:px-3 text-center weekly-actions-col">
         <div class="flex items-center justify-center gap-1 row-actions">
-          <button onclick="openEditModal(${t.id})" title="Edit Task" class="btn-pop p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-800 transition">
-            <i data-lucide="edit-3" class="w-4 h-4"></i>
+          <button onclick="openEditModal(${t.id})" title="Edit Task" class="btn-pop p-1 sm:p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-800 transition">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
           </button>
-          <button onclick="promptDeleteTask(${t.id})" title="Delete Task" class="btn-pop p-1.5 rounded-lg text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-slate-800 transition">
-            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          <button onclick="promptDeleteTask(${t.id})" title="Delete Task" class="btn-pop p-1 sm:p-1.5 rounded-lg text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-slate-800 transition">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
           </button>
         </div>
       </td>
@@ -645,10 +671,10 @@ function renderCheckbookTable() {
   // Table Footer
   let footerHtml = `
     <tr>
-      <td class="py-3 px-4 font-bold text-slate-800 dark:text-slate-200">
-        <div class="flex items-center gap-2">
-          <i data-lucide="check-square" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
-          <span>Daily Checkbook Total</span>
+      <td class="py-3 px-3 sm:px-4 font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-200 weekly-task-col sticky-task-col border-r border-slate-200 dark:border-slate-700">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="check-square" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-600 dark:text-indigo-400"></i>
+          <span class="truncate">Daily Total</span>
         </div>
       </td>
   `;
@@ -657,20 +683,20 @@ function renderCheckbookTable() {
     const st = weekData.summary.daily_stats[d.code] || { scheduled: 0, completed: 0, rate: 0 };
     const todayFooterClass = d.is_today ? "col-today-footer text-indigo-900 dark:text-indigo-200" : "";
     footerHtml += `
-      <td class="py-3 px-1 text-center ${todayFooterClass}">
+      <td class="py-3 px-0.5 sm:px-1 text-center weekly-day-col ${todayFooterClass}">
         <div class="flex flex-col items-center">
-          <span class="font-extrabold text-xs text-slate-900 dark:text-white">${st.completed}/${st.scheduled}</span>
-          <span class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">${st.rate}%</span>
+          <span class="font-extrabold text-[11px] sm:text-xs text-slate-900 dark:text-white">${st.completed}/${st.scheduled}</span>
+          <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400 font-medium">${st.rate}%</span>
         </div>
       </td>
     `;
   });
 
   footerHtml += `
-    <td class="py-3 px-4 text-center font-extrabold text-xs text-indigo-700 dark:text-indigo-400">
+    <td class="py-3 px-2 sm:px-4 text-center font-extrabold text-xs text-indigo-700 dark:text-indigo-400 weekly-progress-col">
       ${weekData.summary.total_completed}/${weekData.summary.total_scheduled} (${weekData.summary.weekly_rate}%)
     </td>
-    <td></td>
+    <td class="weekly-actions-col"></td>
   </tr>`;
 
   tfoot.innerHTML = footerHtml;

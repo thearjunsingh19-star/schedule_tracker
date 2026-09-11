@@ -1,6 +1,14 @@
 /* Schedule Tracker & Checkbook Styles */
 
-/* Subtle smooth scroll & base refinements */
+/* Enforce strict viewport boundary containment to prevent mobile zoom-out & side-scrolling */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  position: relative;
+  -webkit-text-size-adjust: 100%;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -12,7 +20,8 @@ html {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
   height: 100vh;
   pointer-events: none;
   overflow: hidden;
@@ -284,7 +293,7 @@ html.dark .check-btn-sm.state-unscheduled:hover {
   100% { transform: translateY(-1px) scale(1.04); }
 }
 
-/* Sticky Task Column for Monthly Table */
+/* Sticky Task Column for Both Weekly & Monthly Tables */
 .sticky-task-col {
   position: sticky;
   left: 0;
@@ -294,11 +303,56 @@ html.dark .check-btn-sm.state-unscheduled:hover {
 html.dark .sticky-task-col {
   background-color: #0f172a;
 }
+thead .sticky-task-col {
+  background-color: #f8fafc;
+  z-index: 11;
+}
+html.dark thead .sticky-task-col {
+  background-color: #1e293b;
+  z-index: 11;
+}
+tfoot .sticky-task-col {
+  background-color: #f8fafc;
+  z-index: 11;
+}
+html.dark tfoot .sticky-task-col {
+  background-color: #1e293b;
+  z-index: 11;
+}
 tr:hover .sticky-task-col {
   background-color: #f8fafc;
 }
 html.dark tr:hover .sticky-task-col {
   background-color: #1e293b;
+}
+
+/* Mobile responsive table sizing & scrolling */
+@media (max-width: 640px) {
+  .weekly-task-col {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 160px !important;
+    padding-left: 0.65rem !important;
+    padding-right: 0.65rem !important;
+  }
+  .weekly-day-col {
+    width: 46px !important;
+    min-width: 46px !important;
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
+  .weekly-progress-col {
+    width: 85px !important;
+    min-width: 85px !important;
+    padding-left: 0.35rem !important;
+    padding-right: 0.35rem !important;
+  }
+  .weekly-actions-col {
+    width: 58px !important;
+    min-width: 58px !important;
+    padding-left: 0.2rem !important;
+    padding-right: 0.2rem !important;
+  }
 }
 
 /* Day Picker active button */

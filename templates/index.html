@@ -2,7 +2,7 @@
 <html lang="en" class="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <title>Schedule Tracker & Monthly/Weekly Checkbook</title>
   <link rel="icon" type="image/png" href="/static/images/logo.png" />
   <link rel="manifest" href="/static/manifest.json" />
@@ -25,6 +25,9 @@
       darkMode: 'class',
       theme: {
         extend: {
+          screens: {
+            'xs': '480px',
+          },
           fontFamily: {
             sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
           },
@@ -42,7 +45,7 @@
     }
   </script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-20 transition-colors duration-300 relative overflow-x-hidden">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-20 transition-colors duration-300 relative w-full max-w-full overflow-x-hidden">
 
   <!-- Aesthetic Subtle Animated Motion Background -->
   <div class="ambient-motion-container" aria-hidden="true">
@@ -58,39 +61,39 @@
   </div>
 
   <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-2 sm:gap-4">
+  <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs transition-colors duration-300 w-full max-w-full">
+    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1.5 sm:gap-4 w-full">
       
       <!-- Brand with Minimalist Logo -->
-      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 flex items-center justify-center shadow-md shadow-indigo-100 dark:shadow-none overflow-hidden btn-pop">
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0">
+        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 flex items-center justify-center shadow-md shadow-indigo-100 dark:shadow-none overflow-hidden btn-pop flex-shrink-0">
           <img src="/static/images/logo.png" alt="ScheduleTrack Sword Logo" class="w-full h-full object-contain rounded-lg" />
         </div>
-        <div>
-          <h1 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1.5">
+        <div class="min-w-0">
+          <h1 class="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1">
             Schedule<span class="text-indigo-600 dark:text-indigo-400">Track</span>
-            <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Pro</span>
+            <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Pro</span>
           </h1>
-          <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden xs:block">Weekly & Monthly Checkbook</p>
+          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:block">Weekly & Monthly Checkbook</p>
         </div>
       </div>
 
-      <!-- Center: View Mode Switcher & Date Controls -->
-      <div class="flex items-center gap-1.5 sm:gap-3">
+      <!-- Center: View Mode Switcher & Date Controls (Desktop Only) -->
+      <div class="hidden md:flex items-center gap-1.5 sm:gap-3">
         <!-- View Mode Segmented Pill Buttons (Liquid Glass) -->
         <div id="viewToggleContainer" class="flex items-center p-1 bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
-          <button id="viewToggleWeekly" type="button" class="view-toggle-btn active flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-lg transition-all shadow-xs" title="Switch to Weekly Checkbook & Analytics">
+          <button id="viewToggleWeekly" type="button" class="view-toggle-btn active flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-all shadow-xs" title="Switch to Weekly Checkbook & Analytics">
             <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
             <span>Weekly</span>
           </button>
-          <button id="viewToggleMonthly" type="button" class="view-toggle-btn flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" title="Switch to Monthly Checkboard & Analytics">
+          <button id="viewToggleMonthly" type="button" class="view-toggle-btn flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" title="Switch to Monthly Checkboard & Analytics">
             <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i>
             <span>Monthly</span>
           </button>
         </div>
 
         <!-- Weekly Date Navigator (Desktop) -->
-        <div id="weekNavControls" class="hidden md:flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
+        <div id="weekNavControls" class="flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
           <button id="prevWeekBtn" title="Previous Week" class="glass-btn p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
             <i data-lucide="chevron-left" class="w-4 h-4"></i>
           </button>
@@ -136,29 +139,29 @@
       </div>
 
       <!-- Right: User Profile, Dark Mode Toggle, Print & Action Buttons -->
-      <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+      <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
         <!-- User Profile Badge / Sign In Trigger -->
-        <div id="userProfileContainer" class="flex items-center gap-1.5">
+        <div id="userProfileContainer" class="flex items-center gap-1">
           <!-- Unauthenticated Trigger Button -->
-          <button id="authOpenBtn" onclick="openAuthModal()" class="glass-btn-primary btn-pop inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl transition">
+          <button id="authOpenBtn" onclick="openAuthModal()" class="glass-btn-primary btn-pop inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-xl transition">
             <i data-lucide="user" class="w-3.5 h-3.5"></i>
-            <span class="hidden xs:inline sm:inline">Sign In</span>
+            <span class="hidden xs:inline">Sign In</span>
           </button>
 
           <!-- Authenticated User Profile Badge & Logout -->
-          <div id="userLoggedInBadge" class="hidden items-center gap-1.5">
-            <button onclick="openAuthModal('switch')" title="Switch / View Profile" class="glass-btn btn-pop flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200">
+          <div id="userLoggedInBadge" class="hidden items-center gap-1">
+            <button onclick="openAuthModal('switch')" title="Switch / View Profile" class="glass-btn btn-pop flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200">
               <span id="userAvatarCircle" class="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-[10px] uppercase font-extrabold shadow-xs">A</span>
-              <span id="userProfileName" class="max-w-[85px] sm:max-w-[120px] truncate">Arjun</span>
+              <span id="userProfileName" class="max-w-[65px] sm:max-w-[120px] truncate">Arjun</span>
             </button>
-            <button id="logoutBtn" onclick="handleLogout()" title="Sign Out" class="glass-btn btn-pop p-2 rounded-xl text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition">
+            <button id="logoutBtn" onclick="handleLogout()" title="Sign Out" class="glass-btn btn-pop p-1.5 rounded-xl text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition">
               <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
             </button>
           </div>
         </div>
 
         <!-- Dark / Light Mode Toggle Button -->
-        <button id="themeToggleBtn" title="Toggle Dark/Light Mode" class="glass-btn p-2 text-slate-600 dark:text-slate-300 rounded-xl transition">
+        <button id="themeToggleBtn" title="Toggle Dark/Light Mode" class="glass-btn p-1.5 sm:p-2 text-slate-600 dark:text-slate-300 rounded-xl transition">
           <i id="themeIconSun" data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
           <i id="themeIconMoon" data-lucide="moon" class="w-4 h-4 block dark:hidden text-indigo-600"></i>
         </button>
@@ -173,22 +176,34 @@
           <span>Print</span>
         </button>
 
-        <button id="openNewTaskModalBtn" class="glass-btn-primary inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition">
+        <button id="openNewTaskModalBtn" class="glass-btn-primary inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-xl transition">
           <i data-lucide="plus" class="w-4 h-4"></i>
-          <span class="hidden xs:inline sm:inline">Add Task</span>
+          <span class="hidden xs:inline">Add Task</span>
         </button>
       </div>
     </div>
   </header>
 
   <!-- Main Content Area -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-6">
+  <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-6 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
 
-    <!-- Responsive Sub-Header for Mobile Date Navigation (Liquid Glass Card) -->
-    <div class="flex md:hidden items-center justify-between gap-2 glass-btn p-2 rounded-2xl">
-      <!-- Mobile Week Navigation -->
-      <div id="mobileWeekNav" class="flex items-center justify-between w-full">
-        <button id="mobilePrevWeekBtn" class="glass-btn p-2 rounded-xl text-slate-600 dark:text-slate-300">
+    <!-- Responsive Mobile Control Hub (View Switcher + Date Navigation) -->
+    <div class="flex md:hidden flex-col gap-2 glass-btn p-2 rounded-2xl w-full max-w-full shadow-xs">
+      <!-- 1. Mobile Segmented View Mode Toggle -->
+      <div class="grid grid-cols-2 p-1 bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
+        <button id="mobileViewToggleWeekly" type="button" class="view-toggle-btn active flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold rounded-lg transition-all shadow-xs" title="Weekly View">
+          <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+          <span>Weekly View</span>
+        </button>
+        <button id="mobileViewToggleMonthly" type="button" class="view-toggle-btn flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-600 dark:text-slate-400" title="Monthly View">
+          <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i>
+          <span>Monthly View</span>
+        </button>
+      </div>
+
+      <!-- 2. Mobile Week Navigation -->
+      <div id="mobileWeekNav" class="flex items-center justify-between w-full px-1 py-0.5">
+        <button id="mobilePrevWeekBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
           <i data-lucide="chevron-left" class="w-4 h-4"></i>
         </button>
         <div class="flex items-center gap-2">
@@ -197,14 +212,14 @@
             Today
           </button>
         </div>
-        <button id="mobileNextWeekBtn" class="glass-btn p-2 rounded-xl text-slate-600 dark:text-slate-300">
+        <button id="mobileNextWeekBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
           <i data-lucide="chevron-right" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <!-- Mobile Month Navigation -->
-      <div id="mobileMonthNav" class="hidden flex items-center justify-between w-full">
-        <button id="mobilePrevMonthBtn" class="glass-btn p-2 rounded-xl text-slate-600 dark:text-slate-300">
+      <!-- 3. Mobile Month Navigation -->
+      <div id="mobileMonthNav" class="hidden flex items-center justify-between w-full px-1 py-0.5">
+        <button id="mobilePrevMonthBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
           <i data-lucide="chevron-left" class="w-4 h-4"></i>
         </button>
         <div class="flex items-center gap-2">
@@ -213,7 +228,7 @@
             This Month
           </button>
         </div>
-        <button id="mobileNextMonthBtn" class="glass-btn p-2 rounded-xl text-slate-600 dark:text-slate-300">
+        <button id="mobileNextMonthBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
           <i data-lucide="chevron-right" class="w-4 h-4"></i>
         </button>
       </div>
@@ -391,8 +406,8 @@
         </div>
 
         <!-- Weekly Checkbook Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse min-w-[760px]" id="checkbookTable">
+        <div class="w-full max-w-full overflow-x-auto overflow-y-hidden min-w-0" style="-webkit-overflow-scrolling: touch;">
+          <table class="w-full text-left border-collapse" id="checkbookTable">
             <thead>
               <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider" id="checkbookTableHeader">
                 <th class="py-3.5 px-4 text-left w-64">Task & Details</th>
@@ -579,7 +594,7 @@
           </div>
         </div>
 
-        <div class="overflow-x-auto relative">
+        <div class="w-full max-w-full overflow-x-auto overflow-y-hidden min-w-0 relative" style="-webkit-overflow-scrolling: touch;">
           <table class="w-full text-left border-collapse" id="monthCheckboardTable">
             <thead class="bg-slate-50/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 text-[11px] font-bold uppercase tracking-wider" id="monthTableHeader">
               <!-- Dynamically populated day numbers 1..31 -->
