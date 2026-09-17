@@ -50,6 +50,39 @@
   <!-- Animated WebGL Waves Shader Background -->
   <canvas id="shader-background" class="shader-background-canvas" aria-hidden="true"></canvas>
 
+  <!-- Liquid Glass SVG Distortion Filter for LiquidButton & LiquidGlass surfaces -->
+  <svg class="hidden" style="display:none;" aria-hidden="true">
+    <defs>
+      <filter
+        id="container-glass"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        color-interpolation-filters="sRGB"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.05 0.05"
+          numOctaves="1"
+          seed="1"
+          result="turbulence"
+        />
+        <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="blurredNoise"
+          scale="70"
+          xChannelSelector="R"
+          yChannelSelector="B"
+          result="displaced"
+        />
+        <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
+        <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+      </filter>
+    </defs>
+  </svg>
+
   <!-- Notification Toast -->
   <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-100px] opacity-0 flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 pointer-events-none">
     <i id="toastIcon" data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500"></i>
@@ -57,7 +90,7 @@
   </div>
 
   <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs transition-colors duration-300 w-full max-w-full">
+  <header class="sticky top-0 z-30 liquid-glass-card rounded-none border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs transition-colors duration-300 w-full max-w-full">
     <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1.5 sm:gap-4 w-full">
       
       <!-- Brand with Minimalist Logo -->
@@ -184,7 +217,7 @@
   <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-6 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
 
     <!-- Responsive Mobile Control Hub (View Switcher + Date Navigation) -->
-    <div class="flex md:hidden flex-col gap-2 glass-btn p-2 rounded-2xl w-full max-w-full shadow-xs">
+    <div class="flex md:hidden flex-col gap-2 liquid-glass-card p-2 rounded-2xl w-full max-w-full shadow-xs">
       <!-- 1. Mobile Segmented View Mode Toggle -->
       <div class="grid grid-cols-2 p-1 bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
         <button id="mobileViewToggleWeekly" type="button" class="view-toggle-btn active flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold rounded-lg transition-all shadow-xs" title="Weekly View">
@@ -239,7 +272,7 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         
         <!-- Metric 1: Completion Rate -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-indigo-300 dark:hover:border-indigo-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-indigo-300 dark:hover:border-indigo-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Completion</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0">
@@ -256,7 +289,7 @@
         </div>
 
         <!-- Metric 2: Total Tasks Done -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Completed</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
@@ -274,7 +307,7 @@
         </div>
 
         <!-- Metric 3: Best Performing Day -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-violet-300 dark:hover:border-violet-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-violet-300 dark:hover:border-violet-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Top Day</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
@@ -291,7 +324,7 @@
         </div>
 
         <!-- Metric 4: Daily Streak -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-amber-300 dark:hover:border-amber-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-amber-300 dark:hover:border-amber-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Active Streak</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
@@ -313,7 +346,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Graph 1: Weekly Performance & Volume (2 Columns wide on LG) -->
-        <div class="lg:col-span-2 bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-5 transition">
+        <div class="lg:col-span-2 liquid-glass-card rounded-2xl shadow-xs p-5 transition">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
               <div class="flex items-center gap-2">
@@ -343,7 +376,7 @@
         </div>
 
         <!-- Graph 2: Category Distribution Doughnut -->
-        <div class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-5 flex flex-col justify-between transition">
+        <div class="liquid-glass-card rounded-2xl shadow-xs p-5 flex flex-col justify-between transition">
           <div>
             <div class="flex items-center justify-between mb-3">
               <div>
@@ -366,7 +399,7 @@
       </div>
 
       <!-- 3. Weekly Checkbook Section -->
-      <div class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden transition">
+      <div class="liquid-glass-card rounded-2xl shadow-xs overflow-hidden transition">
         
         <!-- Table Header Bar: Filters & Search -->
         <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -453,7 +486,7 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         
         <!-- Metric 1: Month Completion Rate -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-violet-300 dark:hover:border-violet-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-violet-300 dark:hover:border-violet-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Monthly Completion</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
@@ -470,7 +503,7 @@
         </div>
 
         <!-- Metric 2: Month Tasks Completed -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Month Completed</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
@@ -488,7 +521,7 @@
         </div>
 
         <!-- Metric 3: Top Day of Month -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-amber-300 dark:hover:border-amber-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-amber-300 dark:hover:border-amber-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Top Day of Month</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
@@ -505,7 +538,7 @@
         </div>
 
         <!-- Metric 4: Month Active Streak -->
-        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl p-3.5 sm:p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden group hover:border-pink-300 dark:hover:border-pink-700 transition">
+        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-pink-300 dark:hover:border-pink-700 transition">
           <div class="flex items-center justify-between mb-1.5 sm:mb-2">
             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Consistency Streak</span>
             <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-pink-50 dark:bg-pink-950 text-pink-600 dark:text-pink-400 flex items-center justify-center flex-shrink-0">
@@ -524,7 +557,7 @@
       </div>
 
       <!-- 2. Monthly Analytics Graph -->
-      <div class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs p-5 transition">
+      <div class="liquid-glass-card rounded-2xl shadow-xs p-5 transition">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
           <div>
             <div class="flex items-center gap-2">
@@ -557,7 +590,7 @@
       </div>
 
       <!-- 3. Monthly Checkboard Ledger (Interactive Matrix 1..31) -->
-      <div class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-sm rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs overflow-hidden transition">
+      <div class="liquid-glass-card rounded-2xl shadow-xs overflow-hidden transition">
         <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
@@ -611,7 +644,7 @@
 
   <!-- Login & Create Profile Modal -->
   <div id="authModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md overflow-hidden transform scale-95 transition-all duration-200" id="authModalContent">
+    <div class="liquid-glass-card rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 transition-all duration-200" id="authModalContent">
       
       <!-- Modal Header with Tab Switcher -->
       <div class="px-6 pt-5 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -723,7 +756,7 @@
 
   <!-- Create / Edit Task Modal -->
   <div id="taskModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-all duration-200" id="taskModalContent">
+    <div class="liquid-glass-card rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-all duration-200" id="taskModalContent">
       <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between flex-shrink-0">
         <h3 id="modalTitle" class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
@@ -821,7 +854,7 @@
 
   <!-- Delete Confirmation Modal -->
   <div id="deleteConfirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
-    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-sm p-5 text-center transform scale-95 transition-all duration-200" id="deleteModalContent">
+    <div class="liquid-glass-card rounded-2xl shadow-2xl w-full max-w-sm p-5 text-center transform scale-95 transition-all duration-200" id="deleteModalContent">
       <div class="w-12 h-12 rounded-full bg-red-50 dark:bg-red-950 text-red-500 flex items-center justify-center mx-auto mb-3">
         <i data-lucide="trash-2" class="w-6 h-6"></i>
       </div>
