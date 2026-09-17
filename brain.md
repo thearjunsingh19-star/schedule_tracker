@@ -41,9 +41,10 @@ schedule_tracker/
     ├── images/
     │   └── logo.png          # Sword/shield branding logo used in header, favicon & PWA icon
     ├── css/
-    │   └── style.css         # Ambient floating orbs, check-button states, animations, print rules
+    │   └── style.css         # Shader background styling, check-button states, animations, print rules
     └── js/
-        └── app.js            # Client application controller, chart rendering, API calls, theme & state
+        ├── app.js            # Client application controller, chart rendering, API calls, theme & state
+        └── shader-background.js # Plain WebGL1 fullscreen Waves flow shader background
 ```
 
 ### Detailed File Analysis
@@ -297,3 +298,21 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Synchronized mobile view switcher buttons with desktop toggles inside `initViewToggle()` and `switchView()`.
     - Updated `renderCheckbookTable()` to inject `.sticky-task-col` on the task column and apply responsive width classes.
 - **Result**: The dashboard now fills 100% of mobile phone screens with zero horizontal page blowout, eliminating empty side margins and unusual taskbar lengths. Tables scroll smoothly within their cards while keeping task names locked and visible.
+
+#### Entry 9: 2026-09-17 19:35 — Animated WebGL Waves Flow Shader Background
+- **Context**: Added an animated WebGL Waves flow shader background behind the application content using a plain WebGL1 fullscreen triangle and exact custom fragment shader without external libraries.
+- **Action**:
+  - Created `static/js/shader-background.js`:
+    - Plain WebGL1 context initialization with a single fullscreen clip-space triangle `[-1.0, -1.0, 3.0, -1.0, -1.0, 3.0]`.
+    - Integrated 21st.dev Waves flow shader algorithm.
+    - Fed packed uniform vectors: `u_colors[8]` (`#031C26`, `#1B6CA8`, `#5AD2F4`, `#EAF9FF`), `u_scene`, `u_shape`, `u_surface`, `u_finish`, `u_transform`, `u_space`, and `u_cursor` (Cursor: off).
+    - Capped `devicePixelRatio` at 2; dynamic viewport resize listener; automatic RAF animation loop pausing on tab hidden (`visibilitychange`).
+  - Updated `templates/index.html`:
+    - Mounted `<canvas id="shader-background" class="shader-background-canvas" aria-hidden="true"></canvas>`.
+    - Included `<script src="/static/js/shader-background.js"></script>`.
+  - Updated `static/css/style.css`:
+    - Styled `.shader-background-canvas` with `position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1;`.
+    - Set `body { background-color: transparent !important; }` and fallback `html { background-color: #031c26; }` so the shader is visible underneath the frosted glass cards.
+    - Disabled legacy CSS ambient orbs container.
+- **Result**: Seamless, GPU-accelerated animated Waves flow shader rendering behind the entire application with frosted glass cards floating on top.
+

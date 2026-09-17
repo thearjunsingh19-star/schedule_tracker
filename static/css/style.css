@@ -11,12 +11,29 @@ html, body {
 
 html {
   scroll-behavior: smooth;
+  background-color: #031c26;
+}
+
+body {
+  background-color: transparent !important;
 }
 
 /* ========================================================== */
-/* 1. Aesthetic Subtle Animated Motion Background             */
+/* 1. Animated WebGL Shader Background                        */
 /* ========================================================== */
+.shader-background-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  display: block;
+}
+
 .ambient-motion-container {
+  display: none !important;
   position: fixed;
   top: 0;
   left: 0;

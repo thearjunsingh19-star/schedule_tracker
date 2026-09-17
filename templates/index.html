@@ -45,14 +45,10 @@
     }
   </script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-20 transition-colors duration-300 relative w-full max-w-full overflow-x-hidden">
+<body class="text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-20 transition-colors duration-300 relative w-full max-w-full overflow-x-hidden">
 
-  <!-- Aesthetic Subtle Animated Motion Background -->
-  <div class="ambient-motion-container" aria-hidden="true">
-    <div class="ambient-orb orb-1"></div>
-    <div class="ambient-orb orb-2"></div>
-    <div class="ambient-orb orb-3"></div>
-  </div>
+  <!-- Animated WebGL Waves Shader Background -->
+  <canvas id="shader-background" class="shader-background-canvas" aria-hidden="true"></canvas>
 
   <!-- Notification Toast -->
   <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-100px] opacity-0 flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 pointer-events-none">
@@ -842,6 +838,7 @@
     </div>
   </div>
 
+  <script src="/static/js/shader-background.js"></script>
   <script src="/static/js/app.js"></script>
 </body>
 </html>
