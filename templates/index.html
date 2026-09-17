@@ -50,78 +50,47 @@
   <!-- Animated WebGL Waves Shader Background -->
   <canvas id="shader-background" class="shader-background-canvas" aria-hidden="true"></canvas>
 
-  <!-- Liquid Glass SVG Distortion Filter for LiquidButton & LiquidGlass surfaces -->
-  <svg class="hidden" style="display:none;" aria-hidden="true">
-    <defs>
-      <filter
-        id="container-glass"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        color-interpolation-filters="sRGB"
-      >
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.05 0.05"
-          numOctaves="1"
-          seed="1"
-          result="turbulence"
-        />
-        <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="blurredNoise"
-          scale="70"
-          xChannelSelector="R"
-          yChannelSelector="B"
-          result="displaced"
-        />
-        <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-        <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-      </filter>
-    </defs>
-  </svg>
-
   <!-- Notification Toast -->
   <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-100px] opacity-0 flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 pointer-events-none">
     <i id="toastIcon" data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500"></i>
     <span id="toastMessage" class="text-sm font-medium">Notification message</span>
   </div>
 
-  <!-- Top Floating Controls: Aesthetic Brand Island (Top-Left) & Date Capsule (Top-Right) -->
-  <aside aria-label="Top Controls" class="pointer-events-none">
-    
-    <!-- Aesthetic Brand Island (Top-Left Corner) -->
-    <div class="fixed top-3 left-3 sm:top-4 sm:left-6 z-30 pointer-events-auto flex items-center gap-2.5 px-3.5 py-2 rounded-2xl glass-brand-pill select-none group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="ScheduleTracker Pro">
-      <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 p-0.5 shadow-md shadow-indigo-500/20 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-1">
-        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] p-1 flex items-center justify-center">
-          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain" />
+  <!-- Top Floating Controls: Unified Minimalist Dynamic Island -->
+  <aside aria-label="Top Controls" class="fixed top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-auto max-w-[94vw]">
+    <div class="flex items-center gap-2.5 sm:gap-3 px-3.5 py-1.5 rounded-full glass-brand-pill select-none shadow-sm transition-all duration-300 whitespace-nowrap">
+      
+      <!-- Brand Segment (Click to scroll top) -->
+      <div class="flex items-center gap-2 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="ScheduleTracker">
+        <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 p-0.5 shadow-xs flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
+          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain rounded-[6px]" />
         </div>
-      </div>
-      <div class="flex flex-col min-w-0 pr-1">
         <div class="flex items-center gap-1.5 leading-none">
           <span class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Schedule<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300">Tracker</span>
+            Schedule<span class="text-indigo-600 dark:text-cyan-400">Track</span>
           </span>
-          <span class="text-[9px] uppercase font-extrabold tracking-widest px-1.5 py-0.2 rounded-md bg-indigo-500/10 dark:bg-cyan-400/10 text-indigo-600 dark:text-cyan-300 border border-indigo-500/20 dark:border-cyan-400/20">PRO</span>
+          <span class="text-[9px] uppercase font-extrabold tracking-widest px-1 py-0.2 rounded bg-indigo-500/10 dark:bg-cyan-400/10 text-indigo-600 dark:text-cyan-300 border border-indigo-500/20 dark:border-cyan-400/20">PRO</span>
         </div>
-        <span id="menuBarViewLabel" class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 truncate mt-0.5">Weekly Checkbook</span>
       </div>
-    </div>
 
-    <!-- Floating Date Range Capsule (Top-Right) -->
-    <div class="fixed top-3 right-3 sm:top-4 sm:right-6 z-30 pointer-events-auto flex items-center gap-2 px-3.5 py-2 rounded-2xl glass-brand-pill select-none shadow-sm">
-      <div id="weekNavControls" class="flex items-center gap-1.5">
-        <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-cyan-400"></i>
-        <span id="currentWeekDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
-      </div>
-      <div id="monthNavControls" class="hidden items-center gap-1.5">
-        <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i>
-        <span id="currentMonthDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
-      </div>
-    </div>
+      <!-- Subtle Divider -->
+      <div class="w-[1px] h-3.5 bg-slate-300 dark:bg-slate-700"></div>
 
+      <!-- Mode & Date Segment -->
+      <div class="flex items-center gap-2 text-xs font-semibold">
+        <span id="menuBarViewLabel" class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">Weekly Checkbook</span>
+        <span class="text-slate-300 dark:text-slate-700 text-xs hidden xs:inline">•</span>
+        <div id="weekNavControls" class="flex items-center gap-1.5">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-cyan-400"></i>
+          <span id="currentWeekDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
+        </div>
+        <div id="monthNavControls" class="hidden items-center gap-1.5">
+          <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i>
+          <span id="currentMonthDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
+        </div>
+      </div>
+
+    </div>
   </aside>
 
   <!-- Hidden Compatibility Anchors for Event Listeners -->
@@ -150,168 +119,96 @@
   <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-28 sm:pb-36 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
 
     <!-- ======================================================== -->
-    <!-- 1. WEEKLY VIEW CONTAINER                                 -->
+    <!-- 1. WEEKLY VIEW CONTAINER (CHECKBOOK FIRST)                -->
     <!-- ======================================================== -->
-    <div id="weeklyViewContainer" class="space-y-6 sm:space-y-8 transition-opacity duration-200">
+    <div id="weeklyViewContainer" class="space-y-4 sm:space-y-5 transition-opacity duration-200">
 
-      <!-- 1. Weekly Scorecard Metrics (2x2 Grid on Mobile, 4 Cols on Desktop) -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        
-        <!-- Metric 1: Completion Rate -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-indigo-300 dark:hover:border-indigo-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Completion</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="percent" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+      <!-- 1. Streamlined Minimalist KPI Bar -->
+      <div class="liquid-glass-card rounded-2xl px-4 sm:px-6 py-3.5">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/50 dark:divide-slate-800/60">
+          
+          <!-- Metric 1: Completion Rate -->
+          <div class="flex items-center gap-3 pt-2 sm:pt-0 first:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-cyan-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="percent" class="w-4 h-4"></i>
             </div>
-          </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricWeeklyRate" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">0%</span>
-            <span id="metricTargetStatus" class="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400 truncate">On Track</span>
-          </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 sm:h-2 mt-2 sm:mt-3 overflow-hidden">
-            <div id="metricProgressBar" class="bg-indigo-600 h-1.5 sm:h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-          </div>
-        </div>
-
-        <!-- Metric 2: Total Tasks Done -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Completed</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="check-check" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricTasksDone" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">0</span>
-            <span id="metricTasksTotal" class="text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 truncate">/ 0 total</span>
-          </div>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 flex items-center gap-1 truncate">
-            <i data-lucide="trending-up" class="w-3 h-3 text-emerald-500 flex-shrink-0"></i>
-            <span id="metricCompletedSubtitle" class="truncate">Recorded checks</span>
-          </p>
-        </div>
-
-        <!-- Metric 3: Best Performing Day -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-violet-300 dark:hover:border-violet-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Top Day</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="trophy" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricBestDay" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white truncate">N/A</span>
-          </div>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 flex items-center gap-1 truncate">
-            <i data-lucide="sparkles" class="w-3 h-3 text-amber-500 flex-shrink-0"></i>
-            <span class="truncate">Highest accuracy</span>
-          </p>
-        </div>
-
-        <!-- Metric 4: Daily Streak -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-amber-300 dark:hover:border-amber-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Active Streak</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="flame" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-            </div>
-          </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricStreak" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">0 Days</span>
-          </div>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 flex items-center gap-1 truncate">
-            <i data-lucide="award" class="w-3 h-3 text-amber-500 flex-shrink-0"></i>
-            <span class="truncate">Mastery builds streak</span>
-          </p>
-        </div>
-
-      </div>
-
-      <!-- 2. Weekly Graphs -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Graph 1: Weekly Performance & Volume (2 Columns wide on LG) -->
-        <div class="lg:col-span-2 liquid-glass-card rounded-2xl shadow-xs p-5 transition">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Weekly Overview</span>
+              <div class="flex items-baseline gap-1.5">
+                <span id="metricWeeklyRate" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0%</span>
+                <span id="metricTargetStatus" class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">On Track</span>
               </div>
-              <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mt-1">
-                <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
-                Weekly Completion & Task Trend
-              </h3>
-              <p class="text-xs text-slate-500 dark:text-slate-400">Daily completed vs remaining tasks with weekly completion percentage line</p>
-            </div>
-            <div class="flex items-center gap-3 text-xs font-medium">
-              <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-                <span class="w-3 h-3 rounded-sm bg-emerald-500"></span> Completed
-              </span>
-              <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-                <span class="w-3 h-3 rounded-sm bg-slate-300 dark:bg-slate-700"></span> Remaining
-              </span>
-              <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-                <span class="w-3 h-1 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span> Rate %
-              </span>
-            </div>
-          </div>
-          <div class="relative h-68 sm:h-72 w-full">
-            <canvas id="weeklyTrendChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Graph 2: Category Distribution Doughnut -->
-        <div class="liquid-glass-card rounded-2xl shadow-xs p-5 flex flex-col justify-between transition">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <i data-lucide="pie-chart" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
-                  Category Balance
-                </h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Weekly allocation across domains</p>
+              <div class="w-24 bg-slate-200 dark:bg-slate-700/60 rounded-full h-1 mt-1 overflow-hidden">
+                <div id="metricProgressBar" class="bg-indigo-600 dark:bg-cyan-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
-            <div class="relative h-56 w-full flex items-center justify-center">
-              <canvas id="categoryChart"></canvas>
+          </div>
+
+          <!-- Metric 2: Total Tasks Done -->
+          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="check-check" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1">
+                <span id="metricTasksDone" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
+                <span id="metricTasksTotal" class="text-xs text-slate-400">/ 0 total</span>
+              </div>
+              <p class="text-[10px] text-slate-400 font-medium">Completed checks</p>
+              <span id="metricCompletedSubtitle" class="hidden"></span>
             </div>
           </div>
-          <div id="categorySummaryList" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2 text-xs">
-            <!-- Dynamically filled badges -->
-          </div>
-        </div>
 
+          <!-- Metric 3: Best Performing Day -->
+          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="trophy" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span id="metricBestDay" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate block">N/A</span>
+              <p class="text-[10px] text-slate-400 font-medium">Top Day</p>
+            </div>
+          </div>
+
+          <!-- Metric 4: Daily Streak -->
+          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="flame" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span id="metricStreak" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0 Days</span>
+              <p class="text-[10px] text-slate-400 font-medium">Active Streak</p>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <!-- 3. Weekly Checkbook Section -->
-      <div class="liquid-glass-card rounded-2xl shadow-xs overflow-hidden transition">
+      <!-- 2. Weekly Checkbook Section (HERO ELEMENT) -->
+      <div class="liquid-glass-card rounded-2xl overflow-hidden">
         
         <!-- Table Header Bar: Filters & Search -->
-        <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Weekly Ledger</span>
-            </div>
-            <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mt-1">
-              <i data-lucide="table-2" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i>
+        <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <i data-lucide="table-2" class="w-4 h-4 text-indigo-600 dark:text-cyan-400"></i>
               Weekly Checkbook
             </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Detailed 7-day checklist with time stamps, priority tags, and daily ledger counters.</p>
+            <span class="text-slate-300 dark:text-slate-700 text-xs hidden sm:inline">•</span>
+            <p class="text-xs text-slate-400 hidden sm:inline">7-day active checklist</p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-2 max-w-full">
+          <div class="flex items-center gap-2 max-w-full">
             <!-- Category Filter Pills -->
-            <div id="categoryFilterContainer" class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-300 overflow-x-auto no-scrollbar max-w-full flex-nowrap">
-              <button data-cat="all" class="cat-filter-btn cat-active px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 font-semibold shadow-xs flex-shrink-0 whitespace-nowrap">All</button>
-              <button data-cat="Work" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Work</button>
-              <button data-cat="Health" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Health</button>
-              <button data-cat="Study" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Study</button>
-              <button data-cat="Personal" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Personal</button>
+            <div id="categoryFilterContainer" class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 overflow-x-auto no-scrollbar max-w-full flex-nowrap">
+              <button data-cat="all" class="cat-filter-btn cat-active px-2.5 py-1 rounded-md bg-white dark:bg-slate-700 text-indigo-600 dark:text-cyan-300 font-semibold shadow-xs flex-shrink-0 whitespace-nowrap">All</button>
+              <button data-cat="Work" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Work</button>
+              <button data-cat="Health" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Health</button>
+              <button data-cat="Study" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Study</button>
+              <button data-cat="Personal" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Personal</button>
             </div>
 
             <!-- Priority Filter -->
-            <select id="priorityFilterSelect" class="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-700 dark:text-slate-300 font-medium focus:outline-indigo-500">
+            <select id="priorityFilterSelect" class="text-xs bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-300 font-medium focus:outline-none">
               <option value="all">All Priorities</option>
               <option value="High">High Priority</option>
               <option value="Medium">Medium Priority</option>
@@ -324,36 +221,34 @@
         <div class="w-full max-w-full overflow-x-auto overflow-y-hidden min-w-0" style="-webkit-overflow-scrolling: touch;">
           <table class="w-full text-left border-collapse" id="checkbookTable">
             <thead>
-              <tr class="border-b border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider" id="checkbookTableHeader">
-                <th class="py-3.5 px-4 text-left w-64">Task & Details</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="mon">Mon</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="tue">Tue</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="wed">Wed</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="thu">Thu</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="fri">Fri</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="sat">Sat</th>
-                <th class="py-3.5 px-2 text-center w-20 day-col" data-col="sun">Sun</th>
-                <th class="py-3.5 px-4 text-center w-28">Progress</th>
-                <th class="py-3.5 px-3 text-center w-16">Actions</th>
+              <tr class="border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider" id="checkbookTableHeader">
+                <th class="py-3 px-4 text-left w-64">Task & Details</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="mon">Mon</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="tue">Tue</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="wed">Wed</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="thu">Thu</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="fri">Fri</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="sat">Sat</th>
+                <th class="py-3 px-2 text-center w-20 day-col" data-col="sun">Sun</th>
+                <th class="py-3 px-4 text-center w-28">Progress</th>
+                <th class="py-3 px-3 text-center w-16">Actions</th>
               </tr>
             </thead>
-            <tbody id="checkbookTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-              <!-- Dynamically populated rows -->
+            <tbody id="checkbookTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 text-sm">
             </tbody>
-            <tfoot id="checkbookTableFooter" class="bg-slate-50/90 dark:bg-slate-800/90 border-t-2 border-slate-200 dark:border-slate-700 font-semibold text-xs text-slate-700 dark:text-slate-300">
-              <!-- Dynamically populated daily summary -->
+            <tfoot id="checkbookTableFooter" class="bg-slate-50/70 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-700 font-semibold text-xs text-slate-700 dark:text-slate-300">
             </tfoot>
           </table>
         </div>
 
         <!-- Empty State -->
-        <div id="checkbookEmptyState" class="hidden py-16 text-center">
-          <div class="w-14 h-14 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-400 mb-3">
-            <i data-lucide="clipboard-list" class="w-7 h-7"></i>
+        <div id="checkbookEmptyState" class="hidden py-14 text-center">
+          <div class="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-400 mb-2.5">
+            <i data-lucide="clipboard-list" class="w-6 h-6"></i>
           </div>
           <h3 class="text-sm font-bold text-slate-700 dark:text-slate-300">No tasks found</h3>
           <p class="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mt-1">Add your first task to start tracking your schedule.</p>
-          <button onclick="openCreateModal()" class="glass-btn-primary btn-pop mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl transition">
+          <button onclick="openCreateModal()" class="glass-btn-primary btn-pop mt-3.5 inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold rounded-xl transition">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
             Add Task
           </button>
@@ -361,146 +256,141 @@
 
       </div>
 
+      <!-- 3. Collapsible Analytics & Insights (BELOW Checkbook Table) -->
+      <div class="liquid-glass-card rounded-2xl overflow-hidden">
+        <button type="button" onclick="toggleAnalyticsAccordion('weeklyAnalyticsBody', 'weeklyAnalyticsChevron')" class="w-full px-5 py-3 flex items-center justify-between text-left hover:bg-slate-500/5 transition cursor-pointer">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-cyan-400 flex items-center justify-center">
+              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">Weekly Performance Insights</h3>
+              <p class="text-[10px] sm:text-[11px] text-slate-400">Completion volume & category allocation</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-400">
+            <span class="hidden sm:inline">Toggle Charts</span>
+            <i id="weeklyAnalyticsChevron" data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200"></i>
+          </div>
+        </button>
+
+        <div id="weeklyAnalyticsBody" class="hidden p-5 border-t border-slate-100 dark:border-slate-800/80">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2">
+              <div class="flex items-center justify-between mb-3 text-xs font-medium text-slate-400">
+                <span>Daily Completion Trend</span>
+                <div class="flex items-center gap-3">
+                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-xs bg-emerald-500"></span> Completed</span>
+                  <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-xs bg-slate-300 dark:bg-slate-700"></span> Remaining</span>
+                </div>
+              </div>
+              <div class="relative h-60 w-full">
+                <canvas id="weeklyTrendChart"></canvas>
+              </div>
+            </div>
+            <div>
+              <div class="mb-3 text-xs font-medium text-slate-400">Category Balance</div>
+              <div class="relative h-48 w-full flex items-center justify-center">
+                <canvas id="categoryChart"></canvas>
+              </div>
+              <div id="categorySummaryList" class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-1 text-xs">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ======================================================== -->
-    <!-- 2. MONTHLY VIEW CONTAINER                                -->
+    <!-- 2. MONTHLY VIEW CONTAINER (CHECKBOARD FIRST)             -->
     <!-- ======================================================== -->
-    <div id="monthlyViewContainer" class="space-y-8 hidden transition-opacity duration-200">
+    <div id="monthlyViewContainer" class="space-y-4 sm:space-y-5 hidden transition-opacity duration-200">
       
-      <!-- 1. Monthly Scorecard Metrics -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        
-        <!-- Metric 1: Month Completion Rate -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-violet-300 dark:hover:border-violet-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Monthly Completion</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="percent" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+      <!-- 1. Streamlined Minimalist KPI Bar -->
+      <div class="liquid-glass-card rounded-2xl px-4 sm:px-6 py-3.5">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/50 dark:divide-slate-800/60">
+          
+          <!-- Metric 1: Month Completion Rate -->
+          <div class="flex items-center gap-3 pt-2 sm:pt-0 first:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="percent" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1.5">
+                <span id="metricMonthRate" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0%</span>
+                <span id="metricMonthStatus" class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">On Track</span>
+                <span id="monthScoreBadge" class="hidden">0% Month Rate</span>
+              </div>
+              <div class="w-24 bg-slate-200 dark:bg-slate-700/60 rounded-full h-1 mt-1 overflow-hidden">
+                <div id="metricMonthProgressBar" class="bg-violet-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
             </div>
           </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricMonthRate" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">0%</span>
-            <span id="metricMonthStatus" class="text-[10px] sm:text-xs font-semibold text-emerald-600 dark:text-emerald-400">On Track</span>
-          </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 sm:h-2 mt-2 sm:mt-3 overflow-hidden">
-            <div id="metricMonthProgressBar" class="bg-violet-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
-          </div>
-        </div>
 
-        <!-- Metric 2: Month Tasks Completed -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-emerald-300 dark:hover:border-emerald-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Month Completed</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="check-check" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <!-- Metric 2: Month Tasks Completed -->
+          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="check-check" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="flex items-baseline gap-1">
+                <span id="metricMonthTasksDone" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
+                <span id="metricMonthTasksTotal" class="text-xs text-slate-400">/ 0 total</span>
+              </div>
+              <p class="text-[10px] text-slate-400 font-medium">Month completions</p>
             </div>
           </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricMonthTasksDone" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">0</span>
-            <span id="metricMonthTasksTotal" class="text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 truncate">/ 0 total</span>
-          </div>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 flex items-center gap-1 truncate">
-            <i data-lucide="calendar" class="w-3 h-3 text-emerald-500 flex-shrink-0"></i>
-            <span class="truncate">Total month completions</span>
-          </p>
-        </div>
 
-        <!-- Metric 3: Top Day of Month -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-amber-300 dark:hover:border-amber-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Top Day of Month</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="trophy" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <!-- Metric 3: Top Day of Month -->
+          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="trophy" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span id="metricMonthBestDay" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate block">N/A</span>
+              <p class="text-[10px] text-slate-400 font-medium">Top Day</p>
             </div>
           </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricMonthBestDay" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white truncate">N/A</span>
-          </div>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 flex items-center gap-1 truncate">
-            <i data-lucide="sparkles" class="w-3 h-3 text-amber-500 flex-shrink-0"></i>
-            <span class="truncate">Highest accuracy date</span>
-          </p>
-        </div>
 
-        <!-- Metric 4: Month Active Streak -->
-        <div class="liquid-glass-card rounded-2xl p-3.5 sm:p-5 relative overflow-hidden group hover:border-pink-300 dark:hover:border-pink-700 transition">
-          <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider truncate">Consistency Streak</span>
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-pink-50 dark:bg-pink-950 text-pink-600 dark:text-pink-400 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="flame" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <!-- Metric 4: Month Active Streak -->
+          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+            <div class="w-8 h-8 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center flex-shrink-0">
+              <i data-lucide="flame" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <span id="metricMonthStreak" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0 Days</span>
+              <p class="text-[10px] text-slate-400 font-medium">Active Streak</p>
             </div>
           </div>
-          <div class="flex items-baseline gap-1.5 sm:gap-2">
-            <span id="metricMonthStreak" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">0 Days</span>
-          </div>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-2 sm:mt-3 flex items-center gap-1 truncate">
-            <i data-lucide="award" class="w-3 h-3 text-pink-500 flex-shrink-0"></i>
-            <span class="truncate">Consecutive active tracking</span>
-          </p>
-        </div>
 
-      </div>
-
-      <!-- 2. Monthly Analytics Graph -->
-      <div class="liquid-glass-card rounded-2xl shadow-xs p-5 transition">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-violet-50 dark:bg-violet-950/70 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800">Monthly Overview</span>
-              <span id="monthScoreBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-950 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800">
-                0% Month Rate
-              </span>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mt-1">
-              <i data-lucide="line-chart" class="w-5 h-5 text-violet-600 dark:text-violet-400"></i>
-              Monthly Completion Trajectory
-            </h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Day 1 to 31 completion percentage and task completion velocity</p>
-          </div>
-          <div class="flex items-center gap-3 text-xs font-medium">
-            <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-              <span class="w-3 h-3 rounded-sm bg-violet-500"></span> Completed
-            </span>
-            <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-              <span class="w-3 h-3 rounded-sm bg-slate-300 dark:bg-slate-700"></span> Remaining
-            </span>
-            <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
-              <span class="w-3 h-1 bg-amber-500 rounded-full"></span> Daily Rate %
-            </span>
-          </div>
-        </div>
-        <div class="relative h-64 sm:h-72 w-full">
-          <canvas id="monthlyTrendChart"></canvas>
         </div>
       </div>
 
-      <!-- 3. Monthly Checkboard Ledger (Interactive Matrix 1..31) -->
-      <div class="liquid-glass-card rounded-2xl shadow-xs overflow-hidden transition">
-        <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-violet-50 dark:bg-violet-950/70 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800">Monthly Ledger</span>
-            </div>
-            <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mt-1">
-              <i data-lucide="grid-3x3" class="w-5 h-5 text-violet-600 dark:text-violet-400"></i>
+      <!-- 2. Monthly Checkboard Ledger (HERO ELEMENT) -->
+      <div class="liquid-glass-card rounded-2xl overflow-hidden">
+        <div class="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <i data-lucide="grid-3x3" class="w-4 h-4 text-violet-600 dark:text-violet-400"></i>
               Monthly Checkboard
             </h2>
-            <p class="text-xs text-slate-500 dark:text-slate-400">Scroll horizontally to inspect all 30/31 days • Click any day box to toggle completion.</p>
+            <span class="text-slate-300 dark:text-slate-700 text-xs hidden sm:inline">•</span>
+            <p class="text-xs text-slate-400 hidden sm:inline">1..31 day tracking matrix</p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-2 max-w-full">
+          <div class="flex items-center gap-2 max-w-full">
             <!-- Category Filter Pills for Month -->
-            <div id="monthCategoryFilterContainer" class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-300 overflow-x-auto no-scrollbar max-w-full flex-nowrap">
-              <button data-cat="all" class="cat-filter-btn cat-active px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 font-semibold shadow-xs flex-shrink-0 whitespace-nowrap">All</button>
-              <button data-cat="Work" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Work</button>
-              <button data-cat="Health" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Health</button>
-              <button data-cat="Study" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Study</button>
-              <button data-cat="Personal" class="cat-filter-btn px-2.5 py-1 rounded-lg hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Personal</button>
+            <div id="monthCategoryFilterContainer" class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 overflow-x-auto no-scrollbar max-w-full flex-nowrap">
+              <button data-cat="all" class="cat-filter-btn cat-active px-2.5 py-1 rounded-md bg-white dark:bg-slate-700 text-indigo-600 dark:text-cyan-300 font-semibold shadow-xs flex-shrink-0 whitespace-nowrap">All</button>
+              <button data-cat="Work" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Work</button>
+              <button data-cat="Health" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Health</button>
+              <button data-cat="Study" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Study</button>
+              <button data-cat="Personal" class="cat-filter-btn px-2.5 py-1 rounded-md hover:text-slate-900 dark:hover:text-white transition flex-shrink-0 whitespace-nowrap">Personal</button>
             </div>
 
             <!-- Priority Filter for Month -->
-            <select id="monthPriorityFilterSelect" class="text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-700 dark:text-slate-300 font-medium focus:outline-indigo-500">
+            <select id="monthPriorityFilterSelect" class="text-xs bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 rounded-lg px-2 py-1 text-slate-700 dark:text-slate-300 font-medium focus:outline-none">
               <option value="all">All Priorities</option>
               <option value="High">High Priority</option>
               <option value="Medium">Medium Priority</option>
@@ -511,16 +401,38 @@
 
         <div class="w-full max-w-full overflow-x-auto overflow-y-hidden min-w-0 relative" style="-webkit-overflow-scrolling: touch;">
           <table class="w-full text-left border-collapse" id="monthCheckboardTable">
-            <thead class="bg-slate-50/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 text-[11px] font-bold uppercase tracking-wider" id="monthTableHeader">
-              <!-- Dynamically populated day numbers 1..31 -->
+            <thead class="bg-slate-50/70 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 text-[11px] font-bold uppercase tracking-wider" id="monthTableHeader">
             </thead>
-            <tbody id="monthTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
-              <!-- Dynamically populated monthly rows -->
+            <tbody id="monthTableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 text-xs">
             </tbody>
-            <tfoot id="monthTableFooter" class="bg-slate-50/90 dark:bg-slate-800/90 border-t-2 border-slate-200 dark:border-slate-700 font-bold text-[11px] text-slate-700 dark:text-slate-300">
-              <!-- Dynamically populated monthly summary -->
+            <tfoot id="monthTableFooter" class="bg-slate-50/70 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-700 font-semibold text-[11px] text-slate-700 dark:text-slate-300">
             </tfoot>
           </table>
+        </div>
+      </div>
+
+      <!-- 3. Collapsible Monthly Trajectory Graph -->
+      <div class="liquid-glass-card rounded-2xl overflow-hidden">
+        <button type="button" onclick="toggleAnalyticsAccordion('monthlyAnalyticsBody', 'monthlyAnalyticsChevron')" class="w-full px-5 py-3 flex items-center justify-between text-left hover:bg-slate-500/5 transition cursor-pointer">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+              <i data-lucide="line-chart" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">Monthly Completion Trajectory</h3>
+              <p class="text-[10px] sm:text-[11px] text-slate-400">Day 1 to 31 completion percentage velocity</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-semibold text-slate-400">
+            <span class="hidden sm:inline">Toggle Chart</span>
+            <i id="monthlyAnalyticsChevron" data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-200"></i>
+          </div>
+        </button>
+
+        <div id="monthlyAnalyticsBody" class="hidden p-5 border-t border-slate-100 dark:border-slate-800/80">
+          <div class="relative h-64 sm:h-72 w-full">
+            <canvas id="monthlyTrendChart"></canvas>
+          </div>
         </div>
       </div>
 
@@ -788,18 +700,9 @@
         </div>
       </button>
 
-      <!-- 6. Calendar Date Picker -->
-      <button id="calendarPickerBtn" type="button" class="dock-item" aria-label="Jump to Date">
-        <span class="dock-tooltip">Jump to Date</span>
-        <div class="dock-icon dock-surface">
-          <i data-lucide="calendar-days" class="w-5 h-5"></i>
-        </div>
-      </button>
-      <input type="date" id="datePickerInput" class="hidden" />
-
       <div class="dock-separator" role="separator"></div>
 
-      <!-- 7. Add Task (Highlighted App Icon) -->
+      <!-- 6. Add Task (Highlighted App Icon) -->
       <button id="openNewTaskModalBtn" type="button" class="dock-item dock-item-primary" aria-label="Add New Task">
         <span class="dock-tooltip">Add Task</span>
         <div class="dock-icon bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25">
@@ -809,7 +712,7 @@
 
       <div class="dock-separator" role="separator"></div>
 
-      <!-- 8. Appearance / Theme Toggle -->
+      <!-- 7. Appearance / Theme Toggle -->
       <button id="themeToggleBtn" type="button" class="dock-item" aria-label="Appearance">
         <span class="dock-tooltip">Appearance</span>
         <div class="dock-icon dock-surface">
@@ -818,25 +721,9 @@
         </div>
       </button>
 
-      <!-- 9. Print Ledger -->
-      <button id="printReportBtn" type="button" class="dock-item" aria-label="Print Ledger">
-        <span class="dock-tooltip">Print Ledger</span>
-        <div class="dock-icon dock-surface">
-          <i data-lucide="printer" class="w-5 h-5"></i>
-        </div>
-      </button>
-
-      <!-- 10. Install App -->
-      <button id="installAppBtn" type="button" class="dock-item" aria-label="Install App">
-        <span class="dock-tooltip">Install App</span>
-        <div class="dock-icon dock-surface text-indigo-600 dark:text-indigo-400">
-          <i data-lucide="download" class="w-5 h-5"></i>
-        </div>
-      </button>
-
       <div class="dock-separator" role="separator"></div>
 
-      <!-- 11. Auth & Account in macOS Dock -->
+      <!-- 8. Auth & Account in macOS Dock -->
       <!-- Unauthenticated Trigger: Sign In -->
       <button id="authOpenBtn" type="button" onclick="openAuthModal('login')" class="dock-item" aria-label="Sign In">
         <span class="dock-tooltip">Sign In / Account</span>
@@ -867,6 +754,14 @@
 
     </div>
   </nav>
+
+  <!-- Hidden Compatibility Anchors for preserved JS bindings -->
+  <div class="hidden" aria-hidden="true">
+    <button id="calendarPickerBtn" type="button" aria-hidden="true"></button>
+    <input type="date" id="datePickerInput" />
+    <button id="printReportBtn" type="button" aria-hidden="true"></button>
+    <button id="installAppBtn" type="button" aria-hidden="true"></button>
+  </div>
 
   <!-- Delete Confirmation Modal -->
   <div id="deleteConfirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">

@@ -42,17 +42,17 @@ schedule_tracker/
 ├── lib/
 │   └── utils.ts              # cn() utility (clsx + tailwind-merge)
 ├── templates/
-│   └── index.html            # Single-page application HTML structure with SVG filter & liquid glass cards
+│   └── index.html            # Single-page application HTML structure with Dynamic Island & checkbook-first layout
 └── static/
     ├── manifest.json         # Web App Manifest for PWA installation
     ├── sw.js                 # Service Worker implementation for offline shell caching
     ├── images/
     │   └── logo.png          # Sword/shield branding logo used in header, favicon & PWA icon
     ├── css/
-    │   └── style.css         # Liquid glass card/button styling, shader canvas, animations, print rules
+    │   └── style.css         # Authentic Apple/Linear frosted glass tokens, macOS dock, and animations
     └── js/
         ├── app.js            # Client application controller, chart rendering, API calls, theme & state
-        └── shader-background.js # Plain WebGL1 fullscreen Waves flow shader background
+        └── shader-background.js # Plain WebGL1 fullscreen calm Mesh Drift blobs shader background
 ```
 
 ### Detailed File Analysis
@@ -413,4 +413,23 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Updated `initMacosDock()` to query active dock items dynamically on `mousemove` and `mouseleave`, and delegated click bounce to `dock` container so dynamic auth items immediately gain magnification and bounce animations without page reload.
     - Updated `updateUserUI()` to update dock tooltips (`${displayName} (Switch)`) and call `initIcons()`.
 - **Result**: The top of the dashboard is completely open and borderless, allowing the WebGL shader to flow seamlessly from the top edge. The logo and name float with a high-end glassmorphic finish in the top-left, and user authentication & sign out are seamlessly embedded in the Apple macOS floating dock.
+
+#### Entry 15: 2026-09-17 21:20 — Feature: Option 1 Full Minimalist UI Overhaul (Calm Shader, Clean Frosted Glass, Dynamic Island, Checkbook-First Hierarchy)
+- **Context**: User expressed that the aesthetic feel had been lost due to visual clutter and effect fatigue, and selected Option 1 (Minimalist UI Overhaul) from proposed architectural paths.
+- **Action**:
+  - `static/js/shader-background.js`:
+    - Calmed the WebGL shader into an atmospheric living glow. Slowed motion velocity from `seconds * -1.37` to `seconds * -0.35` (75% calmer drift).
+    - Reduced intensity (`u_shape.y = 0.38`), softened contrast (`u_surface.y = 1.02`), reduced vignette (`u_finish.y = 0.20`), and softened film grain (`u_finish.w = 0.05`).
+  - `static/css/style.css`:
+    - Stripped the 9-layer inset shadows and the gimmicky SVG `#container-glass` turbulence distortion filter across all `.liquid-glass-card`, `.glass-btn`, `.view-toggle-btn`, and `.cat-filter-btn` elements.
+    - Implemented authentic Apple / Linear frosted glass tokens (`backdrop-filter: blur(24px) saturate(180%)`, crisp 1px subtle borders `rgba(255, 255, 255, 0.65)` / `rgba(255, 255, 255, 0.09)`, subtle ambient drop shadows `0 8px 32px 0 rgba(0,0,0,0.06)`).
+    - Styled centered `.glass-brand-pill` Dynamic Island and subtle hover lift transitions (`-1.5px`).
+  - `templates/index.html`:
+    - Removed unused `<svg id="container-glass">` filter markup.
+    - Replaced the two detached corner pills with a unified, symmetrical, centered floating Dynamic Island (`fixed top-3 left-1/2 -translate-x-1/2 z-30`) containing brand logo, PRO badge, view mode indicator, and active date range.
+    - Reorganized layout hierarchy to Checkbook-First: streamlined 1-row horizontal KPI bar, positioned the Checkbook Table (Weekly) and Checkboard Ledger (Monthly) front-and-center, and tucked the 2 Chart.js analytics graphs underneath into an elegant collapsible accordion (`#weeklyAnalyticsBody`, `#monthlyAnalyticsBody`).
+    - Curated macOS Dock: trimmed visible dock icons from 14 down to 8 core apps (Weekly, Monthly, Prev, Today, Next, Add Task (+), Theme, Auth/Profile). Moved secondary utilities (`#calendarPickerBtn`, `#datePickerInput`, `#printReportBtn`, `#installAppBtn`) into hidden compatibility anchors so zero JavaScript bindings break.
+  - `static/js/app.js`:
+    - Added `toggleAnalyticsAccordion(bodyId, chevronId)` helper function with rotation animation and responsive Chart.js `.resize()` and `.update()` triggers.
+- **Result**: Visual calm and clarity fully restored. The interface feels exceptionally premium, modern, and uncluttered like a native Apple/Linear utility, putting 100% focus on daily task completion while retaining the atmospheric living WebGL background and interactive macOS dock.
 

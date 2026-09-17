@@ -266,6 +266,45 @@ function switchView(mode, save = true) {
 }
 
 // -------------------------------------------------------------
+// Analytics Accordion Toggle
+// -------------------------------------------------------------
+function toggleAnalyticsAccordion(bodyId, chevronId) {
+  const body = document.getElementById(bodyId);
+  const chevron = document.getElementById(chevronId);
+  if (!body) return;
+
+  const isHidden = body.classList.toggle("hidden");
+  if (chevron) {
+    if (isHidden) {
+      chevron.classList.remove("rotate-180");
+    } else {
+      chevron.classList.add("rotate-180");
+    }
+  }
+
+  if (!isHidden) {
+    setTimeout(() => {
+      if (bodyId === "weeklyAnalyticsBody") {
+        if (trendChart) {
+          trendChart.resize();
+          trendChart.update();
+        }
+        if (categoryChart) {
+          categoryChart.resize();
+          categoryChart.update();
+        }
+      } else if (bodyId === "monthlyAnalyticsBody") {
+        if (monthlyTrendChart) {
+          monthlyTrendChart.resize();
+          monthlyTrendChart.update();
+        }
+      }
+    }, 60);
+  }
+}
+window.toggleAnalyticsAccordion = toggleAnalyticsAccordion;
+
+// -------------------------------------------------------------
 // Event Listeners
 // -------------------------------------------------------------
 function initEventListeners() {

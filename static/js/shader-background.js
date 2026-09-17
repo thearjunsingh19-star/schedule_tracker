@@ -427,12 +427,12 @@ void main() {
 
       gl.useProgram(program);
 
-      // Feed packed uniforms exactly as specified:
+      // Feed packed uniforms calibrated for calm, luxury atmospheric ambience:
       gl.uniform3fv(uColorsLoc, colorsArray);
-      gl.uniform4f(uSceneLoc, canvas.width, canvas.height, seconds * -1.37, 4.0);
-      gl.uniform4f(uShapeLoc, 1.30, 0.56, 0.67, 0.19);
-      gl.uniform4f(uSurfaceLoc, 2.02, 1.17, 0.00, 1.00);
-      gl.uniform4f(uFinishLoc, 0.00, 0.30, 0.007, 0.10);
+      gl.uniform4f(uSceneLoc, canvas.width, canvas.height, seconds * -0.35, 4.0); // Calm atmospheric drift
+      gl.uniform4f(uShapeLoc, 1.30, 0.38, 0.67, 0.19); // Softened blob intensity
+      gl.uniform4f(uSurfaceLoc, 2.02, 1.02, 0.00, 1.00); // Natural soft contrast
+      gl.uniform4f(uFinishLoc, 0.00, 0.20, 0.007, 0.05); // Subtle vignette and delicate film grain
       gl.uniform4f(uTransformLoc, 5069.0, 2.72, 0.15, 0.0);
       gl.uniform4f(uSpaceLoc, 0.09, 0.15, 0.0, 0.0);
       gl.uniform4f(uCursorLoc, 0.0, 2.0, 0.65, 0.46); // Cursor: off (presence = 0.0)
