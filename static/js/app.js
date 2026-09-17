@@ -27,6 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initMacosDock();
   initPWA();
   initAuth();
+
+  window.addEventListener("resize", () => {
+    if (weekData) updateWeekHeader();
+    if (monthData) updateMonthHeader();
+  });
 });
 
 let deferredPrompt = null;
@@ -611,10 +616,21 @@ function updateWeekHeader() {
   const weekDisplay = document.getElementById("currentWeekDisplay");
   const mobileWeekDisplay = document.getElementById("mobileWeekDisplay");
   if (weekData && weekData.week_info) {
-    if (weekDisplay) weekDisplay.textContent = weekData.week_info.week_label;
-    if (mobileWeekDisplay) mobileWeekDisplay.textContent = weekData.week_info.week_label;
-    if (weekData.week_info.start_date) {
-      document.getElementById("datePickerInput").value = weekData.week_info.start_date;
+    const info = weekData.week_info;
+    const fullLabel = info.week_label || "";
+
+    if (weekDisplay) {
+      if (window.innerWidth < 480 && info.days && info.days.length >= 7) {
+        weekDisplay.textContent = `${info.days[0].display} - ${info.days[6].display}`;
+      } else {
+        weekDisplay.textContent = fullLabel;
+      }
+      weekDisplay.title = fullLabel;
+    }
+    if (mobileWeekDisplay) mobileWeekDisplay.textContent = fullLabel;
+    if (info.start_date) {
+      const picker = document.getElementById("datePickerInput");
+      if (picker) picker.value = info.start_date;
     }
   }
 }
@@ -878,7 +894,10 @@ function updateMonthHeader() {
   const monthDisplay = document.getElementById("currentMonthDisplay");
   const mobileMonthDisplay = document.getElementById("mobileMonthDisplay");
 
-  if (monthDisplay) monthDisplay.textContent = m.month_label;
+  if (monthDisplay) {
+    monthDisplay.textContent = m.month_label;
+    monthDisplay.title = m.month_label;
+  }
   if (mobileMonthDisplay) mobileMonthDisplay.textContent = m.month_label;
 
   const scoreBadge = document.getElementById("monthScoreBadge");

@@ -433,3 +433,18 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Added `toggleAnalyticsAccordion(bodyId, chevronId)` helper function with rotation animation and responsive Chart.js `.resize()` and `.update()` triggers.
 - **Result**: Visual calm and clarity fully restored. The interface feels exceptionally premium, modern, and uncluttered like a native Apple/Linear utility, putting 100% focus on daily task completion while retaining the atmospheric living WebGL background and interactive macOS dock.
 
+#### Entry 16: 2026-09-17 21:35 — Bug Fix: Mobile Dynamic Island Date Overflow & macOS Dock Icon Clipping
+- **Context**: User reported two mobile usability issues: (1) Month and dates were overflowing/coming out of the top floating dock/pill on mobile, and (2) Dock icons at the bottom were getting clipped/cut off at the top when popping up/bouncing.
+- **Action**:
+  - `templates/index.html`:
+    - Responsive Top Dynamic Island: Added `overflow-hidden`, `max-w-[96vw]`, and `truncate` with responsive text sizing (`text-[10px] sm:text-xs`).
+    - Hidden verbose elements on small mobile screens: `#menuBarViewLabel` (`hidden md:inline`) and `PRO` micro-badge (`hidden sm:inline-flex`), ensuring the brand logo, name, and calendar date range fit gracefully inside the glass pill capsule with zero overflow.
+  - `static/css/style.css`:
+    - Fixed Dock Icon Clipping: Removed restrictive `overflow-x: auto` from `.macos-dock` and set `overflow: visible !important;` on both `.macos-dock-wrap`, `.macos-dock`, and `.dock-item`. Icons popping up during `@keyframes dockBounce` (`translateY(-14px)`) now elevate freely into the open air above the shelf with zero clipping.
+    - Added responsive mobile dock icon scale breakpoints: down to 33px icon size with 3px gaps and 20px dividers on devices <= 390px, ensuring all 8-9 dock apps comfortably fit standard mobile viewports (360px–414px) without horizontal scrolling.
+    - Disabled hovering tooltips on mobile touch devices (`@media (hover: none) and (pointer: coarse)`) to prevent lingering black tooltip bubbles after tapping icons.
+  - `static/js/app.js`:
+    - Added responsive date formatting in `updateWeekHeader()`: on narrow mobile screens (`< 480px`), displays a concise range (e.g. `Sep 15 - Sep 21`) and attaches full label to `title` attribute.
+    - Added window `resize` event listener in `DOMContentLoaded` to dynamically recalculate header text on orientation flip.
+- **Result**: Top pill capsule now perfectly encloses all branding and dates on mobile without text spilling out. Bottom macOS dock icons pop up smoothly with zero clipping, and the dock fits all mobile screen widths effortlessly.
+

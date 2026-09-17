@@ -57,36 +57,36 @@
   </div>
 
   <!-- Top Floating Controls: Unified Minimalist Dynamic Island -->
-  <aside aria-label="Top Controls" class="fixed top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-auto max-w-[94vw]">
-    <div class="flex items-center gap-2.5 sm:gap-3 px-3.5 py-1.5 rounded-full glass-brand-pill select-none shadow-sm transition-all duration-300 whitespace-nowrap">
+  <aside aria-label="Top Controls" class="fixed top-2.5 sm:top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-auto max-w-[96vw] w-auto">
+    <div class="flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full glass-brand-pill select-none shadow-sm transition-all duration-300 whitespace-nowrap overflow-hidden">
       
       <!-- Brand Segment (Click to scroll top) -->
-      <div class="flex items-center gap-2 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="ScheduleTracker">
-        <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 p-0.5 shadow-xs flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
-          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain rounded-[6px]" />
+      <div class="flex items-center gap-1.5 sm:gap-2 cursor-pointer group flex-shrink-0" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="ScheduleTracker">
+        <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 p-0.5 shadow-xs flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
+          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain rounded-[5px]" />
         </div>
-        <div class="flex items-center gap-1.5 leading-none">
+        <div class="flex items-center gap-1 leading-none">
           <span class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">
             Schedule<span class="text-indigo-600 dark:text-cyan-400">Track</span>
           </span>
-          <span class="text-[9px] uppercase font-extrabold tracking-widest px-1 py-0.2 rounded bg-indigo-500/10 dark:bg-cyan-400/10 text-indigo-600 dark:text-cyan-300 border border-indigo-500/20 dark:border-cyan-400/20">PRO</span>
+          <span class="text-[9px] uppercase font-extrabold tracking-widest px-1 py-0.2 rounded bg-indigo-500/10 dark:bg-cyan-400/10 text-indigo-600 dark:text-cyan-300 border border-indigo-500/20 dark:border-cyan-400/20 hidden sm:inline-flex">PRO</span>
         </div>
       </div>
 
       <!-- Subtle Divider -->
-      <div class="w-[1px] h-3.5 bg-slate-300 dark:bg-slate-700"></div>
+      <div class="w-[1px] h-3.5 bg-slate-300 dark:bg-slate-700 flex-shrink-0"></div>
 
       <!-- Mode & Date Segment -->
-      <div class="flex items-center gap-2 text-xs font-semibold">
-        <span id="menuBarViewLabel" class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">Weekly Checkbook</span>
-        <span class="text-slate-300 dark:text-slate-700 text-xs hidden xs:inline">•</span>
-        <div id="weekNavControls" class="flex items-center gap-1.5">
-          <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-cyan-400"></i>
-          <span id="currentWeekDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
+      <div class="flex items-center gap-1.5 sm:gap-2 text-xs font-semibold min-w-0">
+        <span id="menuBarViewLabel" class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 hidden md:inline">Weekly Checkbook</span>
+        <span class="text-slate-300 dark:text-slate-700 text-xs hidden md:inline">•</span>
+        <div id="weekNavControls" class="flex items-center gap-1 sm:gap-1.5 min-w-0">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-cyan-400 flex-shrink-0"></i>
+          <span id="currentWeekDisplay" class="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[150px] xs:max-w-[210px] sm:max-w-none">Loading...</span>
         </div>
-        <div id="monthNavControls" class="hidden items-center gap-1.5">
-          <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i>
-          <span id="currentMonthDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
+        <div id="monthNavControls" class="hidden items-center gap-1 sm:gap-1.5 min-w-0">
+          <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 flex-shrink-0"></i>
+          <span id="currentMonthDisplay" class="text-[10px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[150px] xs:max-w-[210px] sm:max-w-none">Loading Month...</span>
         </div>
       </div>
 
