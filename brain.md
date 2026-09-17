@@ -206,6 +206,7 @@ When modifying or expanding this codebase, strictly observe the following establ
 | **2026-09-17 19:55** | Antigravity AI | `components/ui/liquid-glass-button.tsx`, `components/demo.tsx`, `lib/utils.ts`, `components.json`, `tsconfig.json`, `package.json`, `templates/index.html`, `static/css/style.css`, `brain.md` | Feature: shadcn LiquidButton Integration & Full App Liquid Glass Elevation | Integrated shadcn React `LiquidButton` & `MetalButton` with `@radix-ui/react-slot` and `class-variance-authority`. Ported SVG turbulence filter (`#container-glass`) and 9-layer liquid glass shadow physics to all graphs, tables, and buttons across the live Flask app. |
 | **2026-09-17 20:07** | Antigravity AI | `static/css/style.css`, `brain.md` | Refinement: Clean Modern Checkbook Buttons | Removed noisy liquid glass backdrop filters, 9-layer inset shadows, and glowing neon halo borders from `.check-btn` and `.check-btn-sm`. Restored crisp, modern, distraction-free checkboxes (clean slate borders for scheduled, solid emerald `#10b981` for completed). |
 | **2026-09-17 20:15** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | Feature: Apple macOS Navigation Bar to Floating Dock & Menu Bar Conversion | Converted top navigation header into a sleek 42px macOS Menu Bar and a floating Apple macOS Dock at the bottom center of the screen with liquid glass shelf, cursor proximity wave magnification, speech-bubble tooltips, active app indicator dots, and bounce physics. |
+| **2026-09-17 20:31** | Antigravity AI | `static/js/shader-background.js`, `brain.md` | Feature: WebGL Mesh Drift Blobs Shader Background | Integrated the 21st.dev "Mesh drift" blobs fragment shader on plain WebGL1 fullscreen triangle with packed uniforms `u_colors`, `u_scene`, `u_shape`, `u_surface`, `u_finish`, `u_transform`, `u_space`, `u_cursor` (palette `#031C26`, `#1B6CA8`, `#5AD2F4`, `#EAF9FF`), DPR capped at 2, and auto tab-visibility pausing. |
 
 ### Detailed Log Entries
 
@@ -372,4 +373,23 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Delegated `#dockPrevBtn`, `#dockNextBtn`, and `#dockTodayBtn` to dynamically dispatch week/month actions based on `currentViewMode`.
     - Enhanced `switchView()` to dynamically update top menu bar status label and dock tooltips.
 - **Result**: The app now features an authentic Apple macOS desktop operating experience with a floating dock at the bottom and a slim status menu bar at the top, perfectly fluid across desktop and touch mobile devices.
+
+#### Entry 13: 2026-09-17 20:31 — Feature: WebGL Mesh Drift Blobs Shader Background
+- **Context**: User requested replacing the shader background with the 21st.dev "Mesh drift" (blobs shader) with exact packed uniforms, organic domain warping, OKLab perceptual color mixing, and film grain.
+- **Action**:
+  - Replaced shader implementation in `static/js/shader-background.js`:
+    - Fullscreen clip-space triangle `[-1.0, -1.0, 3.0, -1.0, -1.0, 3.0]`.
+    - Integrated exact fragment shader for "Mesh drift" style with OKLab colour mixing, Dave Hoskins hash12 film grain, and 5-tap blur.
+    - Fed packed uniforms:
+      - `u_colors`: `#031C26`, `#1B6CA8`, `#5AD2F4`, `#EAF9FF`
+      - `u_scene`: `canvas.width, canvas.height, seconds * -1.37, 4.0`
+      - `u_shape`: `1.30, 0.56, 0.67, 0.19`
+      - `u_surface`: `2.02, 1.17, 0.00, 1.00`
+      - `u_finish`: `0.00, 0.30, 0.007, 0.10`
+      - `u_transform`: `5069.0, 2.72, 0.15, 0.0`
+      - `u_space`: `0.09, 0.15, 0.0, 0.0`
+      - `u_cursor`: `0.0, 2.0, 0.65, 0.46` (Cursor: off)
+    - Device pixel ratio capped at 2 (`Math.min(window.devicePixelRatio || 1, 2)`).
+    - Window resize handler and tab visibility RAF pausing.
+- **Result**: Fluid, GPU-accelerated organic "Mesh drift" blobs shader rendered in real time beneath the application and floating macOS dock.
 

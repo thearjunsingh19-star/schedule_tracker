@@ -1,6 +1,7 @@
 /**
- * Animated WebGL "Waves" Flow Shader Background
+ * Animated WebGL "Mesh drift" (blobs shader) Background
  * Plain WebGL1 fullscreen triangle implementation without external libraries.
+ * Made with the 21st.dev Shader Builder.
  */
 (function () {
   'use strict';
@@ -12,19 +13,19 @@
     }
   `;
 
-  const FS_SOURCE = `// "Waves" — made with the 21st.dev Shader Builder
+  const FS_SOURCE = `// "Mesh drift" — made with the 21st.dev Shader Builder
 // Packed WebGL1 uniforms (the shader exposes readable u_* aliases as macros):
 //   u_colors[8] (first 4 used)
 //   vec3(0.012, 0.110, 0.149)
 //   vec3(0.106, 0.424, 0.659)
 //   vec3(0.353, 0.824, 0.957)
 //   vec3(0.918, 0.976, 1.000)
-//   u_scene = vec4(canvas width, canvas height, seconds * 0.86, 4.0)
-//   u_shape = vec4(1.50, 0.55, 0.50, 0.00)
-//   u_surface = vec4(2.40, 1.00, 0.00, 1.00)
-//   u_finish = vec4(0.00, 0.00, 0.000, 0.04)
-//   u_transform = vec4(1.0, 0.00, 0.00, 0.0)
-//   u_space = vec4(0.00, 0.00, pointer x, pointer y)
+//   u_scene = vec4(canvas width, canvas height, seconds * -1.37, 4.0)
+//   u_shape = vec4(1.30, 0.56, 0.67, 0.19)
+//   u_surface = vec4(2.02, 1.17, 0.00, 1.00)
+//   u_finish = vec4(0.00, 0.30, 0.007, 0.10)
+//   u_transform = vec4(5069.0, 2.72, 0.15, 0.0)
+//   u_space = vec4(0.09, 0.15, pointer x, pointer y)
 //   u_cursor = vec4(presence, 2.0, 0.65, 0.46)
 
 #ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -193,10 +194,19 @@ vec3 hueRotate(vec3 col, float a) {
 }
 
 vec3 shade(vec2 uv, vec2 p, float t) {
-  float y = uv.y
-    + sin(uv.x * (3.0 + u_intensity * 9.0) + t * 0.8) * 0.08
-    + (fbm(p * 2.0 + t * 0.1) - 0.5) * u_intensity * 0.6;
-  return palette(y);
+  vec3 acc = u_colors[0] * 0.15;
+  float total = 0.15;
+  for (int i = 0; i < 8; i++) {
+    if (float(i) >= u_colorCount) break;
+    float fi = float(i);
+    vec2 c = vec2(
+      sin(t * (0.21 + fi * 0.071) + fi * 2.4 + u_seed),
+      cos(t * (0.17 + fi * 0.093) + fi * 1.7)) * (0.45 + u_intensity * 0.35);
+    float w = exp(-dot(p - c, p - c) * 6.0);
+    acc += u_colors[i] * w;
+    total += w;
+  }
+  return acc / total;
 }
 
 void main() {
@@ -287,7 +297,8 @@ void main() {
     col += (grainHash(
       gl_FragCoord.xy + vec2(u_seed * 17.0, u_seed * 31.0)) - 0.5) * u_grain;
   gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
-}`;
+}
+`;
 
   function createShader(gl, type, source) {
     const shader = gl.createShader(type);
@@ -296,7 +307,7 @@ void main() {
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
       const info = gl.getShaderInfoLog(shader);
       gl.deleteShader(shader);
-      throw new Error(`Shader compile error: ${info}`);
+      throw new Error('WebGL Shader Compile Error: ' + info);
     }
     return shader;
   }
@@ -311,19 +322,16 @@ void main() {
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
       const info = gl.getProgramInfoLog(program);
       gl.deleteProgram(program);
-      throw new Error(`Program link error: ${info}`);
+      throw new Error('WebGL Program Link Error: ' + info);
     }
     return program;
   }
 
-  function initWavesShader() {
-    let canvas = document.getElementById('shader-background');
+  function initMeshDriftShader() {
+    const canvas = document.getElementById('shader-background');
     if (!canvas) {
-      canvas = document.createElement('canvas');
-      canvas.id = 'shader-background';
-      canvas.className = 'shader-background-canvas';
-      canvas.setAttribute('aria-hidden', 'true');
-      document.body.prepend(canvas);
+      console.warn('Canvas #shader-background not found');
+      return;
     }
 
     const gl = canvas.getContext('webgl', {
@@ -336,7 +344,7 @@ void main() {
     }) || canvas.getContext('experimental-webgl');
 
     if (!gl) {
-      console.warn('WebGL1 not supported; shader background unavailable.');
+      console.warn('WebGL1 not supported in this browser');
       return;
     }
 
@@ -344,7 +352,7 @@ void main() {
     try {
       program = createProgram(gl, VS_SOURCE, FS_SOURCE);
     } catch (e) {
-      console.error('Failed to initialize Waves shader program:', e);
+      console.error(e);
       return;
     }
 
@@ -419,14 +427,14 @@ void main() {
 
       gl.useProgram(program);
 
-      // Feed uniforms exactly as specified:
+      // Feed packed uniforms exactly as specified:
       gl.uniform3fv(uColorsLoc, colorsArray);
-      gl.uniform4f(uSceneLoc, canvas.width, canvas.height, seconds * 0.86, 4.0);
-      gl.uniform4f(uShapeLoc, 1.50, 0.55, 0.50, 0.00);
-      gl.uniform4f(uSurfaceLoc, 2.40, 1.00, 0.00, 1.00);
-      gl.uniform4f(uFinishLoc, 0.00, 0.00, 0.000, 0.04);
-      gl.uniform4f(uTransformLoc, 1.0, 0.00, 0.00, 0.0);
-      gl.uniform4f(uSpaceLoc, 0.00, 0.00, 0.0, 0.0);
+      gl.uniform4f(uSceneLoc, canvas.width, canvas.height, seconds * -1.37, 4.0);
+      gl.uniform4f(uShapeLoc, 1.30, 0.56, 0.67, 0.19);
+      gl.uniform4f(uSurfaceLoc, 2.02, 1.17, 0.00, 1.00);
+      gl.uniform4f(uFinishLoc, 0.00, 0.30, 0.007, 0.10);
+      gl.uniform4f(uTransformLoc, 5069.0, 2.72, 0.15, 0.0);
+      gl.uniform4f(uSpaceLoc, 0.09, 0.15, 0.0, 0.0);
       gl.uniform4f(uCursorLoc, 0.0, 2.0, 0.65, 0.46); // Cursor: off (presence = 0.0)
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -467,8 +475,8 @@ void main() {
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWavesShader);
+    document.addEventListener('DOMContentLoaded', initMeshDriftShader);
   } else {
-    initWavesShader();
+    initMeshDriftShader();
   }
 })();
