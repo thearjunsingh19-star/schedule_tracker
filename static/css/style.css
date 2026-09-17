@@ -714,4 +714,202 @@ html.dark .cat-filter-btn.cat-active {
     width: 100% !important;
     font-size: 10px !important;
   }
+  .macos-dock-wrap, .macos-menubar {
+    display: none !important;
+  }
+}
+
+/* ========================================================== */
+/* 6. Apple macOS Top Menu Bar & Floating Dock System        */
+/* ========================================================== */
+
+/* Top Menu Bar */
+.macos-menubar {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+html.dark .macos-menubar {
+  background: rgba(3, 28, 38, 0.78);
+}
+
+/* Floating Dock Wrapper */
+.macos-dock-wrap {
+  position: fixed;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 50;
+  padding: 0 12px;
+}
+
+/* Dock Shelf */
+.macos-dock {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 8px 12px 6px 12px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 
+    0 20px 40px -6px rgba(0, 0, 0, 0.22),
+    0 0 1px 1px rgba(255, 255, 255, 0.75) inset,
+    0 4px 12px rgba(0, 0, 0, 0.06);
+  transition: gap 0.2s ease, padding 0.2s ease;
+  max-width: calc(100vw - 16px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.macos-dock::-webkit-scrollbar {
+  display: none;
+}
+
+html.dark .macos-dock {
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 24px 48px -6px rgba(0, 0, 0, 0.6),
+    0 0 1px 1px rgba(255, 255, 255, 0.1) inset,
+    0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Dock Item */
+.dock-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.12s ease-out;
+  transform-origin: bottom center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Dock Icon Container (Apple Squircle) */
+.dock-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .dock-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+}
+
+/* Neutral Glass Surface for Utility Icons */
+.dock-surface {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: #334155;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+html.dark .dock-surface {
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Active Dot Indicator below running apps */
+.dock-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background-color: transparent;
+  margin-top: 3px;
+  transition: all 0.2s ease;
+}
+.dock-item.active .dock-dot {
+  background-color: #4f46e5;
+  box-shadow: 0 0 6px rgba(79, 70, 229, 0.8);
+}
+html.dark .dock-item.active .dock-dot {
+  background-color: #5ad2f4;
+  box-shadow: 0 0 6px rgba(90, 210, 244, 0.9);
+}
+
+/* Vertical Dock Divider */
+.dock-separator {
+  width: 1px;
+  height: 28px;
+  margin: 0 3px 8px 3px;
+  background: rgba(0, 0, 0, 0.12);
+}
+html.dark .dock-separator {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* macOS Speech-Bubble Tooltip */
+.dock-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  z-index: 60;
+}
+.dock-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 4px 0 4px;
+  border-style: solid;
+  border-color: rgba(15, 23, 42, 0.92) transparent transparent transparent;
+}
+.dock-item:hover .dock-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* App Launch Bounce */
+@keyframes dockBounce {
+  0%, 100% { transform: translateY(0); }
+  35% { transform: translateY(-16px); }
+  65% { transform: translateY(-6px); }
+}
+.dock-bounce {
+  animation: dockBounce 0.4s ease;
 }

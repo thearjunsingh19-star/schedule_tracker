@@ -205,6 +205,7 @@ When modifying or expanding this codebase, strictly observe the following establ
 | **2026-09-12 02:44** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | Mobile Responsiveness & Viewport Containment Fix | Resolved mobile page zoom-out and horizontal empty space bug. Enforced strict `overflow-x: hidden` and `max-width: 100%` on `html`/`body`, redesigned header for mobile viewports (`hidden md:flex` for desktop nav), built dedicated mobile control center with full-width segmented view toggles and touch date navigator, added `.sticky-task-col` to weekly table, and created responsive column widths (`.weekly-day-col`) to ensure 100% edge-to-edge mobile fit. |
 | **2026-09-17 19:55** | Antigravity AI | `components/ui/liquid-glass-button.tsx`, `components/demo.tsx`, `lib/utils.ts`, `components.json`, `tsconfig.json`, `package.json`, `templates/index.html`, `static/css/style.css`, `brain.md` | Feature: shadcn LiquidButton Integration & Full App Liquid Glass Elevation | Integrated shadcn React `LiquidButton` & `MetalButton` with `@radix-ui/react-slot` and `class-variance-authority`. Ported SVG turbulence filter (`#container-glass`) and 9-layer liquid glass shadow physics to all graphs, tables, and buttons across the live Flask app. |
 | **2026-09-17 20:07** | Antigravity AI | `static/css/style.css`, `brain.md` | Refinement: Clean Modern Checkbook Buttons | Removed noisy liquid glass backdrop filters, 9-layer inset shadows, and glowing neon halo borders from `.check-btn` and `.check-btn-sm`. Restored crisp, modern, distraction-free checkboxes (clean slate borders for scheduled, solid emerald `#10b981` for completed). |
+| **2026-09-17 20:15** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | Feature: Apple macOS Navigation Bar to Floating Dock & Menu Bar Conversion | Converted top navigation header into a sleek 42px macOS Menu Bar and a floating Apple macOS Dock at the bottom center of the screen with liquid glass shelf, cursor proximity wave magnification, speech-bubble tooltips, active app indicator dots, and bounce physics. |
 
 ### Detailed Log Entries
 
@@ -351,4 +352,24 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Completed state: Solid, confident emerald green `#10b981` background, matching border, crisp white checkmark, and a subtle clean shadow (`0 1px 2px rgba(16, 185, 129, 0.2)`).
     - Unscheduled state: Clean, minimal dashed indicator (`1.5px dashed #cbd5e1` / `#334155`) with transparent background.
 - **Result**: Checkbook ledger and monthly matrix are now razor-sharp, distraction-free, and easy on the eyes while the surrounding cards and graphs retain their liquid glass finish.
+
+#### Entry 12: 2026-09-17 20:15 — Feature: Apple macOS Navigation Bar to Floating Dock & Menu Bar Conversion
+- **Context**: User requested converting the navigation bar into the iconic Apple macOS Dock system.
+- **Action**:
+  - `templates/index.html`:
+    - Replaced heavy navbar and redundant mobile control center with a streamlined macOS Top Menu Bar displaying brand, mode badge (`Weekly Checkbook` / `Monthly Checkboard`), active date range indicator, and profile status.
+    - Mounted `#macosDock` floating dock with squircle app icons: Weekly View, Monthly View, Previous Period, Today Shortcut, Next Period, Calendar Picker, Add Task (elevated emerald icon), Theme Appearance Toggle, Print Ledger, and Install App.
+    - Preserved hidden compatibility container for legacy selector binding.
+    - Added `pb-28 sm:pb-36` to `<main>` to maintain safe clearance above the floating dock.
+  - `static/css/style.css`:
+    - Built `.macos-menubar` with glassmorphic backdrop blur and clean system typography.
+    - Built `.macos-dock-wrap` and `.macos-dock` floating shelf (`fixed bottom-3`, 24px rounded pill, `backdrop-filter: blur(30px) saturate(200%)`, specular inner highlight, ambient drop shadow).
+    - Designed squircle `.dock-icon` items, neutral `.dock-surface`, active indicator `.dock-dot`, macOS speech-bubble `.dock-tooltip` with arrow pointer, and vertical dividers (`.dock-separator`).
+    - Added `@keyframes dockBounce` for tactile click bounce.
+  - `static/js/app.js`:
+    - Added `initMacosDock()` implementing dynamic cursor proximity wave magnification (`Math.cos()` distance-based scaling up to 1.32x on mousemove).
+    - Added click bounce trigger on dock items.
+    - Delegated `#dockPrevBtn`, `#dockNextBtn`, and `#dockTodayBtn` to dynamically dispatch week/month actions based on `currentViewMode`.
+    - Enhanced `switchView()` to dynamically update top menu bar status label and dock tooltips.
+- **Result**: The app now features an authentic Apple macOS desktop operating experience with a floating dock at the bottom and a slim status menu bar at the top, perfectly fluid across desktop and touch mobile devices.
 

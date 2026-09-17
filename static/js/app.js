@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initIcons();
   initEventListeners();
   initViewToggle();
+  initMacosDock();
   initPWA();
   initAuth();
 });
@@ -185,35 +186,41 @@ function switchView(mode, save = true) {
   const mobileWeeklyBtn = document.getElementById("mobileViewToggleWeekly");
   const mobileMonthlyBtn = document.getElementById("mobileViewToggleMonthly");
 
+  const menuBarLabel = document.getElementById("menuBarViewLabel");
+  const dockPrevTooltip = document.getElementById("dockPrevTooltip");
+  const dockNextTooltip = document.getElementById("dockNextTooltip");
+  const dockTodayTooltip = document.getElementById("dockTodayTooltip");
+
   if (mode === "weekly") {
     if (weeklyContainer) weeklyContainer.classList.remove("hidden");
     if (monthlyContainer) monthlyContainer.classList.add("hidden");
 
     if (weekNav) {
-      weekNav.className = "flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
+      weekNav.className = "flex items-center gap-1.5";
     }
     if (monthNav) {
-      monthNav.className = "hidden items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
+      monthNav.className = "hidden items-center gap-1.5";
     }
     if (mobileWeekNav) mobileWeekNav.classList.remove("hidden");
     if (mobileMonthNav) mobileMonthNav.classList.add("hidden");
 
     if (weeklyBtn) {
       weeklyBtn.classList.add("active");
-      weeklyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
     }
     if (monthlyBtn) {
       monthlyBtn.classList.remove("active");
-      monthlyBtn.classList.add("text-slate-600", "dark:text-slate-400");
     }
     if (mobileWeeklyBtn) {
       mobileWeeklyBtn.classList.add("active");
-      mobileWeeklyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
     }
     if (mobileMonthlyBtn) {
       mobileMonthlyBtn.classList.remove("active");
-      mobileMonthlyBtn.classList.add("text-slate-600", "dark:text-slate-400");
     }
+
+    if (menuBarLabel) menuBarLabel.textContent = "Weekly Checkbook";
+    if (dockPrevTooltip) dockPrevTooltip.textContent = "Previous Week";
+    if (dockNextTooltip) dockNextTooltip.textContent = "Next Week";
+    if (dockTodayTooltip) dockTodayTooltip.textContent = "Today";
 
     setTimeout(() => {
       if (trendChart) trendChart.resize();
@@ -224,30 +231,31 @@ function switchView(mode, save = true) {
     if (monthlyContainer) monthlyContainer.classList.remove("hidden");
 
     if (weekNav) {
-      weekNav.className = "hidden items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
+      weekNav.className = "hidden items-center gap-1.5";
     }
     if (monthNav) {
-      monthNav.className = "flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner";
+      monthNav.className = "flex items-center gap-1.5";
     }
     if (mobileWeekNav) mobileWeekNav.classList.add("hidden");
     if (mobileMonthNav) mobileMonthNav.classList.remove("hidden");
 
     if (weeklyBtn) {
       weeklyBtn.classList.remove("active");
-      weeklyBtn.classList.add("text-slate-600", "dark:text-slate-400");
     }
     if (monthlyBtn) {
       monthlyBtn.classList.add("active");
-      monthlyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
     }
     if (mobileWeeklyBtn) {
       mobileWeeklyBtn.classList.remove("active");
-      mobileWeeklyBtn.classList.add("text-slate-600", "dark:text-slate-400");
     }
     if (mobileMonthlyBtn) {
       mobileMonthlyBtn.classList.add("active");
-      mobileMonthlyBtn.classList.remove("text-slate-600", "dark:text-slate-400");
     }
+
+    if (menuBarLabel) menuBarLabel.textContent = "Monthly Checkboard";
+    if (dockPrevTooltip) dockPrevTooltip.textContent = "Previous Month";
+    if (dockNextTooltip) dockNextTooltip.textContent = "Next Month";
+    if (dockTodayTooltip) dockTodayTooltip.textContent = "This Month";
 
     setTimeout(() => {
       if (monthlyTrendChart) monthlyTrendChart.resize();
@@ -438,6 +446,90 @@ function initEventListeners() {
 
   // Delete confirm button
   document.getElementById("confirmDeleteBtn").addEventListener("click", confirmDeleteTask);
+}
+
+// -------------------------------------------------------------
+// Apple macOS Dock Magnification & Interaction Engine
+// -------------------------------------------------------------
+function initMacosDock() {
+  const dock = document.querySelector(".macos-dock");
+  if (!dock) return;
+
+  const items = dock.querySelectorAll(".dock-item");
+
+  // Proximity Magnification Wave Physics
+  dock.addEventListener("mousemove", (e) => {
+    // Only apply on non-touch pointer devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const mouseX = e.clientX;
+    items.forEach((item) => {
+      const itemRect = item.getBoundingClientRect();
+      const itemCenterX = itemRect.left + itemRect.width / 2;
+      const distance = Math.abs(mouseX - itemCenterX);
+      const maxDistance = 95;
+
+      if (distance < maxDistance) {
+        const factor = Math.cos((distance / maxDistance) * (Math.PI / 2));
+        const scale = 1 + 0.32 * factor;
+        const translateY = -10 * factor;
+        item.style.transform = `translateY(${translateY}px) scale(${scale})`;
+      } else {
+        item.style.transform = "translateY(0) scale(1)";
+      }
+    });
+  });
+
+  dock.addEventListener("mouseleave", () => {
+    items.forEach((item) => {
+      item.style.transform = "translateY(0) scale(1)";
+    });
+  });
+
+  // App launch bounce on click
+  items.forEach((item) => {
+    item.addEventListener("click", () => {
+      item.classList.add("dock-bounce");
+      setTimeout(() => item.classList.remove("dock-bounce"), 400);
+    });
+  });
+
+  // Dock Prev & Next & Today Navigation delegation
+  const dockPrev = document.getElementById("dockPrevBtn");
+  if (dockPrev) {
+    dockPrev.addEventListener("click", () => {
+      if (currentViewMode === "weekly") {
+        if (weekData && weekData.week_info) loadWeekData(weekData.week_info.prev_week);
+      } else {
+        if (monthData && monthData.month_info && monthData.month_info.prev_month) {
+          const pm = monthData.month_info.prev_month;
+          loadMonthData(pm.year, pm.month);
+        }
+      }
+    });
+  }
+
+  const dockNext = document.getElementById("dockNextBtn");
+  if (dockNext) {
+    dockNext.addEventListener("click", () => {
+      if (currentViewMode === "weekly") {
+        if (weekData && weekData.week_info) loadWeekData(weekData.week_info.next_week);
+      } else {
+        if (monthData && monthData.month_info && monthData.month_info.next_month) {
+          const nm = monthData.month_info.next_month;
+          loadMonthData(nm.year, nm.month);
+        }
+      }
+    });
+  }
+
+  const dockToday = document.getElementById("dockTodayBtn");
+  if (dockToday) {
+    dockToday.addEventListener("click", () => {
+      loadWeekData(null);
+      loadMonthData(null, null);
+    });
+  }
 }
 
 // -------------------------------------------------------------

@@ -89,179 +89,86 @@
     <span id="toastMessage" class="text-sm font-medium">Notification message</span>
   </div>
 
-  <!-- Top Navigation Bar -->
-  <header class="sticky top-0 z-30 liquid-glass-card rounded-none border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs transition-colors duration-300 w-full max-w-full">
-    <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-1.5 sm:gap-4 w-full">
+  <!-- macOS Top Menu Bar -->
+  <header class="sticky top-0 z-30 macos-menubar border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs transition-colors duration-300 w-full max-w-full">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-11 sm:h-12 flex items-center justify-between gap-2 w-full">
       
-      <!-- Brand with Minimalist Logo -->
+      <!-- Brand with Minimalist Logo & Mode Badge -->
       <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-1 flex items-center justify-center shadow-md shadow-indigo-100 dark:shadow-none overflow-hidden btn-pop flex-shrink-0">
-          <img src="/static/images/logo.png" alt="ScheduleTrack Sword Logo" class="w-full h-full object-contain rounded-lg" />
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-0.5 flex items-center justify-center shadow-xs overflow-hidden flex-shrink-0">
+          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain rounded-md" />
         </div>
-        <div class="min-w-0">
-          <h1 class="text-sm sm:text-lg font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight flex items-center gap-1">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <h1 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white leading-none tracking-tight flex items-center gap-1">
             Schedule<span class="text-indigo-600 dark:text-indigo-400">Track</span>
-            <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest px-1 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Pro</span>
+            <span class="text-[9px] uppercase font-extrabold tracking-widest px-1 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">Pro</span>
           </h1>
-          <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:block">Weekly & Monthly Checkbook</p>
+          <span class="text-slate-300 dark:text-slate-700 text-xs hidden xs:inline">/</span>
+          <span id="menuBarViewLabel" class="text-[10px] sm:text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-slate-100/90 dark:bg-slate-800/90 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700/60 truncate hidden xs:inline-block">Weekly Checkbook</span>
         </div>
       </div>
 
-      <!-- Center: View Mode Switcher & Date Controls (Desktop Only) -->
-      <div class="hidden md:flex items-center gap-1.5 sm:gap-3">
-        <!-- View Mode Segmented Pill Buttons (Liquid Glass) -->
-        <div id="viewToggleContainer" class="flex items-center p-1 bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
-          <button id="viewToggleWeekly" type="button" class="view-toggle-btn active flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-all shadow-xs" title="Switch to Weekly Checkbook & Analytics">
-            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-            <span>Weekly</span>
-          </button>
-          <button id="viewToggleMonthly" type="button" class="view-toggle-btn flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white" title="Switch to Monthly Checkboard & Analytics">
-            <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i>
-            <span>Monthly</span>
-          </button>
+      <!-- Center: Active Date Range Indicator -->
+      <div class="flex items-center gap-2 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md px-3 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60 shadow-inner">
+        <div id="weekNavControls" class="flex items-center gap-1.5">
+          <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400"></i>
+          <span id="currentWeekDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
         </div>
-
-        <!-- Weekly Date Navigator (Desktop) -->
-        <div id="weekNavControls" class="flex items-center gap-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
-          <button id="prevWeekBtn" title="Previous Week" class="glass-btn p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-
-          <div class="flex items-center gap-2 px-2.5">
-            <i data-lucide="calendar" class="w-4 h-4 text-indigo-600 dark:text-indigo-400"></i>
-            <span id="currentWeekDisplay" class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
-          </div>
-
-          <button id="nextWeekBtn" title="Next Week" class="glass-btn p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-
-          <button id="todayBtn" class="glass-btn ml-1 px-2.5 py-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-slate-700 rounded-lg transition">
-            Today
-          </button>
-
-          <input type="date" id="datePickerInput" class="hidden" />
-          <button id="calendarPickerBtn" title="Jump to Date" class="glass-btn p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
-            <i data-lucide="calendar-days" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Monthly Date Navigator (Desktop) -->
-        <div id="monthNavControls" class="hidden items-center gap-1 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md p-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
-          <button id="prevMonthBtn" title="Previous Month" class="glass-btn p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition shadow-xs">
-            <i data-lucide="chevron-left" class="w-4 h-4"></i>
-          </button>
-
-          <div class="flex items-center gap-2 px-2.5">
-            <i data-lucide="calendar-range" class="w-4 h-4 text-violet-600 dark:text-violet-400"></i>
-            <span id="currentMonthDisplay" class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
-          </div>
-
-          <button id="nextMonthBtn" title="Next Month" class="glass-btn p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition shadow-xs">
-            <i data-lucide="chevron-right" class="w-4 h-4"></i>
-          </button>
-
-          <button id="thisMonthBtn" class="glass-btn ml-1 px-2.5 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300 hover:bg-violet-50 dark:hover:bg-slate-700 rounded-lg transition">
-            This Month
-          </button>
+        <div id="monthNavControls" class="hidden items-center gap-1.5">
+          <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i>
+          <span id="currentMonthDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
         </div>
       </div>
 
-      <!-- Right: User Profile, Dark Mode Toggle, Print & Action Buttons -->
-      <div class="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-        <!-- User Profile Badge / Sign In Trigger -->
+      <!-- Right: User Profile & Quick Sign In -->
+      <div class="flex items-center gap-1.5 flex-shrink-0">
         <div id="userProfileContainer" class="flex items-center gap-1">
           <!-- Unauthenticated Trigger Button -->
-          <button id="authOpenBtn" onclick="openAuthModal()" class="glass-btn-primary btn-pop inline-flex items-center gap-1 px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-xl transition">
-            <i data-lucide="user" class="w-3.5 h-3.5"></i>
-            <span class="hidden xs:inline">Sign In</span>
+          <button id="authOpenBtn" onclick="openAuthModal()" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition shadow-xs">
+            <i data-lucide="user" class="w-3 h-3"></i>
+            <span>Sign In</span>
           </button>
 
           <!-- Authenticated User Profile Badge & Logout -->
           <div id="userLoggedInBadge" class="hidden items-center gap-1">
-            <button onclick="openAuthModal('switch')" title="Switch / View Profile" class="glass-btn btn-pop flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200">
-              <span id="userAvatarCircle" class="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-[10px] uppercase font-extrabold shadow-xs">A</span>
-              <span id="userProfileName" class="max-w-[65px] sm:max-w-[120px] truncate">Arjun</span>
+            <button onclick="openAuthModal('switch')" title="Switch / View Profile" class="glass-btn flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200">
+              <span id="userAvatarCircle" class="w-4 h-4 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-[9px] uppercase font-extrabold shadow-xs">A</span>
+              <span id="userProfileName" class="max-w-[70px] sm:max-w-[120px] truncate text-[11px]">Arjun</span>
             </button>
-            <button id="logoutBtn" onclick="handleLogout()" title="Sign Out" class="glass-btn btn-pop p-1.5 rounded-xl text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition">
-              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            <button id="logoutBtn" onclick="handleLogout()" title="Sign Out" class="glass-btn p-1 rounded-lg text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition">
+              <i data-lucide="log-out" class="w-3 h-3"></i>
             </button>
           </div>
         </div>
-
-        <!-- Dark / Light Mode Toggle Button -->
-        <button id="themeToggleBtn" title="Toggle Dark/Light Mode" class="glass-btn p-1.5 sm:p-2 text-slate-600 dark:text-slate-300 rounded-xl transition">
-          <i id="themeIconSun" data-lucide="sun" class="w-4 h-4 hidden dark:block text-amber-400"></i>
-          <i id="themeIconMoon" data-lucide="moon" class="w-4 h-4 block dark:hidden text-indigo-600"></i>
-        </button>
-
-        <button id="installAppBtn" title="Install as Android / Mobile App" class="glass-btn hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-indigo-700 dark:text-indigo-300 rounded-xl transition">
-          <i data-lucide="smartphone" class="w-4 h-4"></i>
-          <span>Install</span>
-        </button>
-
-        <button id="printReportBtn" title="Print Ledger" class="glass-btn hidden md:inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 rounded-xl transition">
-          <i data-lucide="printer" class="w-4 h-4"></i>
-          <span>Print</span>
-        </button>
-
-        <button id="openNewTaskModalBtn" class="glass-btn-primary inline-flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-xl transition">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span class="hidden xs:inline">Add Task</span>
-        </button>
       </div>
+
     </div>
   </header>
 
+  <!-- Hidden Compatibility Anchors for Event Listeners -->
+  <div class="hidden" aria-hidden="true">
+    <button id="prevWeekBtn" type="button"></button>
+    <button id="nextWeekBtn" type="button"></button>
+    <button id="todayBtn" type="button"></button>
+    <button id="prevMonthBtn" type="button"></button>
+    <button id="nextMonthBtn" type="button"></button>
+    <button id="thisMonthBtn" type="button"></button>
+    <button id="mobileViewToggleWeekly" type="button"></button>
+    <button id="mobileViewToggleMonthly" type="button"></button>
+    <button id="mobileTodayBtn" type="button"></button>
+    <button id="mobileThisMonthBtn" type="button"></button>
+    <button id="mobilePrevWeekBtn" type="button"></button>
+    <button id="mobileNextWeekBtn" type="button"></button>
+    <button id="mobilePrevMonthBtn" type="button"></button>
+    <button id="mobileNextMonthBtn" type="button"></button>
+    <span id="mobileWeekDisplay"></span>
+    <span id="mobileMonthDisplay"></span>
+    <div id="mobileWeekNav"></div>
+    <div id="mobileMonthNav"></div>
+  </div>
+
   <!-- Main Content Area -->
-  <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-6 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
-
-    <!-- Responsive Mobile Control Hub (View Switcher + Date Navigation) -->
-    <div class="flex md:hidden flex-col gap-2 liquid-glass-card p-2 rounded-2xl w-full max-w-full shadow-xs">
-      <!-- 1. Mobile Segmented View Mode Toggle -->
-      <div class="grid grid-cols-2 p-1 bg-slate-100/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl border border-slate-200/80 dark:border-slate-700 shadow-inner">
-        <button id="mobileViewToggleWeekly" type="button" class="view-toggle-btn active flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold rounded-lg transition-all shadow-xs" title="Weekly View">
-          <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
-          <span>Weekly View</span>
-        </button>
-        <button id="mobileViewToggleMonthly" type="button" class="view-toggle-btn flex items-center justify-center gap-1.5 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-600 dark:text-slate-400" title="Monthly View">
-          <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i>
-          <span>Monthly View</span>
-        </button>
-      </div>
-
-      <!-- 2. Mobile Week Navigation -->
-      <div id="mobileWeekNav" class="flex items-center justify-between w-full px-1 py-0.5">
-        <button id="mobilePrevWeekBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-        </button>
-        <div class="flex items-center gap-2">
-          <span id="mobileWeekDisplay" class="text-xs font-bold text-slate-800 dark:text-slate-200">Loading Week...</span>
-          <button id="mobileTodayBtn" class="glass-btn px-2 py-0.5 text-[10px] font-bold text-indigo-600 dark:text-indigo-400 rounded-md">
-            Today
-          </button>
-        </div>
-        <button id="mobileNextWeekBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <!-- 3. Mobile Month Navigation -->
-      <div id="mobileMonthNav" class="hidden flex items-center justify-between w-full px-1 py-0.5">
-        <button id="mobilePrevMonthBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
-          <i data-lucide="chevron-left" class="w-4 h-4"></i>
-        </button>
-        <div class="flex items-center gap-2">
-          <span id="mobileMonthDisplay" class="text-xs font-bold text-slate-800 dark:text-slate-200">Loading Month...</span>
-          <button id="mobileThisMonthBtn" class="glass-btn px-2 py-0.5 text-[10px] font-bold text-violet-600 dark:text-violet-400 rounded-md">
-            This Month
-          </button>
-        </div>
-        <button id="mobileNextMonthBtn" class="glass-btn p-1.5 rounded-xl text-slate-600 dark:text-slate-300">
-          <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
+  <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-28 sm:pb-36 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
 
     <!-- ======================================================== -->
     <!-- 1. WEEKLY VIEW CONTAINER                                 -->
@@ -851,6 +758,105 @@
       </form>
     </div>
   </div>
+
+  <!-- ========================================================== -->
+  <!-- Apple macOS Floating Dock Navigation System                -->
+  <!-- ========================================================== -->
+  <nav id="macosDock" class="macos-dock-wrap" aria-label="macOS Application Dock">
+    <div class="macos-dock">
+      
+      <!-- 1. Weekly Checkbook App Icon -->
+      <button id="viewToggleWeekly" type="button" class="dock-item active" data-dock="weekly" aria-label="Weekly Checkbook">
+        <span class="dock-tooltip">Weekly View</span>
+        <div class="dock-icon bg-gradient-to-tr from-indigo-500 to-blue-600 text-white">
+          <i data-lucide="calendar" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </div>
+        <span class="dock-dot"></span>
+      </button>
+
+      <!-- 2. Monthly Checkboard App Icon -->
+      <button id="viewToggleMonthly" type="button" class="dock-item" data-dock="monthly" aria-label="Monthly Checkboard">
+        <span class="dock-tooltip">Monthly View</span>
+        <div class="dock-icon bg-gradient-to-tr from-purple-500 to-indigo-600 text-white">
+          <i data-lucide="calendar-range" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+        </div>
+        <span class="dock-dot"></span>
+      </button>
+
+      <div class="dock-separator" role="separator"></div>
+
+      <!-- 3. Previous Period -->
+      <button id="dockPrevBtn" type="button" class="dock-item" aria-label="Previous">
+        <span id="dockPrevTooltip" class="dock-tooltip">Previous Week</span>
+        <div class="dock-icon dock-surface">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+        </div>
+      </button>
+
+      <!-- 4. Today / Jump Shortcut -->
+      <button id="dockTodayBtn" type="button" class="dock-item" aria-label="Jump to Today">
+        <span id="dockTodayTooltip" class="dock-tooltip">Today</span>
+        <div class="dock-icon dock-surface text-indigo-600 dark:text-indigo-400">
+          <i data-lucide="compass" class="w-5 h-5"></i>
+        </div>
+      </button>
+
+      <!-- 5. Next Period -->
+      <button id="dockNextBtn" type="button" class="dock-item" aria-label="Next">
+        <span id="dockNextTooltip" class="dock-tooltip">Next Week</span>
+        <div class="dock-icon dock-surface">
+          <i data-lucide="chevron-right" class="w-5 h-5"></i>
+        </div>
+      </button>
+
+      <!-- 6. Calendar Date Picker -->
+      <button id="calendarPickerBtn" type="button" class="dock-item" aria-label="Jump to Date">
+        <span class="dock-tooltip">Jump to Date</span>
+        <div class="dock-icon dock-surface">
+          <i data-lucide="calendar-days" class="w-5 h-5"></i>
+        </div>
+      </button>
+      <input type="date" id="datePickerInput" class="hidden" />
+
+      <div class="dock-separator" role="separator"></div>
+
+      <!-- 7. Add Task (Highlighted App Icon) -->
+      <button id="openNewTaskModalBtn" type="button" class="dock-item dock-item-primary" aria-label="Add New Task">
+        <span class="dock-tooltip">Add Task</span>
+        <div class="dock-icon bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-500/25">
+          <i data-lucide="plus" class="w-6 h-6 stroke-[2.5]"></i>
+        </div>
+      </button>
+
+      <div class="dock-separator" role="separator"></div>
+
+      <!-- 8. Appearance / Theme Toggle -->
+      <button id="themeToggleBtn" type="button" class="dock-item" aria-label="Appearance">
+        <span class="dock-tooltip">Appearance</span>
+        <div class="dock-icon dock-surface">
+          <i id="themeIconSun" data-lucide="sun" class="w-5 h-5 hidden dark:block text-amber-400"></i>
+          <i id="themeIconMoon" data-lucide="moon" class="w-5 h-5 block dark:hidden text-indigo-600"></i>
+        </div>
+      </button>
+
+      <!-- 9. Print Ledger -->
+      <button id="printReportBtn" type="button" class="dock-item" aria-label="Print Ledger">
+        <span class="dock-tooltip">Print Ledger</span>
+        <div class="dock-icon dock-surface">
+          <i data-lucide="printer" class="w-5 h-5"></i>
+        </div>
+      </button>
+
+      <!-- 10. Install App -->
+      <button id="installAppBtn" type="button" class="dock-item" aria-label="Install App">
+        <span class="dock-tooltip">Install App</span>
+        <div class="dock-icon dock-surface text-indigo-600 dark:text-indigo-400">
+          <i data-lucide="download" class="w-5 h-5"></i>
+        </div>
+      </button>
+
+    </div>
+  </nav>
 
   <!-- Delete Confirmation Modal -->
   <div id="deleteConfirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-200">
