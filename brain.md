@@ -204,6 +204,7 @@ When modifying or expanding this codebase, strictly observe the following establ
 | **2026-09-12 02:23** | Antigravity AI | `.git/config`, `brain.md` | Remote Repository Link & GitHub Code Push | Linked origin remote to `https://github.com/thearjunsingh19-star/schedule_tracker.git`, authenticated upload, and pushed `main` branch live to GitHub. Zero credentials stored in repository metadata. |
 | **2026-09-12 02:44** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | Mobile Responsiveness & Viewport Containment Fix | Resolved mobile page zoom-out and horizontal empty space bug. Enforced strict `overflow-x: hidden` and `max-width: 100%` on `html`/`body`, redesigned header for mobile viewports (`hidden md:flex` for desktop nav), built dedicated mobile control center with full-width segmented view toggles and touch date navigator, added `.sticky-task-col` to weekly table, and created responsive column widths (`.weekly-day-col`) to ensure 100% edge-to-edge mobile fit. |
 | **2026-09-17 19:55** | Antigravity AI | `components/ui/liquid-glass-button.tsx`, `components/demo.tsx`, `lib/utils.ts`, `components.json`, `tsconfig.json`, `package.json`, `templates/index.html`, `static/css/style.css`, `brain.md` | Feature: shadcn LiquidButton Integration & Full App Liquid Glass Elevation | Integrated shadcn React `LiquidButton` & `MetalButton` with `@radix-ui/react-slot` and `class-variance-authority`. Ported SVG turbulence filter (`#container-glass`) and 9-layer liquid glass shadow physics to all graphs, tables, and buttons across the live Flask app. |
+| **2026-09-17 20:07** | Antigravity AI | `static/css/style.css`, `brain.md` | Refinement: Clean Modern Checkbook Buttons | Removed noisy liquid glass backdrop filters, 9-layer inset shadows, and glowing neon halo borders from `.check-btn` and `.check-btn-sm`. Restored crisp, modern, distraction-free checkboxes (clean slate borders for scheduled, solid emerald `#10b981` for completed). |
 
 ### Detailed Log Entries
 
@@ -340,4 +341,14 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Applied `.liquid-glass-card` across all dashboard cards, scorecards, Chart.js graph containers (Weekly Trend, Category Doughnut, Monthly Trajectory), and checkbook table ledgers.
     - In `static/css/style.css`, applied authentic LiquidButton 9-layer multi-level inset and outset glass shadow physics, translucent rim bevels, and `backdrop-filter: url("#container-glass") blur(16px)` to all cards, graphs, tables, and elevated action buttons (`.glass-btn`, `.glass-btn-primary`, `.check-btn`, `.view-toggle-btn.active`, `.cat-active`).
 - **Result**: Complete dual-stack support: the repository now has standard shadcn React component structure ready for Next.js / Vite import, while the live running Flask web dashboard now displays the authentic liquid glass SVG refraction and multi-layer rim highlights across all buttons, graphs, and table matrices.
+
+#### Entry 11: 2026-09-17 20:07 — Refinement: Clean Modern Checkbook Buttons
+- **Context**: User requested removing the glass distortion and glowing border effects from checkbook buttons in the weekly table and monthly checkboard matrices to eliminate visual clutter and achieve a clean, professional aesthetic.
+- **Action**:
+  - `static/css/style.css`:
+    - Stripped `backdrop-filter: url("#container-glass")`, heavy multi-layered inset shadows, and glowing halo rings (`0 0 10px ...`, `0 0 16px ...`) from `.check-btn` and `.check-btn-sm`.
+    - Scheduled state: Crisp, clean `#ffffff` (light) / `#1e293b` (dark) background with a solid `1.5px solid #cbd5e1` (light) / `#475569` (dark) border. Clean subtle hover transition with indigo border (`#6366f1` / `#818cf8`) and light lift.
+    - Completed state: Solid, confident emerald green `#10b981` background, matching border, crisp white checkmark, and a subtle clean shadow (`0 1px 2px rgba(16, 185, 129, 0.2)`).
+    - Unscheduled state: Clean, minimal dashed indicator (`1.5px dashed #cbd5e1` / `#334155`) with transparent background.
+- **Result**: Checkbook ledger and monthly matrix are now razor-sharp, distraction-free, and easy on the eyes while the surrounding cards and graphs retain their liquid glass finish.
 
