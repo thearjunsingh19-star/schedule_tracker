@@ -714,16 +714,63 @@ html.dark .cat-filter-btn.cat-active {
     width: 100% !important;
     font-size: 10px !important;
   }
-  .macos-dock-wrap, .macos-menubar {
+  .macos-dock-wrap, .glass-brand-pill, .macos-menubar {
     display: none !important;
   }
 }
 
 /* ========================================================== */
-/* 6. Apple macOS Top Menu Bar & Floating Dock System        */
+/* 6. Apple macOS Floating Dock & Glass Brand Island System   */
 /* ========================================================== */
 
-/* Top Menu Bar */
+/* Aesthetic Floating Glass Brand Pill & Date Capsule */
+.glass-brand-pill {
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 
+    0 10px 30px -5px rgba(0, 0, 0, 0.08),
+    0 0 1px 1px rgba(255, 255, 255, 0.8) inset,
+    0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+html.dark .glass-brand-pill {
+  background: rgba(3, 28, 38, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 12px 36px -6px rgba(0, 0, 0, 0.55),
+    0 0 1px 1px rgba(255, 255, 255, 0.08) inset,
+    0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.glass-brand-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 14px 34px -4px rgba(0, 0, 0, 0.12),
+    0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+}
+
+html.dark .glass-brand-pill:hover {
+  box-shadow: 
+    0 16px 40px -4px rgba(0, 0, 0, 0.65),
+    0 0 1px 1px rgba(255, 255, 255, 0.18) inset;
+}
+
+/* User Account in macOS Dock */
+#userLoggedInBadge.flex {
+  display: flex !important;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.active-user-dot {
+  background-color: #10b981 !important;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.9) !important;
+}
+
+/* Top Menu Bar Legacy Fallback */
 .macos-menubar {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px) saturate(180%);

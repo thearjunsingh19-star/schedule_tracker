@@ -463,7 +463,9 @@ function initMacosDock() {
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const mouseX = e.clientX;
-    items.forEach((item) => {
+    const currentItems = dock.querySelectorAll(".dock-item");
+    currentItems.forEach((item) => {
+      if (item.offsetParent === null) return;
       const itemRect = item.getBoundingClientRect();
       const itemCenterX = itemRect.left + itemRect.width / 2;
       const distance = Math.abs(mouseX - itemCenterX);
@@ -481,17 +483,18 @@ function initMacosDock() {
   });
 
   dock.addEventListener("mouseleave", () => {
-    items.forEach((item) => {
+    const currentItems = dock.querySelectorAll(".dock-item");
+    currentItems.forEach((item) => {
       item.style.transform = "translateY(0) scale(1)";
     });
   });
 
-  // App launch bounce on click
-  items.forEach((item) => {
-    item.addEventListener("click", () => {
-      item.classList.add("dock-bounce");
-      setTimeout(() => item.classList.remove("dock-bounce"), 400);
-    });
+  // App launch bounce on click with event delegation
+  dock.addEventListener("click", (e) => {
+    const item = e.target.closest(".dock-item");
+    if (!item) return;
+    item.classList.add("dock-bounce");
+    setTimeout(() => item.classList.remove("dock-bounce"), 400);
   });
 
   // Dock Prev & Next & Today Navigation delegation
@@ -1577,6 +1580,7 @@ function updateUserUI() {
   const badge = document.getElementById("userLoggedInBadge");
   const avatar = document.getElementById("userAvatarCircle");
   const nameEl = document.getElementById("userProfileName");
+  const dockTooltip = document.getElementById("dockUserTooltip");
 
   if (currentUser) {
     if (openBtn) openBtn.classList.add("hidden");
@@ -1587,6 +1591,9 @@ function updateUserUI() {
     const displayName = currentUser.display_name || currentUser.username || "User";
     if (nameEl) nameEl.textContent = displayName;
     if (avatar) avatar.textContent = displayName.charAt(0).toUpperCase();
+    if (dockTooltip) {
+      dockTooltip.textContent = `${displayName} (Switch)`;
+    }
   } else {
     if (openBtn) openBtn.classList.remove("hidden");
     if (badge) {
@@ -1594,6 +1601,7 @@ function updateUserUI() {
       badge.classList.remove("flex");
     }
   }
+  initIcons();
 }
 
 function openAuthModal(mode = 'login') {

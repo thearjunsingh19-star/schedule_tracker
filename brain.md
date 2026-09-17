@@ -207,6 +207,7 @@ When modifying or expanding this codebase, strictly observe the following establ
 | **2026-09-17 20:07** | Antigravity AI | `static/css/style.css`, `brain.md` | Refinement: Clean Modern Checkbook Buttons | Removed noisy liquid glass backdrop filters, 9-layer inset shadows, and glowing neon halo borders from `.check-btn` and `.check-btn-sm`. Restored crisp, modern, distraction-free checkboxes (clean slate borders for scheduled, solid emerald `#10b981` for completed). |
 | **2026-09-17 20:15** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | Feature: Apple macOS Navigation Bar to Floating Dock & Menu Bar Conversion | Converted top navigation header into a sleek 42px macOS Menu Bar and a floating Apple macOS Dock at the bottom center of the screen with liquid glass shelf, cursor proximity wave magnification, speech-bubble tooltips, active app indicator dots, and bounce physics. |
 | **2026-09-17 20:31** | Antigravity AI | `static/js/shader-background.js`, `brain.md` | Feature: WebGL Mesh Drift Blobs Shader Background | Integrated the 21st.dev "Mesh drift" blobs fragment shader on plain WebGL1 fullscreen triangle with packed uniforms `u_colors`, `u_scene`, `u_shape`, `u_surface`, `u_finish`, `u_transform`, `u_space`, `u_cursor` (palette `#031C26`, `#1B6CA8`, `#5AD2F4`, `#EAF9FF`), DPR capped at 2, and auto tab-visibility pausing. |
+| **2026-09-17 20:45** | Antigravity AI | `templates/index.html`, `static/css/style.css`, `static/js/app.js`, `brain.md` | UI Refinement: Upper Bar Removal, Top-Left Aesthetic Brand Capsule, and Dock Auth Integration | Removed full-width upper navbar. Created floating frosted glass brand capsule in top-left corner with logo, gradient typography, and mode subtitle. Created floating date capsule in top-right. Integrated Sign In, user avatar profile badge, active green indicator dot, and Sign Out button directly into the Apple macOS floating dock with proximity magnification and speech-bubble tooltips. |
 
 ### Detailed Log Entries
 
@@ -392,4 +393,24 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Device pixel ratio capped at 2 (`Math.min(window.devicePixelRatio || 1, 2)`).
     - Window resize handler and tab visibility RAF pausing.
 - **Result**: Fluid, GPU-accelerated organic "Mesh drift" blobs shader rendered in real time beneath the application and floating macOS dock.
+
+#### Entry 14: 2026-09-17 20:45 — Upper Bar Removal, Aesthetic Brand Island & Dock Auth Integration
+- **Context**: User requested removing the upper full-width navigation bar entirely, keeping the logo and name of Schedule Tracker in the top left corner with an aesthetic style, and moving the Login info and Logout options into the macOS floating dock.
+- **Action**:
+  - `templates/index.html`:
+    - Removed `<header class="sticky top-0 z-30 macos-menubar ...">` that traversed the screen edge-to-edge.
+    - Designed floating aesthetic brand island in the top-left corner (`.glass-brand-pill`) featuring squircle logo container with glossy gradient ring, "ScheduleTracker" typography with multi-stop indigo/cyan gradient, "PRO" micro-badge, and dynamic `#menuBarViewLabel`.
+    - Added floating date range capsule in the top-right corner with `#weekNavControls` and `#monthNavControls`.
+    - Increased `<main>` top padding to `pt-16 sm:pt-20` for generous vertical breathing space below the floating glass capsules.
+    - Integrated auth into `#macosDock`:
+      - Unauthenticated state: "Sign In / Account" dock item (`#authOpenBtn`) with user icon.
+      - Authenticated state: User avatar squircle button (`#userProfileBtn`) with active emerald dot (`.active-user-dot`), user display name tooltip, and dedicated "Sign Out" dock item (`#logoutBtn`).
+  - `static/css/style.css`:
+    - Added `.glass-brand-pill` styles with `backdrop-filter: blur(24px) saturate(190%)`, specular inner highlight, dark mode palette `rgba(3, 28, 38, 0.76)`, and spring elevation on hover.
+    - Added `.active-user-dot` with emerald pulse/glow.
+    - Configured `#userLoggedInBadge.flex` display rules.
+  - `static/js/app.js`:
+    - Updated `initMacosDock()` to query active dock items dynamically on `mousemove` and `mouseleave`, and delegated click bounce to `dock` container so dynamic auth items immediately gain magnification and bounce animations without page reload.
+    - Updated `updateUserUI()` to update dock tooltips (`${displayName} (Switch)`) and call `initIcons()`.
+- **Result**: The top of the dashboard is completely open and borderless, allowing the WebGL shader to flow seamlessly from the top edge. The logo and name float with a high-end glassmorphic finish in the top-left, and user authentication & sign out are seamlessly embedded in the Apple macOS floating dock.
 

@@ -89,61 +89,40 @@
     <span id="toastMessage" class="text-sm font-medium">Notification message</span>
   </div>
 
-  <!-- macOS Top Menu Bar -->
-  <header class="sticky top-0 z-30 macos-menubar border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs transition-colors duration-300 w-full max-w-full">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 h-11 sm:h-12 flex items-center justify-between gap-2 w-full">
-      
-      <!-- Brand with Minimalist Logo & Mode Badge -->
-      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0">
-        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-0.5 flex items-center justify-center shadow-xs overflow-hidden flex-shrink-0">
-          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain rounded-md" />
-        </div>
-        <div class="flex items-center gap-1.5 min-w-0">
-          <h1 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white leading-none tracking-tight flex items-center gap-1">
-            Schedule<span class="text-indigo-600 dark:text-indigo-400">Track</span>
-            <span class="text-[9px] uppercase font-extrabold tracking-widest px-1 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 border border-indigo-200/60 dark:border-indigo-800/60">Pro</span>
-          </h1>
-          <span class="text-slate-300 dark:text-slate-700 text-xs hidden xs:inline">/</span>
-          <span id="menuBarViewLabel" class="text-[10px] sm:text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-slate-100/90 dark:bg-slate-800/90 px-2 py-0.5 rounded-full border border-slate-200/60 dark:border-slate-700/60 truncate hidden xs:inline-block">Weekly Checkbook</span>
+  <!-- Top Floating Controls: Aesthetic Brand Island (Top-Left) & Date Capsule (Top-Right) -->
+  <aside aria-label="Top Controls" class="pointer-events-none">
+    
+    <!-- Aesthetic Brand Island (Top-Left Corner) -->
+    <div class="fixed top-3 left-3 sm:top-4 sm:left-6 z-30 pointer-events-auto flex items-center gap-2.5 px-3.5 py-2 rounded-2xl glass-brand-pill select-none group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="ScheduleTracker Pro">
+      <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 p-0.5 shadow-md shadow-indigo-500/20 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-105 group-hover:rotate-1">
+        <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[10px] p-1 flex items-center justify-center">
+          <img src="/static/images/logo.png" alt="ScheduleTrack Logo" class="w-full h-full object-contain" />
         </div>
       </div>
-
-      <!-- Center: Active Date Range Indicator -->
-      <div class="flex items-center gap-2 bg-slate-100/80 dark:bg-slate-800/80 backdrop-blur-md px-3 py-1 rounded-full border border-slate-200/60 dark:border-slate-700/60 shadow-inner">
-        <div id="weekNavControls" class="flex items-center gap-1.5">
-          <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400"></i>
-          <span id="currentWeekDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
+      <div class="flex flex-col min-w-0 pr-1">
+        <div class="flex items-center gap-1.5 leading-none">
+          <span class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Schedule<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300">Tracker</span>
+          </span>
+          <span class="text-[9px] uppercase font-extrabold tracking-widest px-1.5 py-0.2 rounded-md bg-indigo-500/10 dark:bg-cyan-400/10 text-indigo-600 dark:text-cyan-300 border border-indigo-500/20 dark:border-cyan-400/20">PRO</span>
         </div>
-        <div id="monthNavControls" class="hidden items-center gap-1.5">
-          <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i>
-          <span id="currentMonthDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
-        </div>
+        <span id="menuBarViewLabel" class="text-[10px] font-semibold text-slate-500 dark:text-slate-400 truncate mt-0.5">Weekly Checkbook</span>
       </div>
-
-      <!-- Right: User Profile & Quick Sign In -->
-      <div class="flex items-center gap-1.5 flex-shrink-0">
-        <div id="userProfileContainer" class="flex items-center gap-1">
-          <!-- Unauthenticated Trigger Button -->
-          <button id="authOpenBtn" onclick="openAuthModal()" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition shadow-xs">
-            <i data-lucide="user" class="w-3 h-3"></i>
-            <span>Sign In</span>
-          </button>
-
-          <!-- Authenticated User Profile Badge & Logout -->
-          <div id="userLoggedInBadge" class="hidden items-center gap-1">
-            <button onclick="openAuthModal('switch')" title="Switch / View Profile" class="glass-btn flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-xs font-bold text-slate-800 dark:text-slate-200">
-              <span id="userAvatarCircle" class="w-4 h-4 rounded-full bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center text-[9px] uppercase font-extrabold shadow-xs">A</span>
-              <span id="userProfileName" class="max-w-[70px] sm:max-w-[120px] truncate text-[11px]">Arjun</span>
-            </button>
-            <button id="logoutBtn" onclick="handleLogout()" title="Sign Out" class="glass-btn p-1 rounded-lg text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition">
-              <i data-lucide="log-out" class="w-3 h-3"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </header>
+
+    <!-- Floating Date Range Capsule (Top-Right) -->
+    <div class="fixed top-3 right-3 sm:top-4 sm:right-6 z-30 pointer-events-auto flex items-center gap-2 px-3.5 py-2 rounded-2xl glass-brand-pill select-none shadow-sm">
+      <div id="weekNavControls" class="flex items-center gap-1.5">
+        <i data-lucide="calendar" class="w-3.5 h-3.5 text-indigo-600 dark:text-cyan-400"></i>
+        <span id="currentWeekDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading...</span>
+      </div>
+      <div id="monthNavControls" class="hidden items-center gap-1.5">
+        <i data-lucide="calendar-range" class="w-3.5 h-3.5 text-violet-600 dark:text-violet-400"></i>
+        <span id="currentMonthDisplay" class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">Loading Month...</span>
+      </div>
+    </div>
+
+  </aside>
 
   <!-- Hidden Compatibility Anchors for Event Listeners -->
   <div class="hidden" aria-hidden="true">
@@ -168,7 +147,7 @@
   </div>
 
   <!-- Main Content Area -->
-  <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-28 sm:pb-36 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
+  <main class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-28 sm:pb-36 space-y-4 sm:space-y-6 min-w-0 overflow-x-hidden">
 
     <!-- ======================================================== -->
     <!-- 1. WEEKLY VIEW CONTAINER                                 -->
@@ -854,6 +833,37 @@
           <i data-lucide="download" class="w-5 h-5"></i>
         </div>
       </button>
+
+      <div class="dock-separator" role="separator"></div>
+
+      <!-- 11. Auth & Account in macOS Dock -->
+      <!-- Unauthenticated Trigger: Sign In -->
+      <button id="authOpenBtn" type="button" onclick="openAuthModal('login')" class="dock-item" aria-label="Sign In">
+        <span class="dock-tooltip">Sign In / Account</span>
+        <div class="dock-icon dock-surface text-indigo-600 dark:text-cyan-400">
+          <i data-lucide="user" class="w-5 h-5"></i>
+        </div>
+      </button>
+
+      <!-- Authenticated User Profile & Logout -->
+      <div id="userLoggedInBadge" class="hidden items-center gap-1.5">
+        <button id="userProfileBtn" type="button" onclick="openAuthModal('switch')" class="dock-item" aria-label="User Profile">
+          <span id="dockUserTooltip" class="dock-tooltip">Profile</span>
+          <div class="dock-icon bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 text-white font-bold text-xs uppercase shadow-md shadow-indigo-500/20 flex items-center justify-center">
+            <span id="userAvatarCircle" class="text-sm font-bold">A</span>
+          </div>
+          <span class="dock-dot active-user-dot"></span>
+        </button>
+
+        <button id="logoutBtn" type="button" onclick="handleLogout()" class="dock-item" aria-label="Sign Out">
+          <span class="dock-tooltip">Sign Out</span>
+          <div class="dock-icon dock-surface text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+            <i data-lucide="log-out" class="w-5 h-5"></i>
+          </div>
+        </button>
+
+        <span id="userProfileName" class="hidden">User</span>
+      </div>
 
     </div>
   </nav>
