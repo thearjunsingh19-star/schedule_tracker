@@ -1864,3 +1864,538 @@ async function handleLogout() {
   }
 }
 
+// -------------------------------------------------------------
+// 12. Bad Mood Warrior Reset & Bhagavad Gita Motivation Module
+// -------------------------------------------------------------
+
+const BAD_MOOD_CHALLENGES = [
+  {
+    id: "dands_20",
+    category: "push",
+    title: "20 Desi Dands (Hindu Pushups)",
+    tag: "Spine & Shoulder Dominance",
+    targetReps: 20,
+    icon: "flame",
+    description: "Start in downward dog. Swoop your chest down brushing the floor, arch up smoothly into upward cobra, and press straight back. Inhale down, exhale up. Lock out every single rep."
+  },
+  {
+    id: "pushups_20",
+    category: "push",
+    title: "20 Explosive Pushups",
+    tag: "Chest & Triceps Ignition",
+    targetReps: 20,
+    icon: "zap",
+    description: "Full range of motion. Chest brushes the floor, explode upward with maximum speed. Keep your core braced like iron. No half-reps."
+  },
+  {
+    id: "pullups_20",
+    category: "pull",
+    title: "20 Pullups / Inverted Rows",
+    tag: "Lats & Mental Grip",
+    targetReps: 20,
+    icon: "dumbbell",
+    description: "Dead hang at the bottom, chin clearly clearing the bar. If you do not have a pullup bar nearby, perform 20 bodyweight inverted rows under a sturdy table or doorframe."
+  },
+  {
+    id: "baithaks_30",
+    category: "legs",
+    title: "30 Desi Baithaks (Hindu Squats)",
+    tag: "Lower Body Foundation",
+    targetReps: 30,
+    icon: "activity",
+    description: "Heels slightly lifted on descent, swing your arms in rhythm with deep breathing. Explode upward through quads and calves. Feel the blood rush back into your body."
+  },
+  {
+    id: "diamond_pushups_15",
+    category: "push",
+    title: "15 Diamond Pushups",
+    tag: "Tricep & Inner Chest Fire",
+    targetReps: 15,
+    icon: "sparkles",
+    description: "Form a diamond between your index fingers and thumbs directly under your sternum. Control the descent, lock out hard at the peak."
+  },
+  {
+    id: "jumping_jacks_40",
+    category: "core",
+    title: "40 Explosive Jumping Jacks",
+    tag: "Cardio Shock & Oxygen Rush",
+    targetReps: 40,
+    icon: "heart-pulse",
+    description: "Fast tempo, full arm extension overhead. Force high-volume oxygen into your bloodstream and instantly break mental torpor."
+  },
+  {
+    id: "jump_squats_25",
+    category: "legs",
+    title: "25 Maximum Jump Squats",
+    tag: "Explosive Endorphin Surge",
+    targetReps: 25,
+    icon: "zap",
+    description: "Deep parallel squat exploding into a maximum vertical jump with arms driving overhead. Soft landing straight into the next repetition."
+  },
+  {
+    id: "mountain_climbers_50",
+    category: "core",
+    title: "50 Rapid Mountain Climbers",
+    tag: "Core & Speed Ignition",
+    targetReps: 50,
+    icon: "flame",
+    description: "High plank position, drive knees to chest alternating rapidly. Keep your hips level and core braced like steel."
+  },
+  {
+    id: "iron_plank_60s",
+    category: "core",
+    title: "60-Second Iron Plank + Cold Splash",
+    tag: "Mental Stillness & Stoic Core",
+    targetReps: 60,
+    icon: "shield",
+    description: "Forearm plank, glutes squeezed, abdominal wall locked. Do not let your hips sag for a single second. Wash your face with ice-cold water immediately upon finishing."
+  },
+  {
+    id: "burpees_20",
+    category: "push",
+    title: "20 Full Chest-to-Floor Burpees",
+    tag: "Full Body Disruption",
+    targetReps: 20,
+    icon: "flame",
+    description: "Drop chest to the deck, spring your feet back in, and explode vertically with hands clapping overhead. The absolute destroyer of bad moods."
+  }
+];
+
+const BAD_MOOD_MOTIVATIONS = [
+  {
+    sanskrit: "क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते |\nक्षुद्रं हृदयदौर्बल्यं त्यक्त्वोत्तिष्ठ परन्तप ||",
+    quote: "Apna karm karo Parth, ye napunsakta tumhe shobha nahi deti! Cast off this petty weakness of heart and arise, O scorcher of enemies!",
+    source: "Bhagavad Gita (Chapter 2, Verse 3)",
+    theme: "Warrior Awakening"
+  },
+  {
+    sanskrit: null,
+    quote: "You are better than this. The version of you that gave in to weakness yesterday does not exist today. Stand up and conquer.",
+    source: "Warrior Affirmation",
+    theme: "Self-Belief"
+  },
+  {
+    sanskrit: null,
+    quote: "I will win no matter what. Pain is temporary, excuses are forever, but relentless victory is eternal.",
+    source: "Iron Mindset",
+    theme: "Relentless Resolve"
+  },
+  {
+    sanskrit: null,
+    quote: "Becoming who you want to be takes Sacrifices. Comfort is the graveyard of your potential. Destroy your comfort zone.",
+    source: "Discipline Manifesto",
+    theme: "Sacrifice"
+  },
+  {
+    sanskrit: null,
+    quote: "This is not your 100%. I know you can do better than this. Dig deeper, silence the noise, and execute right now.",
+    source: "Inner Commander",
+    theme: "Excellence"
+  },
+  {
+    sanskrit: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन |\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ||",
+    quote: "You have a right to perform your prescribed duty, but never to the fruits of action. Never let the fruit be your motive, nor be attached to inaction.",
+    source: "Bhagavad Gita (Chapter 2, Verse 47)",
+    theme: "Karmic Duty"
+  },
+  {
+    sanskrit: "उद्धरेदात्मनात्मानं नात्मानमवसादयेत् |\nआत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः ||",
+    quote: "Elevate yourself through the power of your own mind, and do not degrade yourself. For the mind alone is your greatest friend, and the mind alone is your deadliest enemy.",
+    source: "Bhagavad Gita (Chapter 6, Verse 5)",
+    theme: "Mastery of Mind"
+  },
+  {
+    sanskrit: "हतो वा प्राप्स्यसि स्वर्गं जित्वा वा भोक्ष्यसे महीम् |\nतस्मादुत्तिष्ठ कौन्तेय युद्धाय कृतनिश्चयः ||",
+    quote: "Either slain you will attain the celestial realms, or victorious you will enjoy the kingdom of earth. Therefore arise, O Arjuna, resolved on battle!",
+    source: "Bhagavad Gita (Chapter 2, Verse 37)",
+    theme: "Courage in Action"
+  },
+  {
+    sanskrit: "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः |\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत ||",
+    quote: "Pleasure and pain, cold and heat are impermanent sensory contacts that come and go. Endure them courageously, O descendant of Bharata.",
+    source: "Bhagavad Gita (Chapter 2, Verse 14)",
+    theme: "Stoic Endurance"
+  },
+  {
+    sanskrit: "दुःखेष्वनुद्विग्नमनाः सुखेषु विगतस्पृहः |\nवीतरागभयक्रोधः स्थितधीर्मुनिरुच्यते ||",
+    quote: "One whose mind remains undisturbed in sorrows, who does not crave pleasures, and who is free from attachment, fear, and anger, is a warrior of steady intellect.",
+    source: "Bhagavad Gita (Chapter 2, Verse 56)",
+    theme: "Steadfast Focus"
+  },
+  {
+    sanskrit: null,
+    quote: "Your mood is a liar trying to steal your future. You do not negotiate with weakness. You execute your duty.",
+    source: "Mental Discipline",
+    theme: "Unconditional Action"
+  },
+  {
+    sanskrit: null,
+    quote: "Stop feeling sorry for yourself. The world doesn't care about your mood; it respects your discipline and results.",
+    source: "Hard Truth",
+    theme: "Self-Mastery"
+  }
+];
+
+let currentChallenge = null;
+let currentChallengeCategory = 'all';
+let currentChallengeReps = 0;
+let challengeTimerInterval = null;
+let challengeTimerSeconds = 60;
+let isChallengeTimerRunning = false;
+let currentMotivationIndex = 0;
+
+function openBadMoodModal() {
+  const modal = document.getElementById("badMoodModal");
+  if (!modal) return;
+
+  // Reset phases
+  const challengePhase = document.getElementById("badMoodChallengePhase");
+  const victoryPhase = document.getElementById("badMoodVictoryPhase");
+  if (challengePhase) challengePhase.classList.remove("hidden");
+  if (victoryPhase) victoryPhase.classList.add("hidden");
+
+  // Select random challenge
+  rerollChallenge();
+
+  // Reset timer & rep counter
+  resetChallengeTimer();
+  currentChallengeReps = 0;
+  updateChallengeRepUI();
+
+  // Open modal
+  modal.classList.add("active");
+  openModalElement("badMoodModal");
+  initIcons();
+}
+
+function closeBadMoodModal() {
+  const modal = document.getElementById("badMoodModal");
+  if (!modal) return;
+
+  resetChallengeTimer();
+  modal.classList.remove("active");
+  closeModalElement("badMoodModal");
+}
+
+function setChallengeFilter(category) {
+  currentChallengeCategory = category;
+
+  const tabs = document.querySelectorAll("#challengeCategoryTabs .challenge-pill");
+  tabs.forEach(tab => {
+    if (tab.dataset.cat === category) {
+      tab.classList.add("active");
+    } else {
+      tab.classList.remove("active");
+    }
+  });
+
+  rerollChallenge();
+}
+
+function rerollChallenge() {
+  let pool = BAD_MOOD_CHALLENGES;
+  if (currentChallengeCategory !== 'all') {
+    pool = BAD_MOOD_CHALLENGES.filter(c => c.category === currentChallengeCategory);
+    if (pool.length === 0) pool = BAD_MOOD_CHALLENGES;
+  }
+
+  // Avoid exact same challenge if more than 1 option exists
+  let candidate = pool[Math.floor(Math.random() * pool.length)];
+  if (pool.length > 1 && currentChallenge && candidate.id === currentChallenge.id) {
+    const filtered = pool.filter(c => c.id !== currentChallenge.id);
+    candidate = filtered[Math.floor(Math.random() * filtered.length)];
+  }
+
+  currentChallenge = candidate;
+  renderCurrentChallenge();
+}
+
+function renderCurrentChallenge() {
+  if (!currentChallenge) return;
+
+  const titleEl = document.getElementById("challengeTitle");
+  const tagEl = document.getElementById("challengeMuscleTag");
+  const descEl = document.getElementById("challengeDescription");
+  const targetBadge = document.getElementById("challengeTargetBadge");
+  const iconEl = document.getElementById("challengeIcon");
+
+  if (titleEl) titleEl.textContent = currentChallenge.title;
+  if (tagEl) tagEl.textContent = currentChallenge.tag;
+  if (descEl) descEl.textContent = currentChallenge.description;
+  if (targetBadge) targetBadge.textContent = `${currentChallenge.targetReps} REPS`;
+
+  if (iconEl) {
+    iconEl.setAttribute("data-lucide", currentChallenge.icon || "flame");
+  }
+
+  currentChallengeReps = 0;
+  updateChallengeRepUI();
+  initIcons();
+}
+
+function adjustChallengeReps(delta) {
+  currentChallengeReps = Math.max(0, currentChallengeReps + delta);
+  updateChallengeRepUI();
+}
+
+function updateChallengeRepUI() {
+  const countEl = document.getElementById("challengeRepCount");
+  const progressEl = document.getElementById("challengeRepProgress");
+  const target = currentChallenge ? currentChallenge.targetReps : 20;
+
+  if (countEl) countEl.textContent = currentChallengeReps;
+  if (progressEl) {
+    const percent = Math.min(100, Math.round((currentChallengeReps / target) * 100));
+    progressEl.style.width = `${percent}%`;
+  }
+}
+
+function toggleChallengeTimer() {
+  const toggleBtn = document.getElementById("challengeTimerToggleBtn");
+
+  if (isChallengeTimerRunning) {
+    clearInterval(challengeTimerInterval);
+    isChallengeTimerRunning = false;
+    if (toggleBtn) toggleBtn.textContent = "Resume";
+  } else {
+    isChallengeTimerRunning = true;
+    if (toggleBtn) toggleBtn.textContent = "Pause";
+    challengeTimerInterval = setInterval(() => {
+      challengeTimerSeconds--;
+      updateTimerDisplay();
+      if (challengeTimerSeconds <= 0) {
+        clearInterval(challengeTimerInterval);
+        isChallengeTimerRunning = false;
+        if (toggleBtn) toggleBtn.textContent = "Done!";
+        playWarriorFanfare();
+      }
+    }, 1000);
+  }
+}
+
+function resetChallengeTimer() {
+  clearInterval(challengeTimerInterval);
+  isChallengeTimerRunning = false;
+  challengeTimerSeconds = 60;
+  updateTimerDisplay();
+  const toggleBtn = document.getElementById("challengeTimerToggleBtn");
+  if (toggleBtn) toggleBtn.textContent = "Start";
+}
+
+function updateTimerDisplay() {
+  const display = document.getElementById("challengeTimerDisplay");
+  if (!display) return;
+  const mins = Math.floor(challengeTimerSeconds / 60);
+  const secs = challengeTimerSeconds % 60;
+  display.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+}
+
+function completeBadMoodChallenge(skipped = false) {
+  resetChallengeTimer();
+
+  // Increment lifetime resets in local storage
+  let resetsCount = parseInt(localStorage.getItem("bad_mood_resets_count") || "0", 10);
+  if (!skipped) {
+    resetsCount += 1;
+    localStorage.setItem("bad_mood_resets_count", resetsCount.toString());
+  } else if (resetsCount === 0) {
+    resetsCount = 1;
+  }
+
+  // Update streak display badge
+  const streakEl = document.getElementById("badMoodLifetimeStreak");
+  if (streakEl) {
+    streakEl.textContent = `🔥 ${resetsCount} Bad Mood${resetsCount === 1 ? '' : 's'} Conquered`;
+  }
+
+  // Play audio fanfare
+  playWarriorFanfare();
+
+  // Fire confetti particles
+  triggerBadMoodConfetti();
+
+  // Switch to Victory Phase
+  const challengePhase = document.getElementById("badMoodChallengePhase");
+  const victoryPhase = document.getElementById("badMoodVictoryPhase");
+
+  if (challengePhase) challengePhase.classList.add("hidden");
+  if (victoryPhase) {
+    victoryPhase.classList.remove("hidden");
+    victoryPhase.classList.add("animate-in", "fade-in", "duration-300");
+  }
+
+  // Pick first or random motivation (start with Bhagavad Gita 2.3 requested by user)
+  currentMotivationIndex = 0;
+  renderCurrentMotivation();
+  initIcons();
+}
+
+function showNextMotivation() {
+  currentMotivationIndex = (currentMotivationIndex + 1) % BAD_MOOD_MOTIVATIONS.length;
+  renderCurrentMotivation();
+}
+
+function renderCurrentMotivation() {
+  const item = BAD_MOOD_MOTIVATIONS[currentMotivationIndex];
+  if (!item) return;
+
+  const sanskritContainer = document.getElementById("motivationSanskritContainer");
+  const sanskritEl = document.getElementById("motivationSanskrit");
+  const quoteEl = document.getElementById("motivationQuote");
+  const sourceEl = document.getElementById("motivationSource");
+
+  if (item.sanskrit) {
+    if (sanskritContainer) sanskritContainer.classList.remove("hidden");
+    if (sanskritEl) sanskritEl.innerHTML = item.sanskrit.replace(/\n/g, "<br/>");
+  } else {
+    if (sanskritContainer) sanskritContainer.classList.add("hidden");
+  }
+
+  if (quoteEl) quoteEl.textContent = `"${item.quote}"`;
+  if (sourceEl) sourceEl.textContent = `— ${item.source}`;
+  initIcons();
+}
+
+function copyCurrentMotivation() {
+  const item = BAD_MOOD_MOTIVATIONS[currentMotivationIndex];
+  if (!item) return;
+
+  let text = `"${item.quote}"\n— ${item.source}`;
+  if (item.sanskrit) {
+    text = `${item.sanskrit}\n\n` + text;
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast("Wisdom copied to clipboard! 📋");
+  }).catch(() => {
+    showToast("Copied motivation to clipboard!");
+  });
+}
+
+function resetBadMoodModal() {
+  const challengePhase = document.getElementById("badMoodChallengePhase");
+  const victoryPhase = document.getElementById("badMoodVictoryPhase");
+
+  if (victoryPhase) victoryPhase.classList.add("hidden");
+  if (challengePhase) challengePhase.classList.remove("hidden");
+
+  rerollChallenge();
+  currentChallengeReps = 0;
+  updateChallengeRepUI();
+  resetChallengeTimer();
+  initIcons();
+}
+
+// -------------------------------------------------------------
+// Audio & Confetti Particles for Bad Mood Victory
+// -------------------------------------------------------------
+function playWarriorFanfare() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    if (ctx.state === "suspended") {
+      ctx.resume();
+    }
+
+    // Warrior Fanfare Chord progression (G3, C4, E4, G4, C5)
+    const notes = [196.00, 261.63, 329.63, 392.00, 523.25];
+    const now = ctx.currentTime;
+
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = i === notes.length - 1 ? "sawtooth" : "triangle";
+      osc.frequency.setValueAtTime(freq, now + i * 0.08);
+
+      gain.gain.setValueAtTime(0, now + i * 0.08);
+      gain.gain.linearRampToValueAtTime(0.18, now + i * 0.08 + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.7);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now + i * 0.08);
+      osc.stop(now + i * 0.08 + 0.75);
+    });
+  } catch (e) {
+    console.debug("Audio effect skipped:", e);
+  }
+}
+
+function triggerBadMoodConfetti() {
+  const canvas = document.getElementById("badMoodConfettiCanvas");
+  if (!canvas) return;
+
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width || 500;
+  canvas.height = rect.height || 400;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const colors = ["#f59e0b", "#ef4444", "#fbbf24", "#ea580c", "#10b981", "#ffffff"];
+  const particles = [];
+  const count = 55;
+
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 14,
+      vy: (Math.random() - 0.85) * 16,
+      size: Math.random() * 5 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      alpha: 1,
+      rotation: Math.random() * Math.PI * 2,
+      vRot: (Math.random() - 0.5) * 0.2
+    });
+  }
+
+  let startTime = null;
+  function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const progress = (timestamp - startTime) / 2000;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.35; // gravity
+      p.alpha = Math.max(0, 1 - progress);
+      p.rotation += p.vRot;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
+      ctx.restore();
+    });
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// Attach globally to window for HTML event handlers
+window.openBadMoodModal = openBadMoodModal;
+window.closeBadMoodModal = closeBadMoodModal;
+window.setChallengeFilter = setChallengeFilter;
+window.rerollChallenge = rerollChallenge;
+window.adjustChallengeReps = adjustChallengeReps;
+window.toggleChallengeTimer = toggleChallengeTimer;
+window.resetChallengeTimer = resetChallengeTimer;
+window.completeBadMoodChallenge = completeBadMoodChallenge;
+window.showNextMotivation = showNextMotivation;
+window.copyCurrentMotivation = copyCurrentMotivation;
+window.resetBadMoodModal = resetBadMoodModal;
+
+

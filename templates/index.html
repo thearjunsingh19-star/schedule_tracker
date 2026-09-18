@@ -90,6 +90,16 @@
         </div>
       </div>
 
+      <!-- Subtle Divider -->
+      <div class="w-[1px] h-3.5 bg-slate-300 dark:bg-slate-700 flex-shrink-0"></div>
+
+      <!-- Bad Mood Quick Disruptor Button -->
+      <a href="/bad-mood" id="badMoodTopBtn" class="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all cursor-pointer shadow-xs active:scale-95" title="In a bad mood? Physical reset challenge!">
+        <i data-lucide="flame" class="w-3.5 h-3.5 text-orange-500 animate-pulse"></i>
+        <span class="hidden xs:inline">Bad Mood?</span>
+        <span class="xs:hidden">Reset</span>
+      </a>
+
     </div>
   </aside>
 
@@ -712,6 +722,16 @@
 
       <div class="dock-separator" role="separator"></div>
 
+      <!-- 7. Bad Mood / Warrior Physical Reset (Navigates to dedicated minimal page) -->
+      <a href="/bad-mood" id="badMoodDockBtn" class="dock-item" aria-label="Bad Mood Reset">
+        <span class="dock-tooltip">Bad Mood? Break It Now 🔥</span>
+        <div class="dock-icon bg-gradient-to-tr from-amber-600 via-orange-600 to-red-600 text-white shadow-lg shadow-orange-500/30 bad-mood-flame-pulse">
+          <i data-lucide="flame" class="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]"></i>
+        </div>
+      </a>
+
+      <div class="dock-separator" role="separator"></div>
+
       <!-- 7. Appearance / Theme Toggle -->
       <button id="themeToggleBtn" type="button" class="dock-item" aria-label="Appearance">
         <span class="dock-tooltip">Appearance</span>
@@ -786,3 +806,4 @@
   <script src="/static/js/app.js"></script>
 </body>
 </html>
+

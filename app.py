@@ -26,6 +26,7 @@ app.config['JSON_SORT_KEYS'] = False
 app.secret_key = os.environ.get("SECRET_KEY", "schedule_tracker_secret_vault_key_2026")
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Initialize database schema on startup
 try:
@@ -141,6 +142,10 @@ def get_month_dates(year=None, month=None):
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/bad-mood")
+def bad_mood():
+    return render_template("bad_mood.html")
 
 # =========================================================================
 # Authentication Endpoints

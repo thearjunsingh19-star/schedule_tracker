@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <title>Bad Mood Disruptor | ScheduleTrack</title>
+  <link rel="icon" type="image/png" href="/static/images/logo.png" />
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: #05070d;
+      color: #f8fafc;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .serif-verse {
+      font-family: 'Cinzel', 'Georgia', 'Noto Serif Devanagari', serif;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.08); }
+    }
+    .ambient-glow {
+      animation: pulseGlow 6s infinite ease-in-out;
+    }
+    .view-fade {
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .view-fade.hidden-view {
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      display: none;
+    }
+    .view-fade.active-view {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      display: flex;
+    }
+  </style>
+</head>
+<body class="relative flex flex-col justify-between selection:bg-orange-500 selection:text-white">
+
+  <!-- Ambient Warrior Glow Elements -->
+  <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-br from-orange-600/15 via-red-600/10 to-amber-500/5 rounded-full blur-3xl pointer-events-none ambient-glow"></div>
+  <div class="fixed bottom-10 right-10 w-[350px] h-[350px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Minimalist Top Navigation -->
+  <header class="relative z-20 w-full max-w-5xl mx-auto px-6 py-6 sm:py-8 flex items-center justify-between">
+    <a href="/" class="group inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-400 hover:text-white transition-colors py-2 px-3.5 rounded-full bg-slate-900/60 hover:bg-slate-800/80 border border-slate-800/80 backdrop-blur-md">
+      <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+      <span>Back to Schedule</span>
+    </a>
+
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest text-amber-400 bg-amber-500/10 border border-amber-500/20 backdrop-blur-md">
+      <i data-lucide="flame" class="w-3.5 h-3.5 text-orange-500"></i>
+      <span>Warrior Reset</span>
+    </div>
+  </header>
+
+  <!-- Main Central Interface -->
+  <main class="relative z-10 w-full max-w-3xl mx-auto px-6 py-8 flex-1 flex flex-col items-center justify-center text-center">
+
+    <!-- ======================================================== -->
+    <!-- Screen 1: The Physical Exercise & Single Completion CTA   -->
+    <!-- ======================================================== -->
+    <div id="exerciseView" class="view-fade active-view flex-col items-center justify-center space-y-7 sm:space-y-8 max-w-xl w-full">
+      
+      <!-- Minimalist Category Tag -->
+      <div class="space-y-2">
+        <span class="inline-block text-[11px] font-black uppercase tracking-widest text-orange-400/90 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">
+          Physical Disruption
+        </span>
+        <p class="text-xs text-slate-400">Do not negotiate with your mood. Complete the challenge below.</p>
+      </div>
+
+      <!-- Exercise Name in Majestic Typography -->
+      <div class="space-y-3">
+        <h1 id="exerciseName" class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-none drop-shadow-sm">
+          20 Pushups
+        </h1>
+        <p id="exerciseCue" class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+          Chest to the floor. Explode upward with speed. Force oxygen into your lungs and sweat out weakness.
+        </p>
+      </div>
+
+      <!-- Subtle Shuffle Link -->
+      <div>
+        <button type="button" onclick="shuffleExercise()" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-amber-400 transition-colors cursor-pointer py-1.5 px-3 rounded-full hover:bg-slate-900/60" title="Give me a different exercise">
+          <i data-lucide="shuffle" class="w-3.5 h-3.5"></i>
+          <span>Different Exercise</span>
+        </button>
+      </div>
+
+      <!-- Single Completion Option -->
+      <div class="pt-4 w-full flex justify-center">
+        <button type="button" id="completeBtn" onclick="onCompleteExercise()" class="w-full sm:w-auto min-w-[220px] px-8 py-4 rounded-2xl font-black text-sm sm:text-base text-white bg-gradient-to-r from-amber-500 via-orange-600 to-red-600 hover:from-amber-400 hover:via-orange-500 hover:to-red-500 shadow-2xl shadow-orange-600/35 hover:shadow-orange-600/50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2.5">
+          <i data-lucide="check" class="w-5 h-5 stroke-[3]"></i>
+          <span>I Have Done This</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- Screen 2: Aesthetic Motivation & Sacred Wisdom           -->
+    <!-- ======================================================== -->
+    <div id="motivationView" class="view-fade hidden-view flex-col items-center justify-center space-y-8 sm:space-y-10 max-w-2xl w-full">
+
+      <!-- Conquered Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
+        <i data-lucide="check-check" class="w-4 h-4 text-emerald-400"></i>
+        <span>Weakness Destroyed</span>
+      </div>
+
+      <!-- Aesthetic Motivation Card -->
+      <div class="space-y-6 text-center">
+
+        <!-- Sacred Sanskrit Shloka (if present) -->
+        <div id="sanskritContainer" class="space-y-1">
+          <p id="sanskritVerse" class="serif-verse text-amber-300/90 text-base sm:text-xl md:text-2xl font-bold tracking-wide leading-relaxed">
+            क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते |<br />
+            क्षुद्रं हृदयदौर्बल्यं त्यक्त्वोत्तिष्ठ परन्तप ||
+          </p>
+        </div>
+
+        <!-- Hardcore Affirmation / Translation in Striking Typography -->
+        <div class="px-2">
+          <blockquote id="motivationQuote" class="text-xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-snug">
+            "Apna karm karo Parth, ye napunsakta tumhe shobha nahi deti! Cast off this petty weakness of heart and arise, O scorcher of enemies!"
+          </blockquote>
+        </div>
+
+        <!-- Citation -->
+        <div>
+          <p id="motivationSource" class="text-xs sm:text-sm font-bold tracking-wider text-amber-400/90">
+            — Bhagavad Gita (2.3)
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Action Navigation -->
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 w-full">
+        
+        <a href="/" class="w-full sm:w-auto px-8 py-3.5 rounded-2xl font-black text-sm text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 shadow-xl shadow-emerald-700/25 transition-all flex items-center justify-center gap-2">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Return to Schedule</span>
+        </a>
+
+        <button type="button" onclick="showNextQuote()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/40 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Another Verse</span>
+        </button>
+
+      </div>
+
+      <!-- Subtle repeat challenge link -->
+      <div>
+        <button type="button" onclick="restartChallenge()" class="text-xs text-slate-500 hover:text-slate-400 underline transition-colors cursor-pointer">
+          Want to do another set? Take another physical challenge →
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Minimalist Footer -->
+  <footer class="relative z-10 w-full max-w-5xl mx-auto px-6 py-6 text-center text-xs text-slate-600">
+    <span>Discipline is choosing between what you want now and what you want most.</span>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    const EXERCISES = [
+      {
+        name: "20 Pushups",
+        cue: "Chest to the floor. Explode upward with maximum speed. Clean lockout on every rep."
+      },
+      {
+        name: "20 Desi Dands",
+        cue: "Start in downward dog, swoop chest to floor into upward cobra, and drive back. Deep rhythmic breathing."
+      },
+      {
+        name: "20 Pullups",
+        cue: "Dead hang at bottom, chin completely clearing the bar. If no bar is available, perform inverted bodyweight rows."
+      },
+      {
+        name: "30 Desi Baithaks",
+        cue: "Deep Hindu squats with rhythmic arm swings. Explode through your legs and force oxygen into your blood."
+      },
+      {
+        name: "25 Jump Squats",
+        cue: "Parallel squat exploding straight into a vertical jump. Soft landing straight into the next rep."
+      },
+      {
+        name: "40 Jumping Jacks",
+        cue: "High-tempo cadence, arms fully extended overhead. Break mental stagnation with pure oxygen."
+      },
+      {
+        name: "60-Second Iron Plank",
+        cue: "Lock your core, squeeze glutes, and brace like stone. Wash your face with cold water immediately after."
+      },
+      {
+        name: "20 Burpees",
+        cue: "Full chest-to-floor drop, spring up and leap with arms overhead. The ultimate bad mood neutralizer."
+      }
+    ];
+
+    const MOTIVATIONS = [
+      {
+        sanskrit: "क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते |\nक्षुद्रं हृदयदौर्बल्यं त्यक्त्वोत्तिष्ठ परन्तप ||",
+        quote: "Apna karm karo Parth, ye napunsakta tumhe shobha nahi deti! Cast off this petty weakness of heart and arise, O scorcher of enemies!",
+        source: "Bhagavad Gita (Chapter 2, Verse 3)"
+      },
+      {
+        sanskrit: null,
+        quote: "You are better than this. The version of you that gave in to weakness yesterday does not exist today. Stand up and conquer.",
+        source: "Warrior Affirmation"
+      },
+      {
+        sanskrit: null,
+        quote: "I will win no matter what. Pain is temporary, excuses are forever, but relentless victory is eternal.",
+        source: "Iron Mindset"
+      },
+      {
+        sanskrit: null,
+        quote: "Becoming who you want to be takes Sacrifices. Comfort is the graveyard of your potential. Destroy your comfort zone.",
+        source: "Discipline Manifesto"
+      },
+      {
+        sanskrit: null,
+        quote: "This is not your 100%. I know you can do better than this. Dig deeper, silence the noise, and execute right now.",
+        source: "Inner Commander"
+      },
+      {
+        sanskrit: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन |\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ||",
+        quote: "You have a right to perform your prescribed duty, but never to the fruits of action. Never let the fruit be your motive, nor be attached to inaction.",
+        source: "Bhagavad Gita (Chapter 2, Verse 47)"
+      },
+      {
+        sanskrit: "उद्धरेदात्मनात्मानं नात्मानमवसादयेत् |\nआत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः ||",
+        quote: "Elevate yourself through the power of your own mind, and do not degrade yourself. For the mind alone is your greatest friend, and the mind alone is your deadliest enemy.",
+        source: "Bhagavad Gita (Chapter 6, Verse 5)"
+      },
+      {
+        sanskrit: "हतो वा प्राप्स्यसि स्वर्गं जित्वा वा भोक्ष्यसे महीम् |\nतस्मादुत्तिष्ठ कौन्तेय युद्धाय कृतनिश्चयः ||",
+        quote: "Either slain you will attain the celestial realms, or victorious you will enjoy the kingdom of earth. Therefore arise, O Arjuna, resolved on battle!",
+        source: "Bhagavad Gita (Chapter 2, Verse 37)"
+      },
+      {
+        sanskrit: "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः |\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत ||",
+        quote: "Pleasure and pain, cold and heat are impermanent sensory contacts that come and go. Endure them courageously, O descendant of Bharata.",
+        source: "Bhagavad Gita (Chapter 2, Verse 14)"
+      },
+      {
+        sanskrit: "दुःखेष्वनुद्विग्नमनाः सुखेषु विगतस्पृहः |\nवीतरागभयक्रोधः स्थितधीर्मुनिरुच्यते ||",
+        quote: "One whose mind remains undisturbed in sorrows, who does not crave pleasures, and who is free from attachment, fear, and anger, is a warrior of steady intellect.",
+        source: "Bhagavad Gita (Chapter 2, Verse 56)"
+      },
+      {
+        sanskrit: null,
+        quote: "Your mood is a liar trying to steal your future. You do not negotiate with weakness. You execute your duty.",
+        source: "Mental Discipline"
+      },
+      {
+        sanskrit: null,
+        quote: "Stop feeling sorry for yourself. The world doesn't care about your mood; it respects your discipline and results.",
+        source: "Hard Truth"
+      },
+      {
+        sanskrit: "यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः |\nतत्र श्रीर्विजयो भूतिर्ध्रुवा नीतिर्मतिर्मम ||",
+        quote: "Wherever there is Krishna, the lord of Yoga, and wherever there is Arjuna, the resolute archer of duty, there will surely be eternal victory, prosperity, and unyielding triumph.",
+        source: "Bhagavad Gita (Chapter 18, Verse 78)"
+      },
+      {
+        sanskrit: "नियतं कुरु कर्म त्वं कर्म ज्यायो ह्यकर्मणः |\nशरीरयात्रापि च ते न प्रसिद्ध्येदकर्मणः ||",
+        quote: "Perform your prescribed duty relentlessly, for action is far superior to inaction. Even the maintenance of your physical body cannot be achieved through inaction.",
+        source: "Bhagavad Gita (Chapter 3, Verse 8)"
+      },
+      {
+        sanskrit: "बन्धुरात्मात्मनस्तस्य येनात्मैवात्मना जितः |\nअनात्मनस्तु शत्रुत्वे वर्तेतात्मैव शत्रुवत् ||",
+        quote: "For one who has conquered their own mind, the mind is the greatest of friends. But for one who has failed to master it, the mind remains an enemy at war.",
+        source: "Bhagavad Gita (Chapter 6, Verse 6)"
+      },
+      {
+        sanskrit: null,
+        quote: "Do not lower your standards to fit your mood. Raise your discipline to exceed your potential. Rise and dominate.",
+        source: "Warrior Creed"
+      }
+    ];
+
+    let currentExerciseIndex = 0;
+    let currentMotivationIndex = 0;
+
+    function initPage() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+      shuffleExercise();
+    }
+
+    function shuffleExercise() {
+      let nextIndex = Math.floor(Math.random() * EXERCISES.length);
+      if (EXERCISES.length > 1 && nextIndex === currentExerciseIndex) {
+        nextIndex = (currentExerciseIndex + 1) % EXERCISES.length;
+      }
+      currentExerciseIndex = nextIndex;
+      const ex = EXERCISES[currentExerciseIndex];
+
+      const nameEl = document.getElementById("exerciseName");
+      const cueEl = document.getElementById("exerciseCue");
+
+      if (nameEl) nameEl.textContent = ex.name;
+      if (cueEl) cueEl.textContent = ex.cue;
+    }
+
+    function getRandomMotivationIndex(excludeIndex = -1) {
+      if (MOTIVATIONS.length <= 1) return 0;
+      let nextIndex;
+      do {
+        nextIndex = Math.floor(Math.random() * MOTIVATIONS.length);
+      } while (nextIndex === excludeIndex && MOTIVATIONS.length > 1);
+      return nextIndex;
+    }
+
+    function onCompleteExercise() {
+      // Audio Fanfare
+      playWarriorFanfare();
+
+      // Fade out exercise view, fade in motivation view
+      const exView = document.getElementById("exerciseView");
+      const motView = document.getElementById("motivationView");
+
+      if (exView) {
+        exView.classList.remove("active-view");
+        exView.classList.add("hidden-view");
+      }
+
+      // Random motivation selection on completion
+      currentMotivationIndex = getRandomMotivationIndex();
+      renderMotivation();
+
+      if (motView) {
+        motView.classList.remove("hidden-view");
+        motView.classList.add("active-view");
+      }
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function renderMotivation() {
+      const item = MOTIVATIONS[currentMotivationIndex];
+      if (!item) return;
+
+      const sanskritContainer = document.getElementById("sanskritContainer");
+      const sanskritVerse = document.getElementById("sanskritVerse");
+      const quoteEl = document.getElementById("motivationQuote");
+      const sourceEl = document.getElementById("motivationSource");
+
+      if (item.sanskrit) {
+        if (sanskritContainer) sanskritContainer.classList.remove("hidden");
+        if (sanskritVerse) sanskritVerse.innerHTML = item.sanskrit.replace(/\n/g, "<br />");
+      } else {
+        if (sanskritContainer) sanskritContainer.classList.add("hidden");
+      }
+
+      if (quoteEl) quoteEl.textContent = `"${item.quote}"`;
+      if (sourceEl) sourceEl.textContent = `— ${item.source}`;
+    }
+
+    function showNextQuote() {
+      // Smooth aesthetic micro-transition when shuffling to a new quote
+      const quoteBox = document.getElementById("motivationQuote");
+      const sanskritBox = document.getElementById("sanskritVerse");
+      
+      if (quoteBox) {
+        quoteBox.style.opacity = "0";
+        quoteBox.style.transform = "scale(0.98)";
+      }
+      if (sanskritBox) {
+        sanskritBox.style.opacity = "0";
+      }
+
+      setTimeout(() => {
+        currentMotivationIndex = getRandomMotivationIndex(currentMotivationIndex);
+        renderMotivation();
+        if (quoteBox) {
+          quoteBox.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+          quoteBox.style.opacity = "1";
+          quoteBox.style.transform = "scale(1)";
+        }
+        if (sanskritBox) {
+          sanskritBox.style.transition = "opacity 0.25s ease";
+          sanskritBox.style.opacity = "1";
+        }
+      }, 150);
+    }
+
+    function restartChallenge() {
+      const exView = document.getElementById("exerciseView");
+      const motView = document.getElementById("motivationView");
+
+      if (motView) {
+        motView.classList.remove("active-view");
+        motView.classList.add("hidden-view");
+      }
+
+      shuffleExercise();
+
+      if (exView) {
+        exView.classList.remove("active-view");
+        exView.classList.add("hidden-view");
+        setTimeout(() => {
+          exView.classList.remove("hidden-view");
+          exView.classList.add("active-view");
+        }, 50);
+      }
+    }
+
+    function playWarriorFanfare() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        if (ctx.state === "suspended") ctx.resume();
+
+        const notes = [196.00, 261.63, 329.63, 392.00, 523.25];
+        const now = ctx.currentTime;
+
+        notes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = i === notes.length - 1 ? "sawtooth" : "triangle";
+          osc.frequency.setValueAtTime(freq, now + i * 0.08);
+
+          gain.gain.setValueAtTime(0, now + i * 0.08);
+          gain.gain.linearRampToValueAtTime(0.18, now + i * 0.08 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.75);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(now + i * 0.08);
+          osc.stop(now + i * 0.08 + 0.8);
+        });
+      } catch (e) {
+        console.debug("Audio note:", e);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", initPage);
+  </script>
+</body>
+</html>
