@@ -144,59 +144,59 @@
     <div id="weeklyViewContainer" class="space-y-4 sm:space-y-5 transition-opacity duration-200">
 
       <!-- 1. Streamlined Minimalist KPI Bar -->
-      <div class="liquid-glass-card rounded-2xl px-4 sm:px-6 py-3.5">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/50 dark:divide-slate-800/60">
+      <div class="liquid-glass-card rounded-2xl px-3.5 sm:px-6 py-3.5">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 sm:divide-x sm:divide-slate-200/50 sm:dark:divide-slate-800/60">
           
           <!-- Metric 1: Completion Rate -->
-          <div class="flex items-center gap-3 pt-2 sm:pt-0 first:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
             <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-cyan-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="percent" class="w-4 h-4"></i>
             </div>
-            <div>
-              <div class="flex items-baseline gap-1.5">
-                <span id="metricWeeklyRate" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0%</span>
-                <span id="metricTargetStatus" class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">On Track</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-baseline gap-1 sm:gap-1.5 min-w-0">
+                <span id="metricWeeklyRate" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white">0%</span>
+                <span id="metricTargetStatus" class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 truncate">On Track</span>
               </div>
-              <div class="w-24 bg-slate-200 dark:bg-slate-700/60 rounded-full h-1 mt-1 overflow-hidden">
+              <div class="w-20 sm:w-24 bg-slate-200 dark:bg-slate-700/60 rounded-full h-1 mt-1 overflow-hidden">
                 <div id="metricProgressBar" class="bg-indigo-600 dark:bg-cyan-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
           </div>
 
           <!-- Metric 2: Total Tasks Done -->
-          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 sm:pl-6 min-w-0">
             <div class="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="check-check" class="w-4 h-4"></i>
             </div>
-            <div>
-              <div class="flex items-baseline gap-1">
-                <span id="metricTasksDone" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
-                <span id="metricTasksTotal" class="text-xs text-slate-400">/ 0 total</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-baseline gap-1 min-w-0">
+                <span id="metricTasksDone" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
+                <span id="metricTasksTotal" class="text-[10px] sm:text-xs text-slate-400 truncate">/ 0 total</span>
               </div>
-              <p class="text-[10px] text-slate-400 font-medium">Completed checks</p>
+              <p class="text-[10px] text-slate-400 font-medium truncate">Completed checks</p>
               <span id="metricCompletedSubtitle" class="hidden"></span>
             </div>
           </div>
 
           <!-- Metric 3: Best Performing Day -->
-          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 sm:pl-6 min-w-0 overflow-hidden">
             <div class="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="trophy" class="w-4 h-4"></i>
             </div>
-            <div>
-              <span id="metricBestDay" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate block">N/A</span>
-              <p class="text-[10px] text-slate-400 font-medium">Top Day</p>
+            <div class="min-w-0 flex-1 overflow-hidden">
+              <div id="metricBestDay" class="text-xs sm:text-base font-bold text-slate-900 dark:text-white truncate block overflow-hidden max-w-full">N/A</div>
+              <p class="text-[10px] text-slate-400 font-medium truncate">Top Day</p>
             </div>
           </div>
 
           <!-- Metric 4: Daily Streak -->
-          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 sm:pl-6 min-w-0 overflow-hidden">
             <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="flame" class="w-4 h-4"></i>
             </div>
-            <div>
-              <span id="metricStreak" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0 Days</span>
-              <p class="text-[10px] text-slate-400 font-medium">Active Streak</p>
+            <div class="min-w-0 flex-1 overflow-hidden">
+              <span id="metricStreak" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white truncate block">0 Days</span>
+              <p class="text-[10px] text-slate-400 font-medium truncate">Active Streak</p>
             </div>
           </div>
 
@@ -328,59 +328,59 @@
     <div id="monthlyViewContainer" class="space-y-4 sm:space-y-5 hidden transition-opacity duration-200">
       
       <!-- 1. Streamlined Minimalist KPI Bar -->
-      <div class="liquid-glass-card rounded-2xl px-4 sm:px-6 py-3.5">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/50 dark:divide-slate-800/60">
+      <div class="liquid-glass-card rounded-2xl px-3.5 sm:px-6 py-3.5">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 sm:divide-x sm:divide-slate-200/50 sm:dark:divide-slate-800/60">
           
           <!-- Metric 1: Month Completion Rate -->
-          <div class="flex items-center gap-3 pt-2 sm:pt-0 first:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
             <div class="w-8 h-8 rounded-xl bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="percent" class="w-4 h-4"></i>
             </div>
-            <div>
-              <div class="flex items-baseline gap-1.5">
-                <span id="metricMonthRate" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0%</span>
-                <span id="metricMonthStatus" class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">On Track</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-baseline gap-1 sm:gap-1.5 min-w-0">
+                <span id="metricMonthRate" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white">0%</span>
+                <span id="metricMonthStatus" class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 truncate">On Track</span>
                 <span id="monthScoreBadge" class="hidden">0% Month Rate</span>
               </div>
-              <div class="w-24 bg-slate-200 dark:bg-slate-700/60 rounded-full h-1 mt-1 overflow-hidden">
+              <div class="w-20 sm:w-24 bg-slate-200 dark:bg-slate-700/60 rounded-full h-1 mt-1 overflow-hidden">
                 <div id="metricMonthProgressBar" class="bg-violet-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
               </div>
             </div>
           </div>
 
           <!-- Metric 2: Month Tasks Completed -->
-          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 sm:pl-6 min-w-0">
             <div class="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="check-check" class="w-4 h-4"></i>
             </div>
-            <div>
-              <div class="flex items-baseline gap-1">
-                <span id="metricMonthTasksDone" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
-                <span id="metricMonthTasksTotal" class="text-xs text-slate-400">/ 0 total</span>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-baseline gap-1 min-w-0">
+                <span id="metricMonthTasksDone" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white">0</span>
+                <span id="metricMonthTasksTotal" class="text-[10px] sm:text-xs text-slate-400 truncate">/ 0 total</span>
               </div>
-              <p class="text-[10px] text-slate-400 font-medium">Month completions</p>
+              <p class="text-[10px] text-slate-400 font-medium truncate">Month completions</p>
             </div>
           </div>
 
           <!-- Metric 3: Top Day of Month -->
-          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 sm:pl-6 min-w-0 overflow-hidden">
             <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="trophy" class="w-4 h-4"></i>
             </div>
-            <div>
-              <span id="metricMonthBestDay" class="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate block">N/A</span>
-              <p class="text-[10px] text-slate-400 font-medium">Top Day</p>
+            <div class="min-w-0 flex-1 overflow-hidden">
+              <div id="metricMonthBestDay" class="text-xs sm:text-base font-bold text-slate-900 dark:text-white truncate block overflow-hidden max-w-full">N/A</div>
+              <p class="text-[10px] text-slate-400 font-medium truncate">Top Day</p>
             </div>
           </div>
 
           <!-- Metric 4: Month Active Streak -->
-          <div class="flex items-center gap-3 sm:pl-6 pt-2 sm:pt-0">
+          <div class="flex items-center gap-2 sm:gap-3 sm:pl-6 min-w-0 overflow-hidden">
             <div class="w-8 h-8 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 flex items-center justify-center flex-shrink-0">
               <i data-lucide="flame" class="w-4 h-4"></i>
             </div>
-            <div>
-              <span id="metricMonthStreak" class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">0 Days</span>
-              <p class="text-[10px] text-slate-400 font-medium">Active Streak</p>
+            <div class="min-w-0 flex-1 overflow-hidden">
+              <span id="metricMonthStreak" class="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white truncate block">0 Days</span>
+              <p class="text-[10px] text-slate-400 font-medium truncate">Active Streak</p>
             </div>
           </div>
 

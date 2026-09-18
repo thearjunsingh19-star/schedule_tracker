@@ -495,8 +495,25 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Updated `updateUserUI()` to sync the top island `#topAuthBtn`, avatar, and user display name in real time across sign in, register, and sign out states.
 - **Result**: Login, user profile avatar, and logout buttons in the macOS dock are now 100% visible and easily tappable on every mobile phone screen width without horizontal cut-off. Users also have instant access via the top Dynamic Island.
 
-
-
-
-
-
+#### Entry 21: 2026-09-19 02:05 — Bug Fix: Top Day Percentage Overlapping Active Streak Flame Icon on Mobile
+- **Context**: User reported that when opening the schedule tracker on a mobile phone, the "Top Day" percentage in the Minimalist KPI Bar was overlapping with the flame icon of the "Active Streak" card right next to it.
+- **Root Cause**:
+  1. On mobile screens, the KPI cards are laid out in a 2-column grid (`grid-cols-2`). Row 2 pairs Metric 3 (Top Day) on the left with Metric 4 (Active Streak) on the right.
+  2. The text string for Top Day (e.g. `Wednesday (100%)` or `September 18 (100%)`) was long (~140px at bold font), while each mobile grid column only has ~110px available width after icon and padding.
+  3. The flex containers for Metric 3 and Metric 4 lacked `min-w-0` and `overflow-hidden`. By CSS Grid specification, grid items default to `min-width: auto`, allowing unconstrained text to push past the column boundary and physically paint over the adjacent column (Metric 4's flame icon).
+  4. The parent grid also had `divide-y`, which created asymmetrical dividers across a 2-column grid.
+- **Action**:
+  - `templates/index.html`:
+    - In both Weekly and Monthly Minimalist KPI Bars, removed `divide-y` on mobile and used clean responsive grid spacing `gap-3 sm:gap-6 sm:divide-x`.
+    - Added `min-w-0` and `overflow-hidden` to Metric 3 (Top Day) and Metric 4 (Active Streak) card containers and their inner text wrappers.
+    - Added `text-xs sm:text-base font-bold truncate block overflow-hidden max-w-full` on `#metricBestDay` and `#metricMonthBestDay`.
+    - Added `text-lg sm:text-2xl font-extrabold truncate block` on `#metricStreak` and `#metricMonthStreak`.
+  - `static/js/app.js`:
+    - Introduced `renderBestDayBadge(el, rawBestDay, accentColorClass)` helper function that renders day information responsively:
+      - On phones (`< sm`), uses concise day/date abbreviations (`Wed`, `Thu`, `Sep 18`) with high-contrast, `shrink-0` percentage tags (`(100%)`), fitting comfortably within ~65px.
+      - On tablets/desktops (`sm:` and above), uses full day/date names (`Wednesday`, `September 18`).
+      - Full string preserved in `title` attribute for tooltip on hover/press.
+    - Connected `renderBestDayBadge` to both Weekly (`updateScorecards`) and Monthly (`renderMonthView`) scorecard update workflows.
+  - `static/css/style.css`:
+    - Added CSS guards for `#metricBestDay, #metricMonthBestDay` guaranteeing `max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;` and responsive font scaling below 640px.
+- **Result**: Zero collision or overlap between Top Day and the Active Streak flame icon on any mobile viewport (down to 320px screens). Both day name and percentage are crystal-clear and legible.

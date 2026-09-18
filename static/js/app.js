@@ -635,6 +635,47 @@ function updateWeekHeader() {
   }
 }
 
+function renderBestDayBadge(el, rawBestDay, accentColorClass = "text-violet-600 dark:text-violet-400") {
+  if (!el) return;
+  if (!rawBestDay || rawBestDay === "N/A") {
+    el.innerHTML = `<span class="text-xs sm:text-base font-bold text-slate-900 dark:text-white">N/A</span>`;
+    el.title = "No data yet";
+    return;
+  }
+
+  // Regex to extract day/date and rate, e.g. "Wednesday (100%)" or "September 18 (100%)"
+  const match = String(rawBestDay).match(/^(.*?)\s*\(([^)]+)\)$/);
+  if (match) {
+    const rawName = match[1].trim();
+    const rate = match[2].trim();
+
+    const dayMap = {
+      'Monday': 'Mon', 'Tuesday': 'Tue', 'Wednesday': 'Wed',
+      'Thursday': 'Thu', 'Friday': 'Fri', 'Saturday': 'Sat', 'Sunday': 'Sun'
+    };
+    let shortName = dayMap[rawName];
+    if (!shortName) {
+      const parts = rawName.split(' ');
+      if (parts.length === 2 && parts[0].length > 3) {
+        shortName = `${parts[0].slice(0, 3)} ${parts[1]}`;
+      } else {
+        shortName = rawName.length > 7 ? rawName.slice(0, 6) + '…' : rawName;
+      }
+    }
+
+    el.innerHTML = `
+      <div class="flex items-baseline gap-1 min-w-0 max-w-full" title="${rawBestDay}">
+        <span class="sm:hidden text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">${shortName}</span>
+        <span class="hidden sm:inline text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate">${rawName}</span>
+        <span class="text-[11px] sm:text-xs font-bold ${accentColorClass} shrink-0">(${rate})</span>
+      </div>
+    `;
+    el.title = rawBestDay;
+  } else {
+    el.innerHTML = `<span class="text-xs sm:text-base font-bold text-slate-900 dark:text-white truncate block" title="${rawBestDay}">${rawBestDay}</span>`;
+  }
+}
+
 function updateScorecards() {
   if (!weekData || !weekData.summary) return;
 
@@ -666,7 +707,7 @@ function updateScorecards() {
 
   doneEl.textContent = s.total_completed;
   totalEl.textContent = `/ ${s.total_scheduled} scheduled`;
-  bestDayEl.textContent = s.best_day;
+  renderBestDayBadge(bestDayEl, s.best_day, "text-violet-600 dark:text-violet-400");
   streakEl.textContent = `${s.current_streak} Day${s.current_streak === 1 ? '' : 's'}`;
 
   const monthStreakEl = document.getElementById("metricMonthStreak");
@@ -936,7 +977,7 @@ function updateMonthHeader() {
 
     if (doneEl) doneEl.textContent = s.total_completed;
     if (totalEl) totalEl.textContent = `/ ${s.total_scheduled} scheduled`;
-    if (bestDayEl) bestDayEl.textContent = s.best_day;
+    if (bestDayEl) renderBestDayBadge(bestDayEl, s.best_day, "text-amber-600 dark:text-amber-400");
     if (streakEl && weekData && weekData.summary) {
       streakEl.textContent = `${weekData.summary.current_streak} Day${weekData.summary.current_streak === 1 ? '' : 's'}`;
     }

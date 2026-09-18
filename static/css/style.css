@@ -1045,3 +1045,19 @@ html.dark .dock-separator {
   transform: scale(1) !important;
 }
 
+/* ========================================================== */
+/* 8. Responsive KPI Scorecards Overlap Safeguards            */
+/* ========================================================== */
+#metricBestDay, #metricMonthBestDay {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  #metricBestDay, #metricMonthBestDay {
+    font-size: 0.8125rem;
+    line-height: 1.25;
+  }
+}
