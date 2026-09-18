@@ -1640,6 +1640,12 @@ function updateUserUI() {
   const nameEl = document.getElementById("userProfileName");
   const dockTooltip = document.getElementById("dockUserTooltip");
 
+  // Top Dynamic Island Auth Trigger
+  const topAuthBtn = document.getElementById("topAuthBtn");
+  const topAuthIcon = document.getElementById("topAuthIcon");
+  const topAuthAvatar = document.getElementById("topAuthAvatar");
+  const topAuthText = document.getElementById("topAuthText");
+
   if (currentUser) {
     if (openBtn) openBtn.classList.add("hidden");
     if (badge) {
@@ -1652,12 +1658,25 @@ function updateUserUI() {
     if (dockTooltip) {
       dockTooltip.textContent = `${displayName} (Switch)`;
     }
+
+    if (topAuthBtn) topAuthBtn.setAttribute("onclick", "openAuthModal('switch')");
+    if (topAuthIcon) topAuthIcon.classList.add("hidden");
+    if (topAuthAvatar) {
+      topAuthAvatar.textContent = displayName.charAt(0).toUpperCase();
+      topAuthAvatar.classList.remove("hidden");
+    }
+    if (topAuthText) topAuthText.textContent = displayName;
   } else {
     if (openBtn) openBtn.classList.remove("hidden");
     if (badge) {
       badge.classList.add("hidden");
       badge.classList.remove("flex");
     }
+
+    if (topAuthBtn) topAuthBtn.setAttribute("onclick", "openAuthModal('login')");
+    if (topAuthIcon) topAuthIcon.classList.remove("hidden");
+    if (topAuthAvatar) topAuthAvatar.classList.add("hidden");
+    if (topAuthText) topAuthText.textContent = "Sign In";
   }
   initIcons();
 }

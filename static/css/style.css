@@ -766,24 +766,96 @@ html.dark .macos-dock {
   height: 18px;
 }
 
-@media (max-width: 390px) {
-  .dock-icon {
-    width: 33px;
-    height: 33px;
-    border-radius: 9px;
+/* Mobile Responsiveness for macOS Dock: Guarantees all icons including Auth (Login/Logout) fit 100% on screen */
+@media (max-width: 639px) {
+  .macos-dock-wrap {
+    bottom: 6px;
+    padding: 0 4px;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .dock-icon i {
-    width: 16px;
-    height: 16px;
+  .macos-dock-wrap::-webkit-scrollbar {
+    display: none;
   }
   .macos-dock {
-    gap: 3px;
-    padding: 7px 7px 5px 7px;
+    margin: 0 auto;
+    flex-shrink: 0;
+    gap: 2px;
+    padding: 4px 6px 3px 6px;
     border-radius: 18px;
+    max-width: calc(100vw - 8px);
+  }
+  .dock-item {
+    padding: 1px;
+  }
+  .dock-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+  }
+  .dock-icon i {
+    width: 14.5px;
+    height: 14.5px;
   }
   .dock-separator {
-    height: 20px;
-    margin: 0 1.5px 5px 1.5px;
+    height: 16px;
+    margin: 0 1px 4px 1px;
+  }
+  #userLoggedInBadge.flex {
+    gap: 2px;
+  }
+  #userAvatarCircle {
+    font-size: 11px !important;
+  }
+}
+
+/* Small mobile screens (e.g. 360px - 380px Androids, iPhone mini) */
+@media (max-width: 385px) {
+  .macos-dock {
+    gap: 1.5px;
+    padding: 3px 4px 2px 4px;
+    border-radius: 16px;
+  }
+  .dock-item {
+    padding: 0.5px;
+  }
+  .dock-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+  }
+  .dock-icon i {
+    width: 13px;
+    height: 13px;
+  }
+  .dock-separator {
+    height: 14px;
+    margin: 0 0.5px 3px 0.5px;
+  }
+  #userAvatarCircle {
+    font-size: 10px !important;
+  }
+}
+
+/* Ultra-compact screens (<= 340px) */
+@media (max-width: 340px) {
+  .macos-dock {
+    gap: 1px;
+    padding: 2px 3px 2px 3px;
+  }
+  .dock-icon {
+    width: 23px;
+    height: 23px;
+    border-radius: 6px;
+  }
+  .dock-icon i {
+    width: 11.5px;
+    height: 11.5px;
+  }
+  .dock-separator {
+    display: none;
   }
 }
 

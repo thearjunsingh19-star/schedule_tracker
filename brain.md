@@ -482,7 +482,19 @@ When modifying or expanding this codebase, strictly observe the following establ
     - Expanded quote library with additional Bhagavad Gita verses: BG 18.78 (Victory & Triumph), BG 3.8 (Prescribed Action), BG 6.6 (Mind Mastery), and Warrior Creed.
   - `app.py`:
     - Added `app.config['TEMPLATES_AUTO_RELOAD'] = True` to guarantee real-time template updates.
-- **Result**: Every workout completion immediately greets the user with an unpredictably fresh, inspiring Bhagavad Gita shloka or hardcore motivation. Quote cycling is non-repetitive and visually smooth.
+#### Entry 20: 2026-09-19 01:54 — Bug Fix: Mobile Dock Overflow Hiding Login & Logout Options
+- **Context**: User reported that when opening the application on a mobile phone, the Login and Logout options were not visible in the dock.
+- **Root Cause**: The macOS dock had 10 icons + 5 separators + shelf padding + gaps, spanning ~450px to 490px in total width. On standard mobile screens (360px - 390px), the centered dock expanded beyond the viewport edges. Because Auth/Login/Logout are located at the very right end of the dock, they overflowed past the right edge of the phone screen.
+- **Action**:
+  - `static/css/style.css`:
+    - Added progressive responsive scaling for `< 640px` screens: reduced `.dock-icon` from 37px to 29px (and 26px on <= 385px, 23px on <= 340px), icon SVG to 14.5px (and 13px on <= 385px), reduced gaps to 2px, and tightened shelf padding.
+    - Added smooth touch horizontal scrolling safeguard (`overflow-x: auto !important; -webkit-overflow-scrolling: touch; scrollbar-width: none;`) on `.macos-dock-wrap` with centered shelf auto-margins so on any screen width (even 320px), all icons are 100% accessible.
+  - `templates/index.html`:
+    - Added `#topAuthBtn` into the top Dynamic Island navigation bar, providing a secondary, instant mobile and desktop touchpoint for Sign In, profile switching, and account status.
+  - `static/js/app.js`:
+    - Updated `updateUserUI()` to sync the top island `#topAuthBtn`, avatar, and user display name in real time across sign in, register, and sign out states.
+- **Result**: Login, user profile avatar, and logout buttons in the macOS dock are now 100% visible and easily tappable on every mobile phone screen width without horizontal cut-off. Users also have instant access via the top Dynamic Island.
+
 
 
 
